@@ -4,8 +4,10 @@ AM_CPPFLAGS = -iquote ${top_srcdir}
 sbin_PROGRAMS = phosphor-dbus-monitor
 
 phosphor_dbus_monitor_SOURCES = \
+	functor.cpp \
 	main.cpp \
-	monitor.cpp
+	monitor.cpp \
+	generated.cpp
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS)
