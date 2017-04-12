@@ -23,3 +23,4 @@ install-sh
 ltmain.sh
 missing
 stamp-h1
+phosphor-dbus-monitor
