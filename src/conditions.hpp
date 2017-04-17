@@ -12,6 +12,22 @@ namespace monitoring
 namespace condition
 {
 
+/**
+ * @brief A condition used to trigger an action when a number of items are at
+ * or above a given value
+ * @details A given group of items is updated with their last known item
+ * value, which then the entire group is checked if there are a given number of
+ * them at or above a value which would cause the condition to be true
+ *
+ * @param[in] items - Group of items
+ * @param[in] path - Path of a item within the group
+ * @param[in] count - Number of items needed at or above value
+ * @param[in] value - Value of items to be at or above
+ *
+ * @return Lambda function
+ *     A lambda function to determine if the number of items within the group
+ *     are at or above the given value
+ */
 template <typename T>
 auto countAtOrAbove(Group& items, const char* path, size_t count, T&& value)
 {
