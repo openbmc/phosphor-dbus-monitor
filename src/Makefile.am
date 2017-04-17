@@ -14,3 +14,9 @@ phosphor_dbus_monitor_LDADD = \
 phosphor_dbus_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS)
+
+BUILT_SOURCES = generated.cpp
+CLEANFILES = generated.cpp
+
+generated.cpp:
+	$(AM_V_GEN)$(PYTHON) ${srcdir}/gen-group-defs.py -y ${srcdir}/example/monitoring_defs.yaml -o ${builddir}
