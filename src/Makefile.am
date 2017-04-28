@@ -19,4 +19,4 @@ BUILT_SOURCES = generated.cpp
 CLEANFILES = generated.cpp
 
 generated.cpp:
-	$(AM_V_GEN)$(PYTHON) ${srcdir}/pdmgen.py -y ${srcdir}/example/monitoring_defs.yaml -o ${builddir}
+	$(AM_V_GEN)$(PYTHON) ${srcdir}/pdmgen.py generate-cpp -d ${srcdir}/example -o ${builddir}

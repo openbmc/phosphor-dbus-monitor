@@ -1,33 +1,110 @@
 #!/usr/bin/env python
 
+'''Phosphor DBus Monitor YAML parser and code generator.
+
+The parser workflow is broken down as follows:
+  1 - Import YAML files as native python type(s) instance(s).
+  2 - Create an instance of the Everything class from the
+        native python type instance(s) with the Everything.load
+        method.
+  3 - The Everything class constructor orchestrates conversion of the
+        native python type(s) instances(s) to render helper types.
+        Each render helper type constructor imports its attributes
+        from the native python type(s) instances(s).
+  4 - Present the converted YAML to the command processing method
+        requested by the script user.
+'''
+
 import os
 import sys
 import yaml
+import mako.lookup
 from argparse import ArgumentParser
-from mako.template import Template
+from sdbusplus.renderer import Renderer
 
 
-def generate(yaml_file, output_file):
-    with open(yaml_file, 'r') as yaml_input:
-        yaml_data = yaml.safe_load(yaml_input) or {}
+class Indent(object):
+    '''Help templates be depth agnostic.'''
 
-    with open(output_file, 'w') as gen_out:
-        gen_out.write(Template(filename='generated.mako.cpp').render(
-            events=yaml_data))
+    def __init__(self, depth=0):
+        self.depth = depth
 
+    def __add__(self, depth):
+        return Indent(self.depth + depth)
+
+    def __call__(self, depth):
+        '''Render an indent at the current depth plus depth.'''
+        return 4*' '*(depth + self.depth)
+
+
+class Everything(Renderer):
+    '''Parse/render entry point.'''
+
+    @staticmethod
+    def load(args):
+        '''Aggregate all the YAML in the input directory
+        into a single aggregate.'''
+
+        if os.path.exists(args.inputdir):
+            yaml_files = filter(
+                lambda x: x.endswith('.yaml'),
+                os.listdir(args.inputdir))
+
+            for x in yaml_files:
+                with open(os.path.join(args.inputdir, x), 'r') as fd:
+                    yaml.safe_load(fd.read())
+
+        return Everything()
+
+    def __init__(self, *a, **kw):
+        super(Everything, self).__init__(**kw)
+
+    def generate_cpp(self, loader):
+        '''Render the template with the provided data.'''
+        with open(os.path.join(
+                args.output_dir,
+                'generated.cpp'), 'w') as fd:
+            fd.write(
+                self.render(
+                    loader,
+                    'generated.mako.cpp',
+                    events={},
+                    indent=Indent()))
 
 if __name__ == '__main__':
-    parser = ArgumentParser()
-    # Groups of items and how they should be monitored yaml file
-    parser.add_argument(
-        "-y", "--yaml", dest="input_yaml",
-        default="example/monitoring_defs.yaml",
-        help="Input item monitoring definition yaml to parse")
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    valid_commands = {
+        'generate-cpp': 'generate_cpp',
+    }
+
+    parser = ArgumentParser(
+        description='Phosphor DBus Monitor (PDM) YAML '
+        'scanner and code generator.')
+
     parser.add_argument(
         "-o", "--outdir", dest="output_dir",
         default=os.path.abspath('.'),
         help="Output directory for source files generated")
-    args = parser.parse_args(sys.argv[1:])
+    parser.add_argument(
+        '-d', '--dir', dest='inputdir',
+        default=os.path.join(script_dir, 'example'),
+        help='Location of files to process.')
+    parser.add_argument(
+        'command', metavar='COMMAND', type=str,
+        choices=valid_commands.keys(),
+        help='%s.' % " | ".join(valid_commands.keys()))
 
-    yaml_file = os.path.abspath(args.input_yaml)
-    generate(yaml_file, os.path.join(args.output_dir, "generated.cpp"))
+    args = parser.parse_args()
+
+    if sys.version_info < (3, 0):
+        lookup = mako.lookup.TemplateLookup(
+            directories=[script_dir],
+            disable_unicode=True)
+    else:
+        lookup = mako.lookup.TemplateLookup(
+            directories=[script_dir])
+
+    function = getattr(
+        Everything.load(args),
+        valid_commands[args.command])
+    function(lookup)
