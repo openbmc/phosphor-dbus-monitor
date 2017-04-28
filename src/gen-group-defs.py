@@ -19,15 +19,14 @@ def generate(yaml_file, output_file):
 if __name__ == '__main__':
     parser = ArgumentParser()
     # Groups of items and how they should be monitored yaml file
-    parser.add_argument("-y", "--yaml", dest="input_yaml",
-                        default=
-                        "example/monitoring_defs.yaml",
-                        help=
-                        "Input item monitoring definition yaml to parse")
-    parser.add_argument("-o", "--outdir", dest="output_dir",
-                        default=os.path.abspath('.'),
-                        help=
-                        "Output directory for source files generated")
+    parser.add_argument(
+        "-y", "--yaml", dest="input_yaml",
+        default="example/monitoring_defs.yaml",
+        help="Input item monitoring definition yaml to parse")
+    parser.add_argument(
+        "-o", "--outdir", dest="output_dir",
+        default=os.path.abspath('.'),
+        help="Output directory for source files generated")
     args = parser.parse_args(sys.argv[1:])
 
     yaml_file = os.path.abspath(args.input_yaml)
