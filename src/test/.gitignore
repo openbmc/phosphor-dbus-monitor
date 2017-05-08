@@ -1,2 +1,4 @@
 *.log
 *.trs
+/pathgentest
+/pathgentest.hpp
