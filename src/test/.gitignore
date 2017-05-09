@@ -2,3 +2,5 @@
 *.trs
 /pathgentest
 /pathgentest.hpp
+/propertygentest
+/propertygentest.hpp
