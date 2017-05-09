@@ -36,3 +36,28 @@ pathgentest.hpp: $(PDMGEN) $(PATH_TEST_GEN_DEPS)
 		-d yaml/pathgentest \
 		-o $(builddir)/$@ \
 		generate-cpp
+
+check_PROGRAMS += propertygentest
+propertygentest_SOURCES = \
+	propertygentest.cpp
+propertygentest_CXXFLAGS = \
+	$(gtest_cflags)
+propertygentest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+propertygentest_LDADD = \
+	${gtest_ldadd}
+
+BUILT_SOURCES += propertygentest.hpp
+CLEANFILES += propertygentest.hpp
+
+PROPERTY_TEST_GEN_DEPS = \
+	templates/propertygentest.mako.hpp \
+	yaml/propertygentest
+
+propertygentest.hpp: $(PROPERTY_TEST_GEN_DEPS)
+	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
+		-t propertygentest.mako.hpp \
+		-p "${TEMPLATESEARCH}" \
+		-d yaml/propertygentest \
+		-o $(builddir)/$@ \
+		generate-cpp
