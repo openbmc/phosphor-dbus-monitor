@@ -61,13 +61,11 @@ class Everything(Renderer):
 
     def generate_cpp(self, loader):
         '''Render the template with the provided data.'''
-        with open(os.path.join(
-                args.output_dir,
-                'generated.cpp'), 'w') as fd:
+        with open(args.output, 'w') as fd:
             fd.write(
                 self.render(
                     loader,
-                    'generated.mako.cpp',
+                    args.template,
                     events={},
                     indent=Indent()))
 
@@ -82,9 +80,17 @@ if __name__ == '__main__':
         'scanner and code generator.')
 
     parser.add_argument(
-        "-o", "--outdir", dest="output_dir",
-        default=os.path.abspath('.'),
-        help="Output directory for source files generated")
+        "-o", "--out", dest="output",
+        default='generated.cpp',
+        help="Generated output file name and path.")
+    parser.add_argument(
+        '-t', '--template', dest='template',
+        default='generated.mako.cpp',
+        help='The top level template to render.')
+    parser.add_argument(
+        '-p', '--template-path', dest='template_search',
+        default=script_dir,
+        help='The space delimited mako template search path.')
     parser.add_argument(
         '-d', '--dir', dest='inputdir',
         default=os.path.join(script_dir, 'example'),
@@ -98,11 +104,11 @@ if __name__ == '__main__':
 
     if sys.version_info < (3, 0):
         lookup = mako.lookup.TemplateLookup(
-            directories=[script_dir],
+            directories=args.template_search.split(),
             disable_unicode=True)
     else:
         lookup = mako.lookup.TemplateLookup(
-            directories=[script_dir])
+            directories=args.template_search.split())
 
     function = getattr(
         Everything.load(args),
