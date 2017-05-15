@@ -61,3 +61,41 @@ propertygentest.hpp: $(PROPERTY_TEST_GEN_DEPS)
 		-d yaml/propertygentest \
 		-o $(builddir)/$@ \
 		generate-cpp
+
+check_PROGRAMS += propertywatchgentest
+propertywatchgentest_SOURCES = \
+	propertywatchgentest.cpp
+propertywatchgentest_CXXFLAGS = \
+	$(gtest_cflags)
+propertywatchgentest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+propertywatchgentest_LDADD = \
+	${gtest_ldadd}
+
+BUILT_SOURCES += propertywatchgentest.hpp
+CLEANFILES += propertywatchgentest.hpp
+
+PROPERTY_WATCH_TEST_GEN_DEPS = \
+	templates/propertywatchgentest.mako.hpp \
+	yaml/propertywatchgentest
+
+propertywatchgentest.hpp: $(PROPERTY_WATCH_TEST_GEN_DEPS)
+	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
+		-t propertywatchgentest.mako.hpp \
+		-p "${TEMPLATESEARCH}" \
+		-d yaml/propertywatchgentest \
+		-o $(builddir)/$@ \
+		generate-cpp
+
+check_PROGRAMS += propertywatchtest
+propertywatchtest_SOURCES = \
+	propertywatchtest.cpp
+propertywatchtest_CXXFLAGS = \
+	$(gtest_cflags) \
+	${SDBUSPLUS_CFLAGS}
+propertywatchtest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+propertywatchtest_LDADD = \
+	${gtest_ldadd} \
+	${SDBUSPLUS_LIBS} \
+	$(builddir)/../propertywatch.o
