@@ -86,3 +86,26 @@
   callback: group
   members:
     - example journal callback
+
+- name: example count condition
+  description: >
+    'Conditions or conditional callbacks apply a test prior to invoking
+    the callback function.
+
+    All conditional callbacks must specify the callback to issue if
+    the condition evaulates.
+
+    The count condition applies comparison operator to the value of each
+    property in the specified groups.  It then counts the number of properties
+    that pass the comparison, and applies another comparison on the result
+    against the specified bound.'
+
+  class: condition
+  condition: count
+  paths: example path group
+  properties: example property group
+  callback: example callback group
+  countop: '>='
+  countbound: 3
+  op: '>='
+  bound: 115

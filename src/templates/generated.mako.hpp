@@ -4,6 +4,7 @@
 
 #include <array>
 #include <string>
+#include "count.hpp"
 #include "data_types.hpp"
 #include "journal.hpp"
 #include "propertywatchimpl.hpp"
@@ -140,6 +141,22 @@ struct ConfigPropertyCallbackGroups
             }
         };
         return propertyCallbackGraph;
+    }
+};
+
+struct ConfigConditions
+{
+    using Conditions = std::array<std::unique_ptr<Conditional>, ${len(conditions)}>;
+
+    static auto& get()
+    {
+        static const Conditions propertyConditions =
+        {
+% for c in conditions:
+            ${c.construct(loader, indent=indent +3)},
+% endfor
+        };
+        return propertyConditions;
     }
 };
 
