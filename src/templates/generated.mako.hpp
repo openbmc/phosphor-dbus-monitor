@@ -5,6 +5,7 @@
 #include <array>
 #include <string>
 #include "data_types.hpp"
+#include "journal.hpp"
 #include "propertywatchimpl.hpp"
 #include "sdbusplus.hpp"
 
@@ -122,6 +123,22 @@ struct ConfigPropertyIndicies
             }
         };
         return propertyIndicies;
+    }
+};
+
+struct ConfigPropertyCallbacks
+{
+    using Callbacks = std::array<std::unique_ptr<Callback>, ${len(callbacks)}>;
+
+    static auto& get()
+    {
+        static const Callbacks propertyCallbacks =
+        {
+% for c in callbacks:
+            ${c.construct(loader, indent=indent +3)},
+% endfor
+        };
+        return propertyCallbacks;
     }
 };
 
