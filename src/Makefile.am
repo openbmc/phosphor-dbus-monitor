@@ -23,6 +23,8 @@ CLEANFILES = generated.hpp
 
 TEMPLATES = \
 	templates/callbackgroup.mako.cpp \
+	templates/conditional.mako.cpp \
+	templates/count.mako.cpp \
 	templates/generated.mako.hpp \
 	templates/journal.mako.cpp
 
