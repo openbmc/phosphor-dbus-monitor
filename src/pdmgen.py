@@ -420,6 +420,99 @@ class Callback(HasPropertyIndex):
         super(Callback, self).__init__(**kw)
 
 
+class ConditionCallback(ConfigEntry, Renderer):
+    '''Handle the journal callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.condition = kw.pop('condition')
+        self.instance = kw.pop('instance')
+        super(ConditionCallback, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create a graph instance for this callback.'''
+
+        args = {
+            'configfile': self.configfile,
+            'members': [self.instance],
+            'class': 'callbackgroup',
+            'callbackgroup': 'callback',
+            'name': [self.instance]
+        }
+
+        entry = CallbackGraphEntry(**args)
+        add_unique(entry, objs, config=self.configfile)
+
+        super(ConditionCallback, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve condition and graph entry.'''
+
+        self.graph = get_index(
+            objs,
+            'callbackgroup',
+            [self.instance],
+            config=self.configfile)
+
+        self.condition = get_index(
+            objs,
+            'condition',
+            self.name,
+            config=self.configfile)
+
+        super(ConditionCallback, self).setup(objs)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'conditional.mako.cpp',
+            c=self,
+            indent=indent)
+
+
+class Condition(HasPropertyIndex):
+    '''Interface and common logic for conditions.'''
+
+    def __init__(self, *a, **kw):
+        self.callback = kw.pop('callback')
+        super(Condition, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create a callback instance for this conditional.'''
+
+        args = {
+            'configfile': self.configfile,
+            'condition': self.name,
+            'class': 'callback',
+            'callback': 'conditional',
+            'instance': self.callback,
+            'name': self.name,
+        }
+
+        callback = ConditionCallback(**args)
+        add_unique(callback, objs, config=self.configfile)
+        callback.factory(objs)
+
+        super(Condition, self).factory(objs)
+
+
+class CountCondition(Condition, Renderer):
+    '''Handle the count condition config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.countop = kw.pop('countop')
+        self.countbound = kw.pop('countbound')
+        self.op = kw.pop('op')
+        self.bound = kw.pop('bound')
+        super(CountCondition, self).__init__(**kw)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'count.mako.cpp',
+            c=self,
+            indent=indent)
+
+
 class Journal(Callback, Renderer):
     '''Handle the journal callback config file directive.'''
 
@@ -526,6 +619,9 @@ class Everything(Renderer):
                 'journal': Journal,
                 'group': GroupOfCallbacks,
             },
+            'condition': {
+                'count': CountCondition,
+            },
         }
 
         if cls not in class_map:
@@ -617,6 +713,7 @@ class Everything(Renderer):
         self.watches = kw.pop('watch', [])
         self.callbacks = kw.pop('callback', [])
         self.callbackgroups = kw.pop('callbackgroup', [])
+        self.conditions = kw.pop('condition', [])
 
         super(Everything, self).__init__(**kw)
 
@@ -640,6 +737,7 @@ class Everything(Renderer):
                     instancegroups=self.instancegroups,
                     callbacks=self.callbacks,
                     callbackgroups=self.callbackgroups,
+                    conditions=self.conditions,
                     indent=Indent()))
 
 if __name__ == '__main__':
