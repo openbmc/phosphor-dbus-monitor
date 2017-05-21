@@ -32,10 +32,6 @@ void PropertyWatch<DBusInterfaceType>::start()
     {
         return;
     }
-    else
-    {
-        alreadyRan = true;
-    }
 
     // The index has a flat layout which is not optimal here.  Nest
     // properties in a map of interface names in a map of object paths.
@@ -112,6 +108,12 @@ void PropertyWatch<DBusInterfaceType>::start()
                 updateProperties(busName, path, interface);
             }
         }
+    }
+
+    alreadyRan = true;
+    if (callback)
+    {
+        (*callback)();
     }
 }
 

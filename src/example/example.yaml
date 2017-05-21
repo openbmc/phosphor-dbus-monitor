@@ -53,3 +53,24 @@
   watch: property
   paths: example path group
   properties: example property group
+
+- name: example journal callback
+  description: >
+    'Callbacks are actions PDM should take when instructed to do so.
+
+    Some callback types refer to a group of paths and group of properties
+    in a similar fashion as the property watch directive.
+
+    The journal callback logs the specified message to the systemd journal
+    with the specified severity.
+
+    Additionally, the journal callback will add to the journal key value
+    pair metadata for each property in the specified property group with
+    the key being the property element metadata and the value being the
+    property value.'
+  class: callback
+  callback: journal
+  paths: example path group
+  properties: example property group
+  severity: INFO
+  message: Hello world from PDM!

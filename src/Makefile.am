@@ -7,6 +7,7 @@ sbin_PROGRAMS = phosphor-dbus-monitor
 
 phosphor_dbus_monitor_SOURCES = \
 	functor.cpp \
+	journal.cpp \
 	main.cpp \
 	monitor.cpp \
 	propertywatch.cpp
@@ -21,7 +22,8 @@ BUILT_SOURCES = generated.hpp
 CLEANFILES = generated.hpp
 
 TEMPLATES = \
-	templates/generated.mako.hpp
+	templates/generated.mako.hpp \
+	templates/journal.mako.cpp
 
 generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 	$(AM_V_GEN)$(PYTHON) ${PDMGEN} \
