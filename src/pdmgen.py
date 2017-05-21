@@ -413,6 +413,29 @@ class PropertyWatch(HasPropertyIndex):
         super(PropertyWatch, self).__init__(**kw)
 
 
+class Callback(HasPropertyIndex):
+    '''Interface and common logic for callbacks.'''
+
+    def __init__(self, *a, **kw):
+        super(Callback, self).__init__(**kw)
+
+
+class Journal(Callback, Renderer):
+    '''Handle the journal callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.severity = kw.pop('severity')
+        self.message = kw.pop('message')
+        super(Journal, self).__init__(**kw)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'journal.mako.cpp',
+            c=self,
+            indent=indent)
+
+
 class Everything(Renderer):
     '''Parse/render entry point.'''
 
@@ -439,6 +462,9 @@ class Everything(Renderer):
             },
             'instance': {
                 'element': Instance,
+            },
+            'callback': {
+                'journal': Journal,
             },
         }
 
@@ -524,6 +550,7 @@ class Everything(Renderer):
         self.instances = kw.pop('instance', [])
         self.instancegroups = kw.pop('instancegroup', [])
         self.watches = kw.pop('watch', [])
+        self.callbacks = kw.pop('callback', [])
 
         super(Everything, self).__init__(**kw)
 
@@ -545,6 +572,7 @@ class Everything(Renderer):
                     instances=self.instances,
                     watches=self.watches,
                     instancegroups=self.instancegroups,
+                    callbacks=self.callbacks,
                     indent=Indent()))
 
 if __name__ == '__main__':

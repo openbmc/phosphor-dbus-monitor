@@ -5,6 +5,7 @@
 #include <array>
 #include <string>
 #include "data_types.hpp"
+#include "journal.hpp"
 #include "propertywatchimpl.hpp"
 #include "sdbusplus.hpp"
 
@@ -107,15 +108,15 @@ struct ConfigPropertyIndicies
                     {
                         PropertyIndex::key_type
                         {
-                            ConfigPaths::get()[${i[0]}],
-                            ConfigInterfaces::get()[${i[2]}],
-                            ConfigProperties::get()[${i[3]}]
+                            std::cref(ConfigPaths::get()[${i[0]}]),
+                            std::cref(ConfigInterfaces::get()[${i[2]}]),
+                            std::cref(ConfigProperties::get()[${i[3]}])
                         },
                         PropertyIndex::mapped_type
                         {
-                            ConfigMeta::get()[${i[1]}],
-                            ConfigMeta::get()[${i[4]}],
-                            ConfigPropertyStorage::get()[${i[5]}]
+                            std::cref(ConfigMeta::get()[${i[1]}]),
+                            std::cref(ConfigMeta::get()[${i[4]}]),
+                            std::ref(ConfigPropertyStorage::get()[${i[5]}])
                         },
                     },
     % endfor
@@ -124,6 +125,22 @@ struct ConfigPropertyIndicies
             }
         };
         return propertyIndicies;
+    }
+};
+
+struct ConfigPropertyCallbacks
+{
+    using Callbacks = std::array<std::unique_ptr<Callback>, ${len(callbacks)}>;
+
+    static auto& get()
+    {
+        static const Callbacks propertyCallbacks =
+        {
+% for c in callbacks:
+            ${c.construct(loader, indent=indent +3)},
+% endfor
+        };
+        return propertyCallbacks;
     }
 };
 
