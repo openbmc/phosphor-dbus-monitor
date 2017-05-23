@@ -121,6 +121,44 @@ class ConfigEntry(NamedElement):
         pass
 
 
+class Path(ConfigEntry):
+    '''Path/metadata association.'''
+
+    def __init__(self, *a, **kw):
+        super(Path, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create path and metadata elements.'''
+
+        args = {
+            'class': 'pathname',
+            'pathname': 'element',
+            'name': self.name['path']
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        args = {
+            'class': 'meta',
+            'meta': 'element',
+            'name': self.name['meta']
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        super(Path, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve path and metadata names to indicies.'''
+
+        self.path = get_index(
+            objs, 'pathname', self.name['path'])
+        self.meta = get_index(
+            objs, 'meta', self.name['meta'])
+
+        super(Path, self).setup(objs)
+
+
 class Group(ConfigEntry):
     '''Pop the members keyword for groups.'''
 
@@ -154,6 +192,29 @@ class ImplicitGroup(Group):
         super(ImplicitGroup, self).factory(objs)
 
 
+class GroupOfPaths(ImplicitGroup):
+    '''Path group config file directive.'''
+
+    def __init__(self, *a, **kw):
+        super(GroupOfPaths, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve group members.'''
+
+        def map_member(x):
+            path = get_index(
+                objs, 'pathname', x['path'])
+            meta = get_index(
+                objs, 'meta', x['meta'])
+            return (path, meta)
+
+        self.members = map(
+            map_member,
+            self.members)
+
+        super(GroupOfPaths, self).setup(objs)
+
+
 class Everything(Renderer):
     '''Parse/render entry point.'''
 
@@ -163,6 +224,12 @@ class Everything(Renderer):
         handler methods.'''
 
         class_map = {
+            'path': {
+                'element': Path,
+            },
+            'pathgroup': {
+                'path': GroupOfPaths,
+            },
         }
 
         if cls not in class_map:
@@ -236,6 +303,11 @@ class Everything(Renderer):
         return Everything(**objs)
 
     def __init__(self, *a, **kw):
+        self.pathmeta = kw.pop('path', [])
+        self.paths = kw.pop('pathname', [])
+        self.meta = kw.pop('meta', [])
+        self.pathgroups = kw.pop('pathgroup', [])
+
         super(Everything, self).__init__(**kw)
 
     def generate_cpp(self, loader):
@@ -245,6 +317,10 @@ class Everything(Renderer):
                 self.render(
                     loader,
                     args.template,
+                    meta=self.meta,
+                    paths=self.paths,
+                    pathmeta=self.pathmeta,
+                    pathgroups=self.pathgroups,
                     indent=Indent()))
 
 if __name__ == '__main__':
