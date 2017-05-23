@@ -410,7 +410,20 @@ class PropertyWatch(HasPropertyIndex):
     '''Handle the property watch config file directive.'''
 
     def __init__(self, *a, **kw):
+        self.callback = kw.pop('callback', None)
         super(PropertyWatch, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve optional callback.'''
+
+        if self.callback:
+            self.callback = get_index(
+                objs,
+                'callback',
+                self.callback,
+                config=self.configfile)
+
+        super(PropertyWatch, self).setup(objs)
 
 
 class Callback(HasPropertyIndex):

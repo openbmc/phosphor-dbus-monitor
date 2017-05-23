@@ -17,6 +17,8 @@ namespace dbus
 namespace monitoring
 {
 
+class Callback;
+
 /** @class PropertyWatch
  *  @brief Type agnostic, factored out logic for property watches.
  *
@@ -33,8 +35,10 @@ class PropertyWatch : public Watch
         PropertyWatch& operator=(const PropertyWatch&) = delete;
         PropertyWatch& operator=(PropertyWatch&&) = default;
         virtual ~PropertyWatch() = default;
-        explicit PropertyWatch(const PropertyIndex& watchIndex)
-            : Watch(), index(watchIndex), ranOnce(false) {}
+        PropertyWatch(
+            const PropertyIndex& watchIndex,
+            Callback* cb = nullptr)
+            : Watch(), index(watchIndex), callback(cb), ranOnce(false) {}
 
         /** @brief Start the watch.
          *
@@ -72,6 +76,9 @@ class PropertyWatch : public Watch
         /** @brief Property names and their associated storage. */
         const PropertyIndex& index;
 
+        /** @brief Optional callback method. */
+        Callback* const callback;
+
     private:
 
         /** @brief The start method should only be invoked once. */
@@ -94,9 +101,13 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
         PropertyWatchOfType& operator=(const PropertyWatchOfType&) = delete;
         PropertyWatchOfType& operator=(PropertyWatchOfType&&) = default;
         ~PropertyWatchOfType() = default;
-        explicit PropertyWatchOfType(
+        PropertyWatchOfType(
+            const PropertyIndex& watchIndex, Callback& callback) :
+            PropertyWatch<DBusInterfaceType>(watchIndex, &callback) {}
+        PropertyWatchOfType(
             const PropertyIndex& watchIndex) :
-            PropertyWatch<DBusInterfaceType>(watchIndex) {}
+            PropertyWatch<DBusInterfaceType>(watchIndex, nullptr) {}
+
 
         /** @brief PropertyMatch implementation for PropertyWatchOfType. */
         void updateProperties(
