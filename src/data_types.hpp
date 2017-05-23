@@ -69,6 +69,17 @@ using PropertiesChanged = std::map <
                           std::string,
                           sdbusplus::message::variant<T >>;
 
+/** @brief Lookup index for properties . */
+// *INDENT-OFF*
+using PropertyIndex = TupleRefMap <
+        TupleOfRefs<
+            const std::string,
+            const std::string,
+            any_ns::any>,
+        const std::string,
+        const std::string,
+        const std::string >;
+// *INDENT-ON*
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor
