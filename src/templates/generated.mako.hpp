@@ -186,7 +186,12 @@ struct ConfigPropertyWatches
         {
 % for w in watches:
             std::make_unique<PropertyWatchOfType<${w.datatype}, SDBusPlus>>(
+    % if w.callback is None:
                 ConfigPropertyIndicies::get()[${w.instances}]),
+    % else:
+                ConfigPropertyIndicies::get()[${w.instances}],
+                *ConfigPropertyCallbacks::get()[${w.callback}]),
+    % endif
 % endfor
         };
         return propertyWatches;

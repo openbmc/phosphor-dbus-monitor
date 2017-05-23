@@ -48,11 +48,14 @@
 - name: example property watch
   description: >
     'A property watch instructs PDM to maintain a cache of the state
-    of the specified properties on the specified DBus objects.'
+    of the specified properties on the specified DBus objects.
+
+    An optional callback can be triggered when property values change.'
   class: watch
   watch: property
   paths: example path group
   properties: example property group
+  callback: example count condition
 
 - name: example journal callback
   description: >

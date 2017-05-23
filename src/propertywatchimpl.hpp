@@ -3,6 +3,7 @@
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <vector>
+#include "callback.hpp"
 #include "data_types.hpp"
 #include "propertywatch.hpp"
 
@@ -147,6 +148,10 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
         }
 
         std::get<2>(item->second).get() = p.second.template get<T>();
+
+        // Invoke callback if present.
+        if (this->callback)
+            (*this->callback)();
     }
 }
 
