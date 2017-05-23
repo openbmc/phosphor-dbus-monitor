@@ -1,1 +1,28 @@
 # Example PDM configuration file.
+
+- name: example path group
+  description: >
+    'A path group is a named collection of DBus object
+    paths and associated metadata.  These collections
+    serve only to be referenced by other configuration
+    directives.
+
+    The metadata element has different uses depending
+    on the referencing directive.
+
+    Within a single configuration file path group names
+    must be unique.  The same name can appear in multiple
+    configuration files; however, the referencing directive
+    will only search for the group in the same configuration
+    file.'
+  class: group
+  group: path
+  members:
+    - meta: path
+      path: /xyz/openbmc_project/testing/inst1
+    - meta: path
+      path: /xyz/openbmc_project/testing/inst2
+    - meta: path
+      path: /xyz/openbmc_project/testing/inst3
+    - meta: path
+      path: /xyz/openbmc_project/testing/inst4
