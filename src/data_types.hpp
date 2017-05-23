@@ -80,6 +80,21 @@ using PropertyIndex = TupleRefMap <
         const std::string,
         const std::string >;
 // *INDENT-ON*
+
+/** @brief Convert some C++ types to others.
+ *
+ *  Remove type decorators to reduce template specializations.
+ *
+ *  1. Remove references.
+ *  2. Remove 'const' and 'volatile'.
+ */
+template <typename T> struct Downcast
+{
+    using Type = std::remove_cv_t<std::remove_reference_t<T>>;
+};
+template <typename T> using DowncastType =
+    typename Downcast<T>::Type;
+
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor
