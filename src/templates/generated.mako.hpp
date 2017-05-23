@@ -2,6 +2,11 @@
 /* This is an auto generated file. Do not edit. */
 #pragma once
 
+#include <array>
+#include <string>
+
+using namespace std::string_literals;
+
 namespace phosphor
 {
 namespace dbus
