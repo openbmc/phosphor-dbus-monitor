@@ -29,3 +29,5 @@ generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 		-d ${srcdir}/example \
 		-o ${builddir}/$@ \
 		generate-cpp
+
+SUBDIRS = . test
