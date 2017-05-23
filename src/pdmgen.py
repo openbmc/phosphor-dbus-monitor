@@ -436,6 +436,65 @@ class Journal(Callback, Renderer):
             indent=indent)
 
 
+class CallbackGraphEntry(Group):
+    '''An entry in a traversal list for groups of callbacks.'''
+
+    def __init__(self, *a, **kw):
+        super(CallbackGraphEntry, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve group members.'''
+
+        def map_member(x):
+            return get_index(
+                objs, 'callback', x, config=self.configfile)
+
+        self.members = map(
+            map_member,
+            self.members)
+
+        super(CallbackGraphEntry, self).setup(objs)
+
+
+class GroupOfCallbacks(ConfigEntry, Renderer):
+    '''Handle the callback group config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.members = kw.pop('members')
+        super(GroupOfCallbacks, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create a graph instance for this group of callbacks.'''
+
+        args = {
+            'configfile': self.configfile,
+            'members': self.members,
+            'class': 'callbackgroup',
+            'callbackgroup': 'callback',
+            'name': self.members
+        }
+
+        entry = CallbackGraphEntry(**args)
+        add_unique(entry, objs, config=self.configfile)
+
+        super(GroupOfCallbacks, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve graph entry.'''
+
+        self.graph = get_index(
+            objs, 'callbackgroup', self.members, config=self.configfile)
+
+        super(GroupOfCallbacks, self).setup(objs)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'callbackgroup.mako.cpp',
+            c=self,
+            indent=indent)
+
+
 class Everything(Renderer):
     '''Parse/render entry point.'''
 
@@ -465,6 +524,7 @@ class Everything(Renderer):
             },
             'callback': {
                 'journal': Journal,
+                'group': GroupOfCallbacks,
             },
         }
 
@@ -556,6 +616,7 @@ class Everything(Renderer):
         self.instancegroups = kw.pop('instancegroup', [])
         self.watches = kw.pop('watch', [])
         self.callbacks = kw.pop('callback', [])
+        self.callbackgroups = kw.pop('callbackgroup', [])
 
         super(Everything, self).__init__(**kw)
 
@@ -578,6 +639,7 @@ class Everything(Renderer):
                     watches=self.watches,
                     instancegroups=self.instancegroups,
                     callbacks=self.callbacks,
+                    callbackgroups=self.callbackgroups,
                     indent=Indent()))
 
 if __name__ == '__main__':

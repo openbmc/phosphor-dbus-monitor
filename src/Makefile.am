@@ -22,6 +22,7 @@ BUILT_SOURCES = generated.hpp
 CLEANFILES = generated.hpp
 
 TEMPLATES = \
+	templates/callbackgroup.mako.cpp \
 	templates/generated.mako.hpp \
 	templates/journal.mako.cpp
 

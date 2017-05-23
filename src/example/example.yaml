@@ -74,3 +74,22 @@
   properties: example property group
   severity: INFO
   message: Hello world from PDM!
+
+- name: example callback group
+  description: >
+    'Callbacks groups are simply named collections of other callbacks.
+    Configuration file directives can only refer to a single callback.
+    Through use of a group, these configuration file directives can
+    refer to more than one callback.
+
+    For example for a given event, one may wish to trace multiple
+    messages to the systemd journal.  The journal callback does not
+    support tracing multiple messages.  To do that, define a callback
+    group composed of multiple journal callbacks.
+
+    This example callback group only has one member.  To add more, add
+    additional callbacks to the members element.'
+  class: callback
+  callback: group
+  members:
+    - example journal callback

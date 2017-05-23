@@ -52,6 +52,44 @@ class IndexedCallback : public Callback
         const PropertyIndex& index;
 };
 
+/** @class GroupOfCallbacks
+ *  @brief Invoke multiple callbacks.
+ *
+ *  A group of callbacks is implemented as a vector of array indicies
+ *  into an external array  of callbacks.  The group function call
+ *  operator traverses the vector of indicies, invoking each
+ *  callback.
+ *
+ *  @tparam CallbackAccess - Access to the array of callbacks.
+ */
+template <typename CallbackAccess>
+class GroupOfCallbacks : public Callback
+{
+    public:
+        GroupOfCallbacks() = delete;
+        GroupOfCallbacks(const GroupOfCallbacks&) = delete;
+        GroupOfCallbacks(GroupOfCallbacks&&) = default;
+        GroupOfCallbacks& operator=(const GroupOfCallbacks&) = delete;
+        GroupOfCallbacks& operator=(GroupOfCallbacks&&) = default;
+        ~GroupOfCallbacks() = default;
+        explicit GroupOfCallbacks(
+            const std::vector<size_t>& graphEntry)
+            : graph(graphEntry) {}
+
+        /** @brief Run the callbacks. */
+        void operator()() override
+        {
+            for (auto e : graph)
+            {
+                (*CallbackAccess::get()[e])();
+            }
+        }
+
+    private:
+        /** @brief The offsets of the callbacks in the group. */
+        const std::vector<size_t>& graph;
+};
+
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor
