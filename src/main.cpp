@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include <sdbusplus/bus.hpp>
+#include "generated.hpp"
 #include "monitor.hpp"
 
 int main(void)

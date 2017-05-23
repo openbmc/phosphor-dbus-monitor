@@ -24,3 +24,4 @@ ltmain.sh
 missing
 stamp-h1
 phosphor-dbus-monitor
+generated.hpp

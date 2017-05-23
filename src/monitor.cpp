@@ -98,6 +98,11 @@ void Monitor::handleEvent(sdbusplus::message::message& msg,
     }
 }
 
+const std::vector<
+    std::tuple<
+        std::vector<std::shared_ptr<Event>>,
+        std::vector<Action>>> Monitor::events;
+
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor

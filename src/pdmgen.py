@@ -85,7 +85,7 @@ if __name__ == '__main__':
         help="Generated output file name and path.")
     parser.add_argument(
         '-t', '--template', dest='template',
-        default='generated.mako.cpp',
+        default='generated.mako.hpp',
         help='The top level template to render.')
     parser.add_argument(
         '-p', '--template-path', dest='template_search',

@@ -50,5 +50,8 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
     AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
 )
 
+AC_ARG_VAR(YAML_PATH, [The path to the yaml config files.])
+AS_IF([test "x$YAML_PATH" == "x"], [YAML_PATH="$srcdir/example"])
+
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
