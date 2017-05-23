@@ -74,3 +74,15 @@
   properties: example property group
   severity: INFO
   message: Hello world from PDM!
+
+- name: example callback group
+  description: >
+    'Callbacks groups are simply named collections of callbacks that can
+    be used in referencing directives that reference a single callback.
+
+    This example callback group only has one member.  To add more, add
+    additional callbacks to the members element.'
+  class: callback
+  callback: group
+  members:
+    - example journal callback
