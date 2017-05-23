@@ -22,6 +22,7 @@ import mako.lookup
 from argparse import ArgumentParser
 from sdbusplus.renderer import Renderer
 from sdbusplus.namedelement import NamedElement
+import sdbusplus.property
 
 
 class InvalidConfigError(BaseException):
@@ -159,6 +160,54 @@ class Path(ConfigEntry):
         super(Path, self).setup(objs)
 
 
+class Property(ConfigEntry):
+    '''Property/interface/metadata association.'''
+
+    def __init__(self, *a, **kw):
+        super(Property, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create interface, property name and metadata elements.'''
+
+        args = {
+            'class': 'interface',
+            'interface': 'element',
+            'name': self.name['interface']
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        args = {
+            'class': 'propertyname',
+            'propertyname': 'element',
+            'name': self.name['property']
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        args = {
+            'class': 'meta',
+            'meta': 'element',
+            'name': self.name['meta']
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        super(Property, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve interface, property and metadata to indicies.'''
+
+        self.interface = get_index(
+            objs, 'interface', self.name['interface'])
+        self.prop = get_index(
+            objs, 'propertyname', self.name['property'])
+        self.meta = get_index(
+            objs, 'meta', self.name['meta'])
+
+        super(Property, self).setup(objs)
+
+
 class Group(ConfigEntry):
     '''Pop the members keyword for groups.'''
 
@@ -215,6 +264,36 @@ class GroupOfPaths(ImplicitGroup):
         super(GroupOfPaths, self).setup(objs)
 
 
+class GroupOfProperties(ImplicitGroup):
+    '''Property group config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.datatype = sdbusplus.property.Property(
+            name=kw.get('name'),
+            type=kw.pop('type')).cppTypeName
+
+        super(GroupOfProperties, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve group members.'''
+
+        def map_member(x):
+            iface = get_index(
+                objs, 'interface', x['interface'])
+            prop = get_index(
+                objs, 'propertyname', x['property'])
+            meta = get_index(
+                objs, 'meta', x['meta'])
+
+            return (iface, prop, meta)
+
+        self.members = map(
+            map_member,
+            self.members)
+
+        super(GroupOfProperties, self).setup(objs)
+
+
 class Everything(Renderer):
     '''Parse/render entry point.'''
 
@@ -229,6 +308,12 @@ class Everything(Renderer):
             },
             'pathgroup': {
                 'path': GroupOfPaths,
+            },
+            'propertygroup': {
+                'property': GroupOfProperties,
+            },
+            'property': {
+                'element': Property,
             },
         }
 
@@ -307,6 +392,10 @@ class Everything(Renderer):
         self.paths = kw.pop('pathname', [])
         self.meta = kw.pop('meta', [])
         self.pathgroups = kw.pop('pathgroup', [])
+        self.interfaces = kw.pop('interface', [])
+        self.properties = kw.pop('property', [])
+        self.propertynames = kw.pop('propertyname', [])
+        self.propertygroups = kw.pop('propertygroup', [])
 
         super(Everything, self).__init__(**kw)
 
@@ -318,9 +407,13 @@ class Everything(Renderer):
                     loader,
                     args.template,
                     meta=self.meta,
+                    properties=self.properties,
+                    propertynames=self.propertynames,
+                    interfaces=self.interfaces,
                     paths=self.paths,
                     pathmeta=self.pathmeta,
                     pathgroups=self.pathgroups,
+                    propertygroups=self.propertygroups,
                     indent=Indent()))
 
 if __name__ == '__main__':
