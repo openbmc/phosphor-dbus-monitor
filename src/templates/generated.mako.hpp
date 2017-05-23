@@ -45,6 +45,38 @@ struct ConfigPaths
         return paths;
     }
 };
+
+struct ConfigInterfaces
+{
+    using Interfaces = std::array<std::string, ${len(interfaces)}>;
+
+    static auto& get()
+    {
+        static const Interfaces interfaces =
+        {
+% for i in interfaces:
+            "${i.name}"s,
+% endfor
+        };
+        return interfaces;
+    }
+};
+
+struct ConfigProperties
+{
+    using Properties = std::array<std::string, ${len(propertynames)}>;
+
+    static auto& get()
+    {
+        static const Properties properties =
+        {
+% for p in propertynames:
+            "${p.name}"s,
+% endfor
+        };
+        return properties;
+    }
+};
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor
