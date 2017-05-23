@@ -128,6 +128,23 @@ struct ConfigPropertyIndicies
     }
 };
 
+struct ConfigPropertyCallbackGroups
+{
+    using CallbackGroups = std::array<std::vector<size_t>, ${len(callbackgroups)}>;
+    static auto& get()
+    {
+        static const CallbackGroups propertyCallbackGraph =
+        {
+            {
+% for g in callbackgroups:
+                {${', '.join([str(x) for x in g.members])}},
+% endfor
+            }
+        };
+        return propertyCallbackGraph;
+    }
+};
+
 struct ConfigPropertyCallbacks
 {
     using Callbacks = std::array<std::unique_ptr<Callback>, ${len(callbacks)}>;
