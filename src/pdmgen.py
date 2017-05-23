@@ -208,6 +208,29 @@ class Property(ConfigEntry):
         super(Property, self).setup(objs)
 
 
+class Instance(ConfigEntry):
+    '''Property/Path association.'''
+
+    def __init__(self, *a, **kw):
+        super(Instance, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve elements to indicies.'''
+
+        self.interface = get_index(
+            objs, 'interface', self.name['property']['interface'])
+        self.prop = get_index(
+            objs, 'propertyname', self.name['property']['property'])
+        self.propmeta = get_index(
+            objs, 'meta', self.name['property']['meta'])
+        self.path = get_index(
+            objs, 'pathname', self.name['path']['path'])
+        self.pathmeta = get_index(
+            objs, 'meta', self.name['path']['meta'])
+
+        super(Instance, self).setup(objs)
+
+
 class Group(ConfigEntry):
     '''Pop the members keyword for groups.'''
 
@@ -294,6 +317,102 @@ class GroupOfProperties(ImplicitGroup):
         super(GroupOfProperties, self).setup(objs)
 
 
+class GroupOfInstances(ImplicitGroup):
+    '''A group of property instances.'''
+
+    def __init__(self, *a, **kw):
+        super(GroupOfInstances, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve group members.'''
+
+        def map_member(x):
+            path = get_index(objs, 'pathname', x['path']['path'])
+            pathmeta = get_index(objs, 'meta', x['path']['meta'])
+            interface = get_index(
+                objs, 'interface', x['property']['interface'])
+            prop = get_index(objs, 'propertyname', x['property']['property'])
+            propmeta = get_index(objs, 'meta', x['property']['meta'])
+            instance = get_index(objs, 'instance', x)
+
+            return (path, pathmeta, interface, prop, propmeta, instance)
+
+        self.members = map(
+            map_member,
+            self.members)
+
+        super(GroupOfInstances, self).setup(objs)
+
+
+class HasPropertyIndex(ConfigEntry):
+    '''Handle config file directives that require an index to be
+    constructed.'''
+
+    def __init__(self, *a, **kw):
+        self.paths = kw.pop('paths')
+        self.properties = kw.pop('properties')
+        super(HasPropertyIndex, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create a group of instances for this index.'''
+
+        members = []
+        path_group = get_index(
+            objs, 'pathgroup', self.paths, config=self.configfile)
+        property_group = get_index(
+            objs, 'propertygroup', self.properties, config=self.configfile)
+
+        for path in objs['pathgroup'][path_group].members:
+            for prop in objs['propertygroup'][property_group].members:
+                member = {
+                    'path': path,
+                    'property': prop,
+                }
+                members.append(member)
+
+        args = {
+            'members': members,
+            'class': 'instancegroup',
+            'instancegroup': 'instance',
+            'name': '{0} {1}'.format(self.paths, self.properties)
+        }
+
+        group = GroupOfInstances(configfile=self.configfile, **args)
+        add_unique(group, objs, config=self.configfile)
+        group.factory(objs)
+
+        super(HasPropertyIndex, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve path, property, and instance groups.'''
+
+        self.instances = get_index(
+            objs,
+            'instancegroup',
+            '{0} {1}'.format(self.paths, self.properties),
+            config=self.configfile)
+        self.paths = get_index(
+            objs,
+            'pathgroup',
+            self.paths,
+            config=self.configfile)
+        self.properties = get_index(
+            objs,
+            'propertygroup',
+            self.properties,
+            config=self.configfile)
+        self.datatype = objs['propertygroup'][self.properties].datatype
+
+        super(HasPropertyIndex, self).setup(objs)
+
+
+class PropertyWatch(HasPropertyIndex):
+    '''Handle the property watch config file directive.'''
+
+    def __init__(self, *a, **kw):
+        super(PropertyWatch, self).__init__(**kw)
+
+
 class Everything(Renderer):
     '''Parse/render entry point.'''
 
@@ -314,6 +433,12 @@ class Everything(Renderer):
             },
             'property': {
                 'element': Property,
+            },
+            'watch': {
+                'property': PropertyWatch,
+            },
+            'instance': {
+                'element': Instance,
             },
         }
 
@@ -396,6 +521,9 @@ class Everything(Renderer):
         self.properties = kw.pop('property', [])
         self.propertynames = kw.pop('propertyname', [])
         self.propertygroups = kw.pop('propertygroup', [])
+        self.instances = kw.pop('instance', [])
+        self.instancegroups = kw.pop('instancegroup', [])
+        self.watches = kw.pop('watch', [])
 
         super(Everything, self).__init__(**kw)
 
@@ -414,6 +542,9 @@ class Everything(Renderer):
                     pathmeta=self.pathmeta,
                     pathgroups=self.pathgroups,
                     propertygroups=self.propertygroups,
+                    instances=self.instances,
+                    watches=self.watches,
+                    instancegroups=self.instancegroups,
                     indent=Indent()))
 
 if __name__ == '__main__':

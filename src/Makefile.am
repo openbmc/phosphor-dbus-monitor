@@ -8,7 +8,8 @@ sbin_PROGRAMS = phosphor-dbus-monitor
 phosphor_dbus_monitor_SOURCES = \
 	functor.cpp \
 	main.cpp \
-	monitor.cpp
+	monitor.cpp \
+	propertywatch.cpp
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS)
