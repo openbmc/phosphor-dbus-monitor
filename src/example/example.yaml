@@ -26,3 +26,21 @@
       path: /xyz/openbmc_project/testing/inst3
     - meta: path
       path: /xyz/openbmc_project/testing/inst4
+
+- name: example property group
+  description: >
+    'Like path groups, a property group is a named collection
+    of DBus property names and associated metadata.
+
+    Properties in a group must all have the same DBus type signature
+    and must be explicitly declared.'
+  class: group
+  group: property
+  type: uint32
+  members:
+    - interface: xyz.openbmc_project.Sensor.Value
+      meta: property
+      property: ValueA
+    - interface: xyz.openbmc_project.Sensor.Value
+      meta: property
+      property: ValueB
