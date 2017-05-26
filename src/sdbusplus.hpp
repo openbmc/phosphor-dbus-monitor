@@ -30,6 +30,24 @@ class SDBusPlus
         }
 
     public:
+        /** @brief Invoke a method; ignore reply. */
+        template <typename ...Args>
+        static void callMethodNoReply(
+            const std::string& busName,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& method,
+            Args&& ... args)
+        {
+            auto reqMsg = getBus().new_method_call(
+                              busName.c_str(),
+                              path.c_str(),
+                              interface.c_str(),
+                              method.c_str());
+            reqMsg.append(std::forward<Args>(args)...);
+            getBus().call_noreply(reqMsg);
+        }
+
         /** @brief Invoke a method. */
         template <typename ...Args>
         static auto callMethod(

@@ -7,6 +7,7 @@
 #include "count.hpp"
 #include "data_types.hpp"
 #include "journal.hpp"
+#include "method.hpp"
 #include "propertywatchimpl.hpp"
 #include "sdbusplus.hpp"
 
