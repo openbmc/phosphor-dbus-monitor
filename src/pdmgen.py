@@ -635,6 +635,85 @@ class Journal(Callback, Renderer):
             indent=indent)
 
 
+class Method(ConfigEntry, Renderer):
+    '''Handle the method callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.service = kw.pop('service')
+        self.path = kw.pop('path')
+        self.interface = kw.pop('interface')
+        self.method = kw.pop('method')
+        self.args = [TrivialArgument(**x) for x in kw.pop('args', {})]
+        super(Method, self).__init__(**kw)
+
+    def factory(self, objs):
+        args = {
+            'class': 'interface',
+            'interface': 'element',
+            'name': self.service
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        args = {
+            'class': 'pathname',
+            'pathname': 'element',
+            'name': self.path
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        args = {
+            'class': 'interface',
+            'interface': 'element',
+            'name': self.interface
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        args = {
+            'class': 'propertyname',
+            'propertyname': 'element',
+            'name': self.method
+        }
+        add_unique(ConfigEntry(
+            configfile=self.configfile, **args), objs)
+
+        super(Method, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve elements.'''
+
+        self.service = get_index(
+            objs,
+            'interface',
+            self.service)
+
+        self.path = get_index(
+            objs,
+            'pathname',
+            self.path)
+
+        self.interface = get_index(
+            objs,
+            'interface',
+            self.interface)
+
+        self.method = get_index(
+            objs,
+            'propertyname',
+            self.method)
+
+        super(Method, self).setup(objs)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'method.mako.cpp',
+            c=self,
+            indent=indent)
+
+
 class CallbackGraphEntry(Group):
     '''An entry in a traversal list for groups of callbacks.'''
 
@@ -724,6 +803,7 @@ class Everything(Renderer):
             'callback': {
                 'journal': Journal,
                 'group': GroupOfCallbacks,
+                'method': Method,
             },
             'condition': {
                 'count': CountCondition,

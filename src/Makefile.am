@@ -26,7 +26,8 @@ TEMPLATES = \
 	templates/conditional.mako.cpp \
 	templates/count.mako.cpp \
 	templates/generated.mako.hpp \
-	templates/journal.mako.cpp
+	templates/journal.mako.cpp \
+	templates/method.mako.cpp
 
 generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 	$(AM_V_GEN)$(PYTHON) ${PDMGEN} \

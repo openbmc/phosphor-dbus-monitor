@@ -78,6 +78,21 @@
   severity: INFO
   message: Hello world from PDM!
 
+- name: example method callback
+  description: >
+    'The method callback invokes the specified DBus method.'
+  class: callback
+  callback: method
+  service: org.freedesktop.systemd1
+  path: /org/freedesktop/systemd1
+  interface: org.freedesktop.systemd1.Manager
+  method: StartUnit
+  args:
+    - value: foo.unit
+      type: string
+    - value: replace
+      type: string
+
 - name: example callback group
   description: >
     'Callbacks groups are simply named collections of other callbacks.
