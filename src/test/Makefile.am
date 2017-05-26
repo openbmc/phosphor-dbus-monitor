@@ -129,3 +129,28 @@ callbackgentest.hpp: $(CALLBACK_TEST_GEN_DEPS)
 		-d yaml/callbackgentest \
 		-o $(builddir)/$@ \
 		generate-cpp
+
+check_PROGRAMS += callbackgroupgentest
+callbackgroupgentest_SOURCES = \
+	callbackgroupgentest.cpp
+callbackgroupgentest_CXXFLAGS = \
+	$(gtest_cflags)
+callbackgroupgentest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+callbackgroupgentest_LDADD = \
+	${gtest_ldadd}
+
+BUILT_SOURCES += callbackgroupgentest.hpp
+CLEANFILES += callbackgroupgentest.hpp
+
+CALLBACKGROUP_TEST_GEN_DEPS = \
+	templates/callbackgroupgentest.mako.hpp \
+	yaml/callbackgroupgentest
+
+callbackgroupgentest.hpp: $(CALLBACKGROUP_TEST_GEN_DEPS)
+	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
+		-t callbackgroupgentest.mako.hpp \
+		-p "${TEMPLATESEARCH}" \
+		-d yaml/callbackgroupgentest \
+		-o $(builddir)/$@ \
+		generate-cpp
