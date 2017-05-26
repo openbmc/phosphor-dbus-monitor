@@ -99,3 +99,28 @@ propertywatchtest_LDADD = \
 	${gtest_ldadd} \
 	${SDBUSPLUS_LIBS} \
 	$(builddir)/../propertywatch.o
+
+check_PROGRAMS += callbackgentest
+callbackgentest_SOURCES = \
+	callbackgentest.cpp
+callbackgentest_CXXFLAGS = \
+	$(gtest_cflags)
+callbackgentest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+callbackgentest_LDADD = \
+	${gtest_ldadd}
+
+BUILT_SOURCES += callbackgentest.hpp
+CLEANFILES += callbackgentest.hpp
+
+CALLBACK_TEST_GEN_DEPS = \
+	templates/callbackgentest.mako.hpp \
+	yaml/callbackgentest
+
+callbackgentest.hpp: $(CALLBACK_TEST_GEN_DEPS)
+	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
+		-t callbackgentest.mako.hpp \
+		-p "${TEMPLATESEARCH}" \
+		-d yaml/callbackgentest \
+		-o $(builddir)/$@ \
+		generate-cpp
