@@ -23,6 +23,11 @@ int main(void)
 
     phosphor::dbus::monitoring::Monitor monitor(bus);
 
+    for (auto& watch : phosphor::dbus::monitoring::ConfigPropertyWatches::get())
+    {
+        watch->start();
+    }
+
     // Keep application running
     while (true)
     {
