@@ -84,6 +84,99 @@ def add_unique(obj, *a, **kw):
             container.setdefault(obj.cls, []).append(obj)
 
 
+class Cast(object):
+    '''Decorate an argument by casting it.'''
+
+    def __init__(self, cast, target):
+        '''cast is the cast type (static, const, etc...).
+           target is the cast target type.'''
+        self.cast = cast
+        self.target = target
+
+    def __call__(self, arg):
+        return '{0}_cast<{1}>({2})'.format(self.cast, self.target, arg)
+
+
+class Literal(object):
+    '''Decorate an argument with a literal operator.'''
+
+    integer_types = [
+        'int8',
+        'int16',
+        'int32',
+        'int64',
+        'uint8',
+        'uint16',
+        'uint32',
+        'uint64'
+    ]
+
+    def __init__(self, type):
+        self.type = type
+
+    def __call__(self, arg):
+        if 'uint' in self.type:
+            arg = '{0}ull'.format(arg)
+        elif 'int' in self.type:
+            arg = '{0}ll'.format(arg)
+
+        if self.type in self.integer_types:
+            return Cast('static', '{0}_t'.format(self.type))(arg)
+
+        if self.type == 'string':
+            return '{0}s'.format(arg)
+
+        return arg
+
+
+class FixBool(object):
+    '''Un-capitalize booleans.'''
+
+    def __call__(self, arg):
+        return '{0}'.format(arg.lower())
+
+
+class Quote(object):
+    '''Decorate an argument by quoting it.'''
+
+    def __call__(self, arg):
+        return '"{0}"'.format(arg)
+
+
+class Argument(NamedElement, Renderer):
+    '''Define argument type inteface.'''
+
+    def __init__(self, **kw):
+        self.type = kw.pop('type', None)
+        super(Argument, self).__init__(**kw)
+
+    def argument(self, loader, indent):
+        raise NotImplementedError
+
+
+class TrivialArgument(Argument):
+    '''Non-array type arguments.'''
+
+    def __init__(self, **kw):
+        self.value = kw.pop('value')
+        self.decorators = kw.pop('decorators', [])
+        if kw.get('type', None):
+            self.decorators.insert(0, Literal(kw['type']))
+        if kw.get('type', None) == 'string':
+            self.decorators.insert(0, Quote())
+        if kw.get('type', None) == 'boolean':
+            self.decorators.insert(0, FixBool())
+
+        super(TrivialArgument, self).__init__(**kw)
+
+    def argument(self, loader, indent):
+        a = str(self.value)
+        for d in self.decorators:
+            a = d(a)
+
+        return a
+
+
 class Indent(object):
     '''Help templates be depth agnostic.'''
 
