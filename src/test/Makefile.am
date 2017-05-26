@@ -149,3 +149,28 @@ callbackgroupgentest.hpp: $(CALLBACKGROUP_TEST_GEN_DEPS)
 		-d yaml/callbackgroupgentest \
 		-o $(builddir)/$@ \
 		generate-cpp
+
+check_PROGRAMS += conditiongentest
+conditiongentest_SOURCES = \
+	conditiongentest.cpp
+conditiongentest_CXXFLAGS = \
+	$(gtest_cflags)
+conditiongentest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+conditiongentest_LDADD = \
+	${gtest_ldadd}
+
+BUILT_SOURCES += conditiongentest.hpp
+CLEANFILES += conditiongentest.hpp
+
+CONDITION_TEST_GEN_DEPS = \
+	templates/conditiongentest.mako.hpp \
+	yaml/conditiongentest
+
+conditiongentest.hpp: $(CONDITION_TEST_GEN_DEPS)
+	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
+		-t conditiongentest.mako.hpp \
+		-p "${TEMPLATESEARCH}" \
+		-d yaml/conditiongentest \
+		-o $(builddir)/$@ \
+		generate-cpp
