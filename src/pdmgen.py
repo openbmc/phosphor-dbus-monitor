@@ -532,6 +532,7 @@ class ConditionCallback(ConfigEntry, Renderer):
     def __init__(self, *a, **kw):
         self.condition = kw.pop('condition')
         self.instance = kw.pop('instance')
+        self.defer = kw.pop('defer', None)
         super(ConditionCallback, self).__init__(**kw)
 
     def factory(self, objs):
@@ -580,6 +581,7 @@ class Condition(HasPropertyIndex):
 
     def __init__(self, *a, **kw):
         self.callback = kw.pop('callback')
+        self.defer = kw.pop('defer', None)
         super(Condition, self).__init__(**kw)
 
     def factory(self, objs):
@@ -592,6 +594,7 @@ class Condition(HasPropertyIndex):
             'callback': 'conditional',
             'instance': self.callback,
             'name': self.name,
+            'defer': self.defer
         }
 
         callback = ConditionCallback(**args)
