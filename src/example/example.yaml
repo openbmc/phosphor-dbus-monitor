@@ -103,14 +103,13 @@
     For example for a given event, one may wish to trace multiple
     messages to the systemd journal.  The journal callback does not
     support tracing multiple messages.  To do that, define a callback
-    group composed of multiple journal callbacks.
+    group composed of multiple journal callbacks.'
 
-    This example callback group only has one member.  To add more, add
-    additional callbacks to the members element.'
   class: callback
   callback: group
   members:
     - example journal callback
+    - example deferred condition
 
 - name: example count condition
   description: >
@@ -133,6 +132,28 @@
   condition: count
   paths: example path group
   properties: example property group
+  callback: example callback group
+  countop: '>='
+  countbound: 3
+  op: '>='
+  bound: 115
+
+- name: example deferred condition
+  description: >
+    'Deferred conditions operate in the same fashion as conditional callbacks
+    with the added behavior that when the condition is tested and is met,
+    invocation of the callback is deferred by the interval specified.
+
+    When the configured time has elapsed, if the condition has not been reevaluated
+    the callback is invoked.
+
+    Any condition type can be deferred in this way by setting the defer attribute.'
+
+  class: condition
+  condition: count
+  paths: example path group
+  properties: example property group
+  defer: 1000us
   callback: example callback group
   countop: '>='
   countbound: 3
