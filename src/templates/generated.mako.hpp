@@ -3,6 +3,7 @@
 #pragma once
 
 #include <array>
+#include <chrono>
 #include <string>
 #include "count.hpp"
 #include "data_types.hpp"
@@ -13,6 +14,7 @@
 #include "sdevent.hpp"
 
 using namespace std::string_literals;
+using namespace std::chrono_literals;
 
 namespace phosphor
 {

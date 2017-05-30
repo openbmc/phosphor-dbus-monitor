@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include "data_types.hpp"
 
 namespace phosphor
@@ -146,14 +147,14 @@ class ConditionalCallback: public Callback
         ConditionalCallback(ConditionalCallback&&) = default;
         ConditionalCallback& operator=(const ConditionalCallback&) = delete;
         ConditionalCallback& operator=(ConditionalCallback&&) = default;
-        ~ConditionalCallback() = default;
+        virtual ~ConditionalCallback() = default;
         ConditionalCallback(
             const std::vector<size_t>& graphEntry,
             Conditional& cond)
             : graph(graphEntry), condition(cond) {}
 
         /** @brief Run the callback if the condition is satisfied. */
-        void operator()() override
+        virtual void operator()() override
         {
             if (condition())
             {
@@ -161,12 +162,83 @@ class ConditionalCallback: public Callback
             }
         }
 
-    private:
+    protected:
         /** @brief The index of the callback to conditionally invoke. */
         const std::vector<size_t>& graph;
 
         /** @brief The condition to test. */
         Conditional& condition;
+};
+
+/** @class DeferrableCallback
+ *
+ *  Deferrable callbacks wait a configurable period before
+ *  invoking their associated callback.
+ *
+ *  When the callback condition is initally met, start a timer.  If the
+ *  condition is tested again before the timer expires and it is not
+ *  met cancel the timer.  If the timer expires invoke the associated
+ *  callback.
+ *
+ *  @tparam CallbackAccess - Provide access to callback group instances.
+ *  @tparam TimerType - Delegated timer access methods.
+ */
+template <typename CallbackAccess, typename TimerType>
+class DeferrableCallback : public ConditionalCallback<CallbackAccess>
+{
+    public:
+        DeferrableCallback() = delete;
+        DeferrableCallback(const DeferrableCallback&) = delete;
+        DeferrableCallback(DeferrableCallback&&) = default;
+        DeferrableCallback& operator=(const DeferrableCallback&) = delete;
+        DeferrableCallback& operator=(DeferrableCallback&&) = default;
+        ~DeferrableCallback() = default;
+
+        DeferrableCallback(
+            const std::vector<size_t>& graphEntry,
+            Conditional& cond,
+            const std::chrono::microseconds& delay)
+            : ConditionalCallback<CallbackAccess>(graphEntry, cond),
+              delayInterval(delay),
+              timer(nullptr) {}
+
+        void operator()() override
+        {
+            if (!timer)
+            {
+                timer = std::make_unique<TimerType>(
+// **INDENT-OFF**
+                    [this](auto & source)
+                    {
+                        this->ConditionalCallback<CallbackAccess>::operator()();
+                    });
+// **INDENT-ON**
+                timer->disable();
+            }
+
+            if (this->condition())
+            {
+                if (!timer->enabled())
+                {
+                    // This is the first time the condition evaluated.
+                    // Start the countdown.
+                    timer->update(timer->now() + delayInterval);
+                    timer->enable();
+                }
+            }
+            else
+            {
+                // The condition did not evaluate.  Stop the countdown.
+                timer->disable();
+            }
+        }
+
+    private:
+        /** @brief The length to wait for the condition to stop evaluating. */
+        std::chrono::microseconds delayInterval;
+
+        /** @brief Delegated timer functions. */
+        std::unique_ptr<TimerType> timer;
 };
 
 } // namespace monitoring
