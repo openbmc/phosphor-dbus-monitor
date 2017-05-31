@@ -113,15 +113,15 @@ struct ConfigPropertyIndicies
                     {
                         PropertyIndex::key_type
                         {
-                            std::cref(ConfigPaths::get()[${i[0]}]),
-                            std::cref(ConfigInterfaces::get()[${i[2]}]),
-                            std::cref(ConfigProperties::get()[${i[3]}])
+                            ConfigPaths::get()[${i[0]}],
+                            ConfigInterfaces::get()[${i[2]}],
+                            ConfigProperties::get()[${i[3]}]
                         },
                         PropertyIndex::mapped_type
                         {
-                            std::cref(ConfigMeta::get()[${i[1]}]),
-                            std::cref(ConfigMeta::get()[${i[4]}]),
-                            std::ref(ConfigPropertyStorage::get()[${i[5]}])
+                            ConfigMeta::get()[${i[1]}],
+                            ConfigMeta::get()[${i[4]}],
+                            ConfigPropertyStorage::get()[${i[5]}]
                         },
                     },
     % endfor
