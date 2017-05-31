@@ -18,13 +18,13 @@
   class: group
   group: path
   members:
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst1
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst2
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst3
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst4
 
 - name: example property group
@@ -39,10 +39,10 @@
   type: uint32
   members:
     - interface: xyz.openbmc_project.Sensor.Value
-      meta: property
+      meta: PROPERTY
       property: ValueA
     - interface: xyz.openbmc_project.Sensor.Value
-      meta: property
+      meta: PROPERTY
       property: ValueB
 
 - name: example property watch
