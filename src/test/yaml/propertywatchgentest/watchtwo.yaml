@@ -2,16 +2,16 @@
   class: group
   group: path
   members:
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst4
 
 - name: test path group 3
   class: group
   group: path
   members:
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst4
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst6
 
 - name: test property group 1
@@ -20,7 +20,7 @@
   type: int32
   members:
     - interface: xyz.openbmc_project.Sensor.Iface1
-      meta: property
+      meta: PROPERTY
       property: Value
 
 - name: test property group 3
@@ -29,7 +29,7 @@
   type: string
   members:
     - interface: xyz.openbmc_project.Sensor.Iface3
-      meta: property
+      meta: PROPERTY
       property: Value2
 
 - name: test property watch 1

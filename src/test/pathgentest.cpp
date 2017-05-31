@@ -11,9 +11,9 @@ using PathMeta = TupleOfRefs<const std::string, const std::string>;
 
 const std::array<std::string, 3> expectedMeta =
 {
-    "path1"s,
-    "path3"s,
-    "path2"s,
+    "PATH1"s,
+    "PATH3"s,
+    "PATH2"s,
 };
 
 const std::array<std::string, 6> expectedPaths =

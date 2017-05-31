@@ -221,6 +221,12 @@ class Path(ConfigEntry):
     def __init__(self, *a, **kw):
         super(Path, self).__init__(**kw)
 
+        if self.name['meta'].upper() != self.name['meta']:
+            raise InvalidConfigError(
+                self.configfile,
+                'Metadata tag "{0}" must be upper case.'.format(
+                    self.name['meta']))
+
     def factory(self, objs):
         '''Create path and metadata elements.'''
 
@@ -258,6 +264,12 @@ class Property(ConfigEntry):
 
     def __init__(self, *a, **kw):
         super(Property, self).__init__(**kw)
+
+        if self.name['meta'].upper() != self.name['meta']:
+            raise InvalidConfigError(
+                self.configfile,
+                'Metadata tag "{0}" must be upper case.'.format(
+                    self.name['meta']))
 
     def factory(self, objs):
         '''Create interface, property name and metadata elements.'''

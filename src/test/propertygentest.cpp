@@ -17,9 +17,9 @@ using GroupOfProperties = std::vector<Property>;
 #include "propertygentest.hpp"
 const std::array<std::string, 3> expectedMeta =
 {
-    "property1"s,
-    "property2"s,
-    "property3"s,
+    "PROPERTY1"s,
+    "PROPERTY2"s,
+    "PROPERTY3"s,
 };
 
 const std::array<std::string, 4> expectedInterfaces =

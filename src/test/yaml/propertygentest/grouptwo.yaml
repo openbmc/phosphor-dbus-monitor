@@ -5,10 +5,10 @@
   members:
     - interface: xyz.openbmc_project.Test.Iface6
       property: Foo
-      meta: property1
+      meta: PROPERTY1
     - interface: xyz.openbmc_project.Test.Iface1
       property: Value
-      meta: property2
+      meta: PROPERTY2
 
 - name: test property group 3
   class: group
@@ -17,10 +17,10 @@
   members:
     - interface: xyz.openbmc_project.Test.Iface3
       property: Bar
-      meta: property1
+      meta: PROPERTY1
     - interface: xyz.openbmc_project.Test.Iface2
       property: Value
-      meta: property2
+      meta: PROPERTY2
     - interface: xyz.openbmc_project.Test.Iface6
       property: Baz
-      meta: property3
+      meta: PROPERTY3
