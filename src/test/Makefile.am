@@ -34,7 +34,7 @@ pathgentest.hpp: $(PDMGEN) $(PATH_TEST_GEN_DEPS)
 	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
 		-t pathgentest.mako.hpp \
 		-p "${TEMPLATESEARCH}" \
-		-d yaml/pathgentest \
+		-d ${srcdir}/yaml/pathgentest \
 		-o $(builddir)/$@ \
 		generate-cpp
 
@@ -59,7 +59,7 @@ propertygentest.hpp: $(PROPERTY_TEST_GEN_DEPS)
 	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
 		-t propertygentest.mako.hpp \
 		-p "${TEMPLATESEARCH}" \
-		-d yaml/propertygentest \
+		-d ${srcdir}/yaml/propertygentest \
 		-o $(builddir)/$@ \
 		generate-cpp
 
@@ -84,7 +84,7 @@ propertywatchgentest.hpp: $(PROPERTY_WATCH_TEST_GEN_DEPS)
 	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
 		-t propertywatchgentest.mako.hpp \
 		-p "${TEMPLATESEARCH}" \
-		-d yaml/propertywatchgentest \
+		-d ${srcdir}/yaml/propertywatchgentest \
 		-o $(builddir)/$@ \
 		generate-cpp
 
@@ -126,7 +126,7 @@ callbackgentest.hpp: $(CALLBACK_TEST_GEN_DEPS)
 	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
 		-t callbackgentest.mako.hpp \
 		-p "${TEMPLATESEARCH}" \
-		-d yaml/callbackgentest \
+		-d ${srcdir}/yaml/callbackgentest \
 		-o $(builddir)/$@ \
 		generate-cpp
 
@@ -151,7 +151,7 @@ callbackgroupgentest.hpp: $(CALLBACKGROUP_TEST_GEN_DEPS)
 	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
 		-t callbackgroupgentest.mako.hpp \
 		-p "${TEMPLATESEARCH}" \
-		-d yaml/callbackgroupgentest \
+		-d ${srcdir}/yaml/callbackgroupgentest \
 		-o $(builddir)/$@ \
 		generate-cpp
 
@@ -176,6 +176,6 @@ conditiongentest.hpp: $(CONDITION_TEST_GEN_DEPS)
 	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
 		-t conditiongentest.mako.hpp \
 		-p "${TEMPLATESEARCH}" \
-		-d yaml/conditiongentest \
+		-d ${srcdir}/yaml/conditiongentest \
 		-o $(builddir)/$@ \
 		generate-cpp
