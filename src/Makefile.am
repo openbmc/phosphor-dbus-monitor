@@ -33,7 +33,7 @@ generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 	$(AM_V_GEN)$(PYTHON) ${PDMGEN} \
 		-t generated.mako.hpp \
 		-p "${TEMPLATESEARCH}" \
-		-d ${srcdir}/example \
+		-d $(YAML_PATH) \
 		-o ${builddir}/$@ \
 		generate-cpp
 
