@@ -4,9 +4,9 @@
   class: group
   group: path
   members:
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst4
-    - meta: path
+    - meta: PATH
       path: /xyz/openbmc_project/testing/inst6
 
 - name: test property group 1
@@ -15,7 +15,7 @@
   type: string
   members:
     - interface: xyz.openbmc_project.Sensor.Iface3
-      meta: property
+      meta: PROPERTY
       property: Value2
 
 - name: test journal callback 1
