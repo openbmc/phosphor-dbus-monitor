@@ -46,6 +46,28 @@ class JournalBase : public IndexedCallback
         const char* message;
 };
 
+/** @struct Display
+ *  @brief Convert strings to const char*.
+ */
+namespace detail
+{
+template <typename T> struct Display
+{
+    static auto op(T&& value)
+    {
+        return std::forward<T>(value);
+    }
+};
+
+template <> struct Display<std::string>
+{
+    static auto op(const std::string& value)
+    {
+        return value.c_str();
+    }
+};
+} // namespace detail
+
 /** @class Journal
  *  @brief C++ type specific logic for the journal callback.
  *
@@ -77,11 +99,11 @@ class Journal : public JournalBase
             phosphor::logging::log<Severity>(
                 message,
                 phosphor::logging::entry(
-                    pathMeta + GetFormat<decltype(pathMeta)>::format,
-                    path),
+                    (pathMeta + GetFormat<decltype(pathMeta)>::format).c_str(),
+                    path.c_str()),
                 phosphor::logging::entry(
-                    propertyMeta + GetFormat<T>::format,
-                    any_ns::any_cast<T>(value)));
+                    (propertyMeta + GetFormat<T>::format).c_str(),
+                    detail::Display<T>::op(any_ns::any_cast<T>(value))));
         }
 };
 
