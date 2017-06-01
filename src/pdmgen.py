@@ -101,11 +101,9 @@ class Literal(object):
     '''Decorate an argument with a literal operator.'''
 
     integer_types = [
-        'int8',
         'int16',
         'int32',
         'int64',
-        'uint8',
         'uint16',
         'uint32',
         'uint64'
@@ -122,6 +120,8 @@ class Literal(object):
 
         if self.type in self.integer_types:
             return Cast('static', '{0}_t'.format(self.type))(arg)
+        elif self.type == 'byte':
+            return Cast('static', 'uint8_t'.format(self.type))(arg)
 
         if self.type == 'string':
             return '{0}s'.format(arg)
@@ -396,9 +396,10 @@ class GroupOfProperties(ImplicitGroup):
     '''Property group config file directive.'''
 
     def __init__(self, *a, **kw):
+        self.type = kw.pop('type')
         self.datatype = sdbusplus.property.Property(
             name=kw.get('name'),
-            type=kw.pop('type')).cppTypeName
+            type=self.type).cppTypeName
 
         super(GroupOfProperties, self).__init__(**kw)
 
@@ -507,6 +508,7 @@ class HasPropertyIndex(ConfigEntry):
             self.properties,
             config=self.configfile)
         self.datatype = objs['propertygroup'][self.properties].datatype
+        self.type = objs['propertygroup'][self.properties].type
 
         super(HasPropertyIndex, self).setup(objs)
 
@@ -625,6 +627,14 @@ class CountCondition(Condition, Renderer):
         self.op = kw.pop('op')
         self.bound = kw.pop('bound')
         super(CountCondition, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve type.'''
+
+        super(CountCondition, self).setup(objs)
+        self.bound = TrivialArgument(
+            type=self.type,
+            value=self.bound)
 
     def construct(self, loader, indent):
         return self.render(
