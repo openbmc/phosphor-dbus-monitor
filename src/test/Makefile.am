@@ -179,3 +179,15 @@ conditiongentest.hpp: $(CONDITION_TEST_GEN_DEPS)
 		-d ${srcdir}/yaml/conditiongentest \
 		-o $(builddir)/$@ \
 		generate-cpp
+
+check_PROGRAMS += callbacktest
+callbacktest_SOURCES = \
+	callbacktest.cpp
+callbacktest_CXXFLAGS = \
+	$(gtest_cflags)
+callbacktest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+callbacktest_LDADD = \
+	${gtest_ldadd} \
+	${SDBUSPLUS_LIBS} \
+	$(builddir)/../journal.o
