@@ -3,6 +3,8 @@
 #include "sdevent/event.hpp"
 #include "sdevent/timer.hpp"
 
+struct Loop;
+
 namespace phosphor
 {
 namespace dbus
@@ -29,6 +31,8 @@ class SDEvent
         {
             return getEvent().now();
         }
+
+        friend Loop;
 };
 
 /** @class SDEventTimer

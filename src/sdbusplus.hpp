@@ -4,6 +4,8 @@
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/bus/match.hpp>
 
+struct Loop;
+
 namespace phosphor
 {
 namespace dbus
@@ -101,6 +103,8 @@ class SDBusPlus
                     match,
                     callback);
         }
+
+        friend Loop;
 };
 
 } // namespace monitoring

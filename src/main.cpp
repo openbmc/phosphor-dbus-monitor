@@ -13,27 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <sdbusplus/bus.hpp>
+#include "sdbusplus.hpp"
 #include "generated.hpp"
 #include "monitor.hpp"
 
+using namespace phosphor::dbus::monitoring;
+
+struct Loop
+{
+    /** @brief indefinitely process dbus traffic. */
+    static void run()
+    {
+        auto& bus = SDBusPlus::getBus();
+        auto& event = SDEvent::getEvent();
+        event.attach(bus);
+        event.loop();
+    }
+};
+
 int main(void)
 {
-    auto bus = sdbusplus::bus::new_default();
-
-    phosphor::dbus::monitoring::Monitor monitor(bus);
-
-    for (auto& watch : phosphor::dbus::monitoring::ConfigPropertyWatches::get())
+    for (auto& watch : ConfigPropertyWatches::get())
     {
         watch->start();
     }
 
-    // Keep application running
-    while (true)
+    for (auto& watch : ConfigPropertyWatches::get())
     {
-        bus.process_discard();
-        bus.wait();
+        watch->callback();
     }
+
+    Loop::run();
 
     return -1;
 }
