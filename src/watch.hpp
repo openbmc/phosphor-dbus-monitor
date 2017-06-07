@@ -15,7 +15,10 @@ namespace monitoring
  *  or initialization.  Typical implementations might register dbus
  *  callbacks or perform queries.
  *
- *  Watches of any type can be started.
+ *  The callback method is invoked by main() on all watches of any
+ *  type at application startup, after all watches have performed
+ *  their setup.  Typical implementations will forward the call
+ *  to their associated callback.
  */
 class Watch
 {
@@ -29,6 +32,10 @@ class Watch
 
         /** @brief Start the watch. */
         virtual void start() = 0;
+
+        /** @brief Invoke the callback associated with the watch. */
+        virtual void callback() = 0;
+
 };
 
 } // namespace monitoring

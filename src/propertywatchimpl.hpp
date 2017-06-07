@@ -114,6 +114,16 @@ void PropertyWatch<DBusInterfaceType>::start()
     alreadyRan = true;
 }
 
+template <typename DBusInterfaceType>
+void PropertyWatch<DBusInterfaceType>::callback()
+{
+    // Invoke callback if present.
+    if (this->alreadyRan && this->cb)
+    {
+        (*this->cb)();
+    }
+}
+
 template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::updateProperties(
     const std::string& busName,
@@ -150,10 +160,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
         std::get<2>(item->second).get() = p.second.template get<T>();
 
         // Invoke callback if present.
-        if (this->alreadyRan && this->callback)
-        {
-            (*this->callback)();
-        }
+        this->callback();
     }
 }
 
