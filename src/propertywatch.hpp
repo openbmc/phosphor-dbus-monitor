@@ -37,14 +37,20 @@ class PropertyWatch : public Watch
         virtual ~PropertyWatch() = default;
         PropertyWatch(
             const PropertyIndex& watchIndex,
-            Callback* cb = nullptr)
-            : Watch(), index(watchIndex), callback(cb), alreadyRan(false) {}
+            Callback* callback = nullptr)
+            : Watch(), index(watchIndex), cb(callback), alreadyRan(false) {}
 
         /** @brief Start the watch.
          *
          *  Watch start interface implementation for PropertyWatch.
          */
         void start() override;
+
+        /** @brief Run the watch callback method.
+         *
+         *  Watch callback interface implementation for PropertyWatch.
+         */
+        void callback() override;
 
         /** @brief Update properties.
          *
@@ -89,7 +95,7 @@ class PropertyWatch : public Watch
         const PropertyIndex& index;
 
         /** @brief Optional callback method. */
-        Callback* const callback;
+        Callback* const cb;
 
         /** @brief The start method should only be invoked once. */
         bool alreadyRan;
