@@ -15,7 +15,6 @@
  */
 #include "sdbusplus.hpp"
 #include "generated.hpp"
-#include "monitor.hpp"
 
 using namespace phosphor::dbus::monitoring;
 

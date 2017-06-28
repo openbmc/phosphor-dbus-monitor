@@ -6,10 +6,8 @@ AM_CPPFLAGS = -iquote ${top_srcdir}
 sbin_PROGRAMS = phosphor-dbus-monitor
 
 phosphor_dbus_monitor_SOURCES = \
-	functor.cpp \
 	journal.cpp \
 	main.cpp \
-	monitor.cpp \
 	propertywatch.cpp
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
