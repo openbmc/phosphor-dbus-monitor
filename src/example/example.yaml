@@ -2,7 +2,7 @@
 
 - name: example path group
   description: >
-    'A path group is a named collection of DBus object
+    'A path group is a named collection of D-Bus object
     paths and associated metadata.  These collections
     serve only to be referenced by other configuration
     directives.
@@ -30,9 +30,9 @@
 - name: example property group
   description: >
     'Like path groups, a property group is a named collection
-    of DBus property names and associated metadata.
+    of D-Bus property names and associated metadata.
 
-    Properties in a group must all have the same DBus type signature
+    Properties in a group must all have the same D-Bus type signature
     and must be explicitly declared.'
   class: group
   group: property
@@ -48,7 +48,7 @@
 - name: example property watch
   description: >
     'A property watch instructs PDM to maintain a cache of the state
-    of the specified properties on the specified DBus objects.
+    of the specified properties on the specified D-Bus objects.
 
     An optional callback can be triggered when property values change.'
   class: watch
@@ -80,7 +80,7 @@
 
 - name: example method callback
   description: >
-    'The method callback invokes the specified DBus method.'
+    'The method callback invokes the specified D-Bus method.'
   class: callback
   callback: method
   service: org.freedesktop.systemd1
@@ -117,7 +117,7 @@
     the callback function.
 
     All conditional callbacks must specify the callback to issue if
-    the condition evaulates.
+    the condition evaluates.
 
     The count condition applies the op comparison operator to the value of each
     property in the specified groups.  It then counts the number of properties
