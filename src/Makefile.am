@@ -7,13 +7,16 @@ sbin_PROGRAMS = phosphor-dbus-monitor
 
 phosphor_dbus_monitor_SOURCES = \
 	journal.cpp \
+	elog.cpp \
 	main.cpp \
 	propertywatch.cpp
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
+	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS)
 phosphor_dbus_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
+	$(PHOSPHOR_DBUS_INTERFACES_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS)
 
 BUILT_SOURCES = generated.hpp
@@ -25,6 +28,7 @@ TEMPLATES = \
 	templates/count.mako.cpp \
 	templates/generated.mako.hpp \
 	templates/journal.mako.cpp \
+	templates/elog.mako.cpp \
 	templates/method.mako.cpp
 
 generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
