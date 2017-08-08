@@ -29,6 +29,7 @@ TEMPLATES = \
 	templates/generated.mako.hpp \
 	templates/journal.mako.cpp \
 	templates/elog.mako.cpp \
+	templates/errors.mako.hpp \
 	templates/method.mako.cpp
 
 generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
