@@ -25,4 +25,5 @@ missing
 stamp-h1
 phosphor-dbus-monitor
 generated.hpp
+errors.hpp
 test-driver

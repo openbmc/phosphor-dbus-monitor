@@ -8,6 +8,8 @@
 #include "count.hpp"
 #include "data_types.hpp"
 #include "journal.hpp"
+#include "elog.hpp"
+#include "errors.hpp"
 #include "method.hpp"
 #include "propertywatchimpl.hpp"
 #include "sdbusplus.hpp"
