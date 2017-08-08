@@ -660,6 +660,28 @@ class Journal(Callback, Renderer):
             indent=indent)
 
 
+class Elog(Callback, Renderer):
+    '''Handle the elog callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.error = kw.pop('error')
+        super(Elog, self).__init__(**kw)
+
+    def construct(self, loader, indent):
+
+        with open('errors.hpp', 'a') as fd:
+            fd.write(
+                self.render(
+                    loader,
+                    'errors.mako.hpp',
+                    c=self))
+        return self.render(
+            loader,
+            'elog.mako.cpp',
+            c=self,
+            indent=indent)
+
+
 class Method(ConfigEntry, Renderer):
     '''Handle the method callback config file directive.'''
 
@@ -827,6 +849,7 @@ class Everything(Renderer):
             },
             'callback': {
                 'journal': Journal,
+                'elog': Elog,
                 'group': GroupOfCallbacks,
                 'method': Method,
             },
@@ -930,6 +953,9 @@ class Everything(Renderer):
 
     def generate_cpp(self, loader):
         '''Render the template with the provided data.'''
+        # errors.hpp is used to included any error.hpp files
+        open('errors.hpp', 'w+')
+
         with open(args.output, 'w') as fd:
             fd.write(
                 self.render(
