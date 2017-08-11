@@ -176,6 +176,23 @@ class TrivialArgument(Argument):
 
         return a
 
+class Metadata(Argument):
+    '''Metadata type arguments.'''
+
+    def __init__(self, **kw):
+        self.value = kw.pop('value')
+        self.decorators = kw.pop('decorators', [])
+        if kw.get('type', None) == 'string':
+            self.decorators.insert(0, Quote())
+
+        super(Metadata, self).__init__(**kw)
+
+    def argument(self, loader, indent):
+        a = str(self.value)
+        for d in self.decorators:
+            a = d(a)
+
+        return a
 
 class Indent(object):
     '''Help templates be depth agnostic.'''
@@ -665,10 +682,10 @@ class Elog(Callback, Renderer):
 
     def __init__(self, *a, **kw):
         self.error = kw.pop('error')
+        self.metadata = [Metadata(**x) for x in kw.pop('metadata', {})]
         super(Elog, self).__init__(**kw)
 
     def construct(self, loader, indent):
-
         with open('errors.hpp', 'a') as fd:
             fd.write(
                 self.render(
