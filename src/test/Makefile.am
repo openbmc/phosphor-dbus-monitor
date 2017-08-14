@@ -185,9 +185,15 @@ callbacktest_SOURCES = \
 	callbacktest.cpp
 callbacktest_CXXFLAGS = \
 	$(gtest_cflags)
+	$(SDBUSPLUS_CFLAGS) \
+	$(PHOSPHOR_DBUS_INTERFACES_CFLAGS) \
+	$(PHOSPHOR_LOGGING_CFLAGS)
 callbacktest_LDFLAGS = \
 	$(OESDK_TESTCASE_FLAGS)
 callbacktest_LDADD = \
 	${gtest_ldadd} \
 	${SDBUSPLUS_LIBS} \
-	$(builddir)/../journal.o
+	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
+	$(PHOSPHOR_LOGGING_LIBS) \
+	$(builddir)/../journal.o \
+	$(builddir)/../elog.o
