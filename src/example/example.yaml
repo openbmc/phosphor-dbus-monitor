@@ -78,6 +78,27 @@
   severity: INFO
   message: Hello world from PDM!
 
+- name: example elog callback
+  description: >
+    'Callbacks are actions PDM should take when instructed to do so.
+
+    Some callback types refer to a group of paths and group of properties
+    in a similar fashion as the property watch directive.
+
+    The elog callback logs the elog and elog metadata.'
+  class: callback
+  callback: elog
+  paths: example path group
+  properties: example property group
+  error: xyz::openbmc_project::Common::Error::InvalidArgument
+  metadata:
+    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_NAME
+      value: testing...
+      type: string
+    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_VALUE
+      value: testing...
+      type: string
+
 - name: example method callback
   description: >
     'The method callback invokes the specified D-Bus method.'
@@ -110,6 +131,7 @@
   members:
     - example journal callback
     - example deferred condition
+    - example elog callback
 
 - name: example count condition
   description: >
