@@ -223,6 +223,54 @@
   severity: INFO
   message: Testing...
 
+- name: test string elog
+  class: callback
+  callback: elog
+  paths: test path group
+  properties: test string property group
+  error: xyz::openbmc_project::Common::Error::InvalidArgument
+  metadata:
+    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_NAME
+      value: testing...
+      type: string
+    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_VALUE
+      value: testing...
+      type: string
+
+- name: test int32 elog
+  class: callback
+  callback: elog
+  paths: test path group
+  properties: test string property group
+  error: xyz::openbmc_project::Common::Callout::Error::Device
+  metadata:
+    - name: xyz::openbmc_project::Common::Callout::Device::CALLOUT_ERRNO
+      value: 123
+      type: int32
+    - name: xyz::openbmc_project::Common::Callout::Device::CALLOUT_DEVICE_PATH
+      value: testing...
+      type: string
+
+- name: test int64 elog
+  class: callback
+  callback: elog
+  paths: test path group
+  properties: test string property group
+  error: xyz::openbmc_project::Common::File::Error::Seek
+  metadata:
+    - name: xyz::openbmc_project::Common::File::Seek::OFFSET
+      value: 123
+      type: int64
+    - name: xyz::openbmc_project::Common::File::Seek::WHENCE
+      value: 123
+      type: int32
+    - name: xyz::openbmc_project::Common::File::Seek::ERRNO
+      value: 123
+      type: int32
+    - name: xyz::openbmc_project::Common::File::Seek::PATH
+      value: testing...
+      type: string
+
 - name: test method
   class: callback
   callback: method
