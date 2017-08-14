@@ -190,4 +190,5 @@ callbacktest_LDFLAGS = \
 callbacktest_LDADD = \
 	${gtest_ldadd} \
 	${SDBUSPLUS_LIBS} \
-	$(builddir)/../journal.o
+	$(builddir)/../journal.o \
+	$(builddir)/../elog.o
