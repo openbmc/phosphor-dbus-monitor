@@ -58,6 +58,27 @@
   severity: INFO
   message: Hello world from PDM!
 
+- name: test elog callback 1
+  class: callback
+  callback: elog
+  paths: test path group 2
+  properties: test property group 2
+  error: xyz::openbmc_project::Common::Error::InvalidArgument
+  metadata:
+    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_NAME
+      value: testing...
+      type: string
+    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_VALUE
+      value: testing...
+      type: string
+
+- name: test elog callback 2
+  class: callback
+  callback: elog
+  paths: test path group 2
+  properties: test property group 2
+  error: xyz::openbmc_project::Common::Error::InternalFailure
+
 - name: test group callback 1
   class: callback
   callback: group
@@ -65,6 +86,7 @@
     - test journal callback 1
     - test journal callback 2
     - test journal callback 3
+    - test elog callback 1
 
 - name: test group callback 2
   class: callback
@@ -72,6 +94,7 @@
   members:
     - test journal callback 1
     - test journal callback 2
+    - test elog callback 2
 
 - name: test group callback 3
   class: callback
