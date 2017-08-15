@@ -271,6 +271,13 @@
       value: testing...
       type: string
 
+- name: test no metadata elog
+  class: callback
+  callback: elog
+  paths: test path group
+  properties: test string property group
+  error: xyz::openbmc_project::Common::Error::InternalFailure
+
 - name: test method
   class: callback
   callback: method

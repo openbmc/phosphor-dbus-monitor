@@ -8,10 +8,10 @@ using namespace phosphor::dbus::monitoring;
 #include "callbackgroupgentest.hpp"
 
 const std::array<std::vector<size_t>, 4> expectedGroups = {{
-        {0, 1, 2},
-        {0, 1},
-        {2, 4, 5},
-        {5},
+        {0, 1, 2, 3},
+        {0, 1, 4},
+        {2, 6, 7},
+        {7},
     }
 };
 
