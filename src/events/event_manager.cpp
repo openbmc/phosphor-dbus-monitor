@@ -13,39 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "sdbusplus.hpp"
-#include "generated.hpp"
+#include "event.hpp"
 #include "event_manager.hpp"
+#include "config.h"
 
-using namespace phosphor::dbus::monitoring;
-
-std::unique_ptr<phosphor::events::Manager> manager = nullptr;
-
-struct Loop
+namespace phosphor
 {
-    /** @brief indefinitely process dbus traffic. */
-    static void run()
-    {
-        auto& bus = SDBusPlus::getBus();
-        auto& event = SDEvent::getEvent();
-        event.attach(bus);
-        event.loop();
-    }
-};
-
-int main(void)
+namespace events
 {
-    for (auto& watch : ConfigPropertyWatches::get())
-    {
-        watch->start();
-    }
 
-    for (auto& watch : ConfigPropertyWatches::get())
-    {
-        watch->callback();
-    }
-
-    Loop::run();
-
-    return -1;
+void Manager::create(std::string& eventName,
+                     std::string& objectPath,
+                     std::string& propertyName,
+                     std::string& propertyvalue)
+{
+    // TODO Implement it in later commit.
 }
+
+} // namespace events
+} // namespace phosphor
