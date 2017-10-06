@@ -23,11 +23,47 @@ namespace events
 {
 
 void Manager::create(const std::string& eventName,
+                     const std::string& eventMessage,
                      const std::string& objectPath,
                      const std::string& propertyName,
-                     const std::string& propertyvalue)
+                     const std::string& propertyValue)
 {
-    // TODO Implement it in later commit.
+    using namespace std::string_literals;
+    std::string msg = eventMessage;
+    EventQueue events;
+    std::vector<std::string> additionalData;
+
+    std::string propVal = propertyName + "=" + propertyValue;
+    std::string path = "path="s + objectPath;
+
+    additionalData.push_back(std::move(path));
+    additionalData.push_back(std::move(propVal));
+
+    auto it = eventMap.find(eventName);
+    if (it != eventMap.end())
+    {
+        events = std::move(it->second);
+    }
+
+    // get the last event entry for this event
+    // to generate the id.
+    auto id = (events.size() > 0) ? (events.back()->id() + 1) : 0;
+
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                  std::chrono::system_clock::now().time_since_epoch()).count();
+
+    auto objPath =  std::string(OBJ_EVENT) + '/' + eventName + '/' +
+                    std::to_string(id);
+
+    events.emplace(std::make_unique<Entry>(
+                       dBus,
+                       objPath,
+                       id,
+                       ms, // Milliseconds since 1970
+                       std::move(msg),
+                       std::move(additionalData)));
+
+    eventMap[eventName] = std::move(events);
 }
 
 } // namespace events

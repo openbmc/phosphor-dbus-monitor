@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 #include "event.hpp"
+#include "event_manager.hpp"
+
+extern std::unique_ptr<phosphor::events::Manager> manager;
 
 namespace phosphor
 {
@@ -45,7 +48,12 @@ void Event::createEvent(
         const std::string& property,
         const any_ns::any& value) const
 {
-    //TODO will implment later
+    auto val = any_ns::any_cast<std::string>(value);
+
+    if (manager)
+    {
+        manager->create(name, message, path, property, val);
+    }
 }
 
 
