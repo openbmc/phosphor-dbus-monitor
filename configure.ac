@@ -66,5 +66,9 @@ AC_DEFINE_UNQUOTED([BUSNAME_EVENT], ["$BUSNAME_EVENT"], [The D-Bus busname to ow
 AC_ARG_VAR(YAML_PATH, [The path to the yaml config files.])
 AS_IF([test "x$YAML_PATH" == "x"], [YAML_PATH="\${top_srcdir}/src/example"])
 
+AC_ARG_VAR(MAX_EVENTS, [Maximum number of events.])
+AS_IF([test "x$MAX_EVENTS" == "x"], [MAX_EVENTS=20])
+AC_DEFINE_UNQUOTED([MAX_EVENTS], [$MAX_EVENTS], [Maximum number of events.])
+
 AC_CONFIG_FILES([Makefile src/Makefile src/test/Makefile mslverify/Makefile])
 AC_OUTPUT
