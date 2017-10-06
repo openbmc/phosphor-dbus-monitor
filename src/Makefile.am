@@ -44,4 +44,4 @@ generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 		-o ${builddir}/$@ \
 		generate-cpp
 
-SUBDIRS = . test
+SUBDIRS = . test events

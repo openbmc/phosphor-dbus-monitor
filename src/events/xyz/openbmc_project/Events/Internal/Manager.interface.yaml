@@ -1,0 +1,24 @@
+description: >
+    Implement to provide event logging management features.
+methods:
+    - name: Create
+      description: >
+          Create the requested event.
+      parameters:
+        - name : eventType
+          type: string
+          description: >
+              Type of event.
+        - name: objectPath
+          type: string
+          description: >
+              Path of Dbus object.
+        - name: PropertyName
+          type: string
+          description: >
+              Name of the Dbus property.
+        - name: PropertyValue
+          type: string
+          description: >
+              Value of the Dbus property.
+
