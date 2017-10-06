@@ -21,6 +21,11 @@ PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus],, AC_MSG_ERROR(["Requires sdbusplus p
 PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces],, AC_MSG_ERROR(["Requires phosphor-dbus-interfaces package."]))
 PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging],, AC_MSG_ERROR(["Requires phosphor-logging."]))
 
+# Check for sdbus++
+AC_PATH_PROG([SDBUSPLUSPLUS], [sdbus++])
+AS_IF([test "x$SDBUSPLUSPLUS" == "x"],
+    AC_MSG_ERROR(["Requires sdbus++"]))
+
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_14([noext])
 AX_APPEND_COMPILE_FLAGS([-fpic -Wall -Werror], [CXXFLAGS])
@@ -49,6 +54,14 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
     ]
     AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
 )
+
+AC_ARG_VAR(OBJ_EVENT, [The event manager D-Bus object path])
+AS_IF([test "x$OBJ_EVENT" == "x"], [OBJ_EVENT="/xyz/openbmc_project/events"])
+AC_DEFINE_UNQUOTED([OBJ_EVENT], ["$OBJ_EVENT"], [The event manager D-Bus object path])
+
+AC_ARG_VAR(BUSNAME_EVENT, [The D-Bus busname to own])
+AS_IF([test "x$BUSNAME_EVENT" == "x"], [BUSNAME_EVENT="xyz.openbmc_project.Events"])
+AC_DEFINE_UNQUOTED([BUSNAME_EVENT], ["$BUSNAME_EVENT"], [The D-Bus busname to own])
 
 AC_ARG_VAR(YAML_PATH, [The path to the yaml config files.])
 AS_IF([test "x$YAML_PATH" == "x"], [YAML_PATH="\${top_srcdir}/src/example"])
