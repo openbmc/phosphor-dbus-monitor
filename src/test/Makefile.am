@@ -187,7 +187,8 @@ callbacktest_CXXFLAGS = \
 	$(gtest_cflags)
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_DBUS_INTERFACES_CFLAGS) \
-	$(PHOSPHOR_LOGGING_CFLAGS)
+	$(PHOSPHOR_LOGGING_CFLAGS) \
+	-Ievents
 callbacktest_LDFLAGS = \
 	$(OESDK_TESTCASE_FLAGS)
 callbacktest_LDADD = \
@@ -196,4 +197,5 @@ callbacktest_LDADD = \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	$(builddir)/../journal.o \
-	$(builddir)/../elog.o
+	$(builddir)/../elog.o \
+	$(builddir)/../event.o

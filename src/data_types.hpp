@@ -13,6 +13,10 @@ namespace dbus
 namespace monitoring
 {
 
+const auto pathIndex = 0;
+const auto propertyIndex = 2;
+const auto valueIndex = 2;
+
 /** @brief A map with references as keys. */
 template <typename Key, typename Value>
 using RefKeyMap = std::map<std::reference_wrapper<Key>, Value, std::less<Key>>;
