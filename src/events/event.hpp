@@ -80,6 +80,13 @@ class Event : public EventBase
             const std::string& property,
             const any_ns::any& value) const override;
 
+        /** @brief Convert the any type value into string format.
+         *         currently supports string and bool.
+         *  @param[in] value - value can be any of type(string/bool/etc).
+         *  @return converted string.
+         */
+        std::string convertToStr(const any_ns::any& value) const;
+
         /** @brief Event Name */
         std::string name;
 
