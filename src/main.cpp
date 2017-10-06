@@ -13,8 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "sdbusplus.hpp"
+
+#include "config.h"
 #include "generated.hpp"
+#include "sdbusplus.hpp"
+
+#include <sdbusplus/bus.hpp>
+#include <sdbusplus/server/manager.hpp>
 
 using namespace phosphor::dbus::monitoring;
 
@@ -32,14 +37,15 @@ struct Loop
 
 int main(void)
 {
-    for (auto& watch : ConfigPropertyWatches::get())
-    {
-        watch->start();
-    }
+    auto& bus = SDBusPlus::getBus();
+
+    // Add sdbusplus Object Manager for the 'root' path of events.
+    sdbusplus::server::manager::manager objManager(bus, OBJ_EVENT);
+    bus.request_name(BUSNAME_EVENT);
 
     for (auto& watch : ConfigPropertyWatches::get())
     {
-        watch->callback();
+        watch->start();
     }
 
     Loop::run();
