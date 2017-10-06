@@ -3,6 +3,8 @@
 #include "callback.hpp"
 #include "data_types.hpp"
 
+#include <algorithm>
+
 namespace phosphor
 {
 namespace dbus
