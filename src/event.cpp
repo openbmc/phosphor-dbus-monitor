@@ -66,8 +66,9 @@ std::string Event::convertToStr(const any_ns::any& value) const
     {
         str = (any_ns::any_cast<bool>(value)) ? "true" : "false";
     }
+
     // Need to add the support for other type if needed.
-     return str;
+    return str;
 }
 
 } // namespace monitoring
