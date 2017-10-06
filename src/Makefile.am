@@ -30,7 +30,8 @@ TEMPLATES = \
 	templates/journal.mako.cpp \
 	templates/elog.mako.cpp \
 	templates/errors.mako.hpp \
-	templates/method.mako.cpp
+	templates/method.mako.cpp \
+	templates/event.mako.cpp
 
 generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 	$(AM_V_GEN)$(PYTHON) ${PDMGEN} \
