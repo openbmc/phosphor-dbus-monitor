@@ -10,7 +10,8 @@ phosphor_dbus_monitor_SOURCES = \
 	elog.cpp \
 	main.cpp \
 	propertywatch.cpp \
-	events/event.cpp
+	events/event.cpp \
+	events/event_manager.cpp
 
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
@@ -44,4 +45,4 @@ generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 		-o ${builddir}/$@ \
 		generate-cpp
 
-SUBDIRS = . test
+SUBDIRS = . test events
