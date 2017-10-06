@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 #include "event.hpp"
+#include "event_manager.hpp"
+
+extern std::unique_ptr<phosphor::events::Manager> manager;
 
 namespace phosphor
 {
@@ -45,9 +48,27 @@ void Event::createEvent(
         const std::string& property,
         const any_ns::any& value) const
 {
-    //TODO will implment later
+    auto val = convertToStr(value);
+    if (manager)
+    {
+        manager->create(name, message, path, property, val);
+    }
 }
 
+std::string Event::convertToStr(const any_ns::any& value) const
+{
+    std::string str {};
+    if (value.type() == typeid(std::string))
+    {
+        str = any_ns::any_cast<std::string>(value);
+    }
+    else if (value.type() == typeid(bool))
+    {
+        str = (any_ns::any_cast<bool>(value)) ? "true" : "false";
+    }
+    // Need to add the support for other type if needed.
+     return str;
+}
 
 } // namespace monitoring
 } // namespace dbus
