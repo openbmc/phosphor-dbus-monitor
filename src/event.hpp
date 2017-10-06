@@ -2,6 +2,7 @@
 
 #include <phosphor-logging/log.hpp>
 #include "callback.hpp"
+#include "event_manager.hpp"
 
 namespace phosphor
 {
@@ -74,7 +75,32 @@ class Event : public IndexedCallback
         void createEvent(
             const std::string& path,
             const std::string& property,
-            const any_ns::any& value) const {}
+            const any_ns::any& value) const
+        {
+            auto val = convertToStr(any_ns::any_cast<T>(value));
+            phosphor::events::getManager().create(
+                name, message, path, property, val);
+        }
+
+        /** @brief helper function converts the given value in string.
+         *  @param[in] value
+         *  @return converted string.
+         */
+        std::string convertToStr(std::string& value) const
+        {
+            return value;
+        }
+
+        /** @brief helper function converts the given value in string.
+         *  @param[in] value
+         *  @return converted string.
+         */
+        std::string convertToStr(bool value) const
+        {
+            using namespace std::string_literals;
+            auto str = (any_ns::any_cast<T>(value)) ? "true"s : "false"s;
+            return str;
+        }
 
         /** @brief Event Name */
         std::string name;
