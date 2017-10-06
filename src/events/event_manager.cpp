@@ -55,6 +55,13 @@ void Manager::create(const std::string& eventName,
     auto objPath =  std::string(OBJ_EVENT) + '/' + eventName + '/' +
                     std::to_string(id);
 
+    // check for capping of the events,if cap reached then erase the oldest
+    // event.
+    if (events.size() == MAX_EVENTS)
+    {
+        events.pop();
+    }
+
     events.emplace(std::make_unique<Entry>(
                        dBus,
                        objPath,
