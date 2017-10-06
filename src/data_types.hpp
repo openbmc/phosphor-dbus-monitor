@@ -16,6 +16,10 @@ namespace monitoring
 constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
 constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
 constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
+constexpr auto pathIndex = 0;
+constexpr auto propertyIndex = 2;
+constexpr auto valueIndex = 2;
+constexpr auto metaIndex = 1;
 
 /** @brief A map with references as keys. */
 template <typename Key, typename Value>

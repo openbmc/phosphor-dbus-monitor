@@ -14,6 +14,7 @@
 #include "propertywatchimpl.hpp"
 #include "resolve_errors.hpp"
 #include "sdbusplus.hpp"
+#include "event.hpp"
 #include "sdevent.hpp"
 
 using namespace std::string_literals;

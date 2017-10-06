@@ -32,7 +32,8 @@ TEMPLATES = \
 	templates/elog.mako.cpp \
 	templates/errors.mako.hpp \
 	templates/method.mako.cpp \
-	templates/resolve_errors.mako.cpp
+	templates/resolve_errors.mako.cpp \
+	templates/event.mako.cpp
 
 generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 	$(AM_V_GEN)$(PYTHON) ${PDMGEN} \
