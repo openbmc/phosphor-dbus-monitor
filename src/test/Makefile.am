@@ -1,6 +1,6 @@
 include $(top_srcdir)/vars.mk
 
-AM_CPPFLAGS = -iquote$(top_srcdir)/src
+AM_CPPFLAGS = -iquote$(top_srcdir)/src -iquote$(top_srcdir)/src/events
 gtest_cflags = $(PTHREAD_CFLAGS)
 gtest_ldadd = -lgtest -lgtest_main -lgmock $(PTHREAD_LIBS)
 
@@ -196,4 +196,5 @@ callbacktest_LDADD = \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	$(builddir)/../journal.o \
-	$(builddir)/../elog.o
+	$(builddir)/../elog.o \
+	$(builddir)/../events/event.o

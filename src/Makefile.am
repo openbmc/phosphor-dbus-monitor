@@ -9,7 +9,9 @@ phosphor_dbus_monitor_SOURCES = \
 	journal.cpp \
 	elog.cpp \
 	main.cpp \
-	propertywatch.cpp
+	propertywatch.cpp \
+	events/event.cpp
+
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
@@ -17,7 +19,8 @@ phosphor_dbus_monitor_LDADD = \
 phosphor_dbus_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_DBUS_INTERFACES_CFLAGS) \
-	$(PHOSPHOR_LOGGING_CFLAGS)
+	$(PHOSPHOR_LOGGING_CFLAGS) \
+	-Ievents
 
 BUILT_SOURCES = generated.hpp
 CLEANFILES = generated.hpp
@@ -30,7 +33,8 @@ TEMPLATES = \
 	templates/journal.mako.cpp \
 	templates/elog.mako.cpp \
 	templates/errors.mako.hpp \
-	templates/method.mako.cpp
+	templates/method.mako.cpp \
+	templates/event.mako.cpp
 
 generated.hpp: $(PDMGEN) $(YAML_PATH) $(TEMPLATES)
 	$(AM_V_GEN)$(PYTHON) ${PDMGEN} \

@@ -698,6 +698,20 @@ class Elog(Callback, Renderer):
             c=self,
             indent=indent)
 
+class Event(Callback, Renderer):
+    '''Handle the event callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.eventName = kw.pop('eventName')
+        self.eventMessage = kw.pop('eventMessage')
+        super(Event, self).__init__(**kw)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'event.mako.cpp',
+            c=self,
+            indent=indent)
 
 class Method(ConfigEntry, Renderer):
     '''Handle the method callback config file directive.'''
@@ -867,6 +881,7 @@ class Everything(Renderer):
             'callback': {
                 'journal': Journal,
                 'elog': Elog,
+                'event': Event,
                 'group': GroupOfCallbacks,
                 'method': Method,
             },
