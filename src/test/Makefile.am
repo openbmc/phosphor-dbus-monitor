@@ -197,4 +197,5 @@ callbacktest_LDADD = \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	$(builddir)/../journal.o \
 	$(builddir)/../elog.o \
-	$(builddir)/../events/event.o
+	$(builddir)/../event.o \
+	$(builddir)/../event_manager.o
