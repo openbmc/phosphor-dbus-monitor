@@ -1,7 +1,11 @@
 #pragma once
 
+#include "event_entry.hpp"
 #include "xyz/openbmc_project/Events/Internal/Manager/server.hpp"
 
+#include <map>
+#include <memory>
+#include <queue>
 #include <sdbusplus/bus.hpp>
 
 namespace phosphor
@@ -65,6 +69,14 @@ class Manager : public details::ServerObject<details::ManagerIface>
 
         /** @brief Path of Object. */
         std::string objectPath;
+
+        /** @brief Queue of events */
+        using EventQueue = std::queue<std::unique_ptr<Entry>>;
+
+        using EventTypeMap = std::map<std::string, EventQueue>;
+
+        /** @brief Map of event type and the list of events **/
+        EventTypeMap eventTypeMap;
 };
 
 } // namespace events
