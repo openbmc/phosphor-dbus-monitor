@@ -2,6 +2,9 @@
 
 #include <phosphor-logging/log.hpp>
 #include "callback.hpp"
+#include "event_manager.hpp"
+
+#include <sstream>
 
 namespace phosphor
 {
@@ -113,7 +116,13 @@ class Event : public EventBase
         void createEvent(
             const std::string& path,
             const std::string& property,
-            const any_ns::any& value) const override {}
+            const any_ns::any& value) const override
+        {
+            std::stringstream ss {};
+            ss << any_ns::any_cast<T>(value);
+            phosphor::events::getManager().create(
+                name, message, path, property, ss.str());
+        }
 
         /** @brief Event Name */
         std::string name;
