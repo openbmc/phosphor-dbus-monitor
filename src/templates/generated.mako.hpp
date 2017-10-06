@@ -13,6 +13,7 @@
 #include "method.hpp"
 #include "propertywatchimpl.hpp"
 #include "sdbusplus.hpp"
+#include "event.hpp"
 #include "sdevent.hpp"
 
 using namespace std::string_literals;

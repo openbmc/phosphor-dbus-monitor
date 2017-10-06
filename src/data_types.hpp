@@ -13,6 +13,11 @@ namespace dbus
 namespace monitoring
 {
 
+constexpr auto pathIndex = 0;
+constexpr auto propertyIndex = 2;
+constexpr auto valueIndex = 2;
+constexpr auto metaIndex = 1;
+
 /** @brief A map with references as keys. */
 template <typename Key, typename Value>
 using RefKeyMap = std::map<std::reference_wrapper<Key>, Value, std::less<Key>>;
