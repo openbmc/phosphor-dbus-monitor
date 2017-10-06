@@ -1,0 +1,69 @@
+- name:  path group
+  class: group
+  group: path
+  members:
+    - meta: PATH
+      path: /xyz/openbmc_project/network/config
+
+    - meta: PATH
+      path: /xyz/openbmc_project/state/bmc0
+
+- name:  hostname property
+  class: group
+  group: property
+  type:  string
+  members:
+    - interface: xyz.openbmc_project.Network.SystemConfiguration
+      meta: PROPERTY
+      property: HostName
+
+- name:  bmc state property
+  class: group
+  group: property
+  type:  string
+  members:
+    - interface: xyz.openbmc_project.State.BMC
+      meta: PROPERTY
+      property: CurrentBMCState
+
+- name: watch hostname
+  class: watch
+  watch: property
+  paths: path group
+  properties: hostname property
+  callback: create hostname event
+
+- name: watch bmc state
+  class: watch
+  watch: property
+  paths: path group
+  properties: bmc state property
+  callback: check bmc state
+
+- name: check bmc state
+  class: condition
+  condition: count
+  paths: path group
+  properties: bmc state property
+  defer: 1000us
+  callback: create state event
+  countop: '=='
+  countbound: 1
+  op: '=='
+  bound: 'xyz.openbmc_project.State.BMC.BMCState.Ready'
+
+- name: create hostname event
+  class: callback
+  callback: event
+  paths: path group
+  properties: hostname property
+  eventName: network
+  eventMessage: "HostName Changed."
+
+- name: create state event
+  class: callback
+  callback: event
+  paths: path group
+  properties: bmc state property
+  eventName: state
+  eventMessage: "BMC State Changed."
