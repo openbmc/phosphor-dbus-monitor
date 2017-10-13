@@ -99,6 +99,22 @@
       value: testing...
       type: string
 
+- name: example event callback
+  description: >
+    'Callbacks are actions PDM should take when instructed to do so.
+
+    Some callback types refer to a group of paths and group of properties
+    in a similar fashion as the property watch directive.
+
+    The event callback creates the event D-Bus object with the given name
+    and the event message.
+  class: callback
+  callback: event
+  paths: example path group
+  properties: example property group
+  eventName: test
+  eventMessage: "Test configuration changed."
+
 - name: example method callback
   description: >
     'The method callback invokes the specified D-Bus method.'
