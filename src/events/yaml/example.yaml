@@ -1,69 +1,78 @@
-- name:  path group
+- name:  occpath group
   class: group
   group: path
   members:
     - meta: PATH
-      path: /xyz/openbmc_project/network/config
+      path: /org/open_power/control/occ0
 
-    - meta: PATH
-      path: /xyz/openbmc_project/state/bmc0
-
-- name:  hostname property
+- name:  occproctemp property
   class: group
   group: property
-  type:  string
+  type:  boolean
   members:
-    - interface: xyz.openbmc_project.Network.SystemConfiguration
+    - interface: org.open_power.OCC.Status
       meta: PROPERTY
-      property: HostName
+      property: ThrottleProcTemp
 
-- name:  bmc state property
+- name:  occmemtemp property
   class: group
   group: property
-  type:  string
+  type:  boolean
   members:
-    - interface: xyz.openbmc_project.State.BMC
+    - interface: org.open_power.OCC.Status
       meta: PROPERTY
-      property: CurrentBMCState
+      property: ThrottleMemTemp
 
-- name: watch hostname
+- name: watch occproctemp
   class: watch
   watch: property
-  paths: path group
-  properties: hostname property
-  callback: create hostname event
+  paths: occpath group
+  properties: occproctemp property
+  callback: check occproctemp
 
-- name: watch bmc state
+- name: watch occmemtemp
   class: watch
   watch: property
-  paths: path group
-  properties: bmc state property
-  callback: check bmc state
+  paths: occpath group
+  properties: occmemtemp property
+  callback: check occmemtemp
 
-- name: check bmc state
+- name: check occproctemp
   class: condition
   condition: count
-  paths: path group
-  properties: bmc state property
+  paths: occpath group
+  properties: occproctemp property
   defer: 1000us
-  callback: create state event
+  callback: create occproctemp event
   countop: '=='
   countbound: 1
   op: '=='
-  bound: 'xyz.openbmc_project.State.BMC.BMCState.Ready'
+  bound: true
 
-- name: create hostname event
+- name: check occmemtemp
+  class: condition
+  condition: count
+  paths: occpath group
+  properties: occmemtemp property
+  defer: 1000us
+  callback: create occmemtemp event
+  countop: '=='
+  countbound: 1
+  op: '=='
+  bound: true
+
+- name: create occproctemp event
   class: callback
   callback: event
-  paths: path group
-  properties: hostname property
-  eventName: network
-  eventMessage: "HostName Changed."
+  paths: occpath group
+  properties: occproctemp property
+  eventName: occ
+  eventMessage: "Processor throttled due to an over temperature condition."
 
-- name: create state event
+- name: create occmemtemp event
   class: callback
   callback: event
-  paths: path group
-  properties: bmc state property
-  eventName: state
-  eventMessage: "BMC State Changed."
+  paths: occpath group
+  properties: occmemtemp property
+  eventName: occ
+  eventMessage: "Memory throttled due to an over temperature condition."
