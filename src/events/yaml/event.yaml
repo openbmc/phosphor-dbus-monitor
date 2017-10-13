@@ -1,0 +1,51 @@
+- name:  occpath group
+  class: group
+  group: path
+  members:
+    - meta: PATH
+      path: /org/open_power/control/occ0
+
+- name:  occ property group
+  class: group
+  group: property
+  type:  boolean
+  members:
+    - interface: org.open_power.OCC.Status
+      meta: PROPERTY
+      property: OccActive
+    - interface: org.open_power.OCC.Status
+      meta: PROPERTY
+      property: ThrottleProcTem
+    - interface: org.open_power.OCC.Status
+      meta: PROPERTY
+      property: ThrottleProcPower
+    - interface: org.open_power.OCC.Status
+      meta: PROPERTY
+      property: ThrottleMemTemp
+
+- name: watch occ
+  class: watch
+  watch: property
+  paths: occpath group
+  properties: occ property group
+  callback: check occ
+
+- name: check occ
+  class: condition
+  condition: count
+  paths: occpath group
+  properties: occ property group
+  defer: 1000us
+  callback: create occevent
+  countop: '>='
+  countbound: 1
+  op: '=='
+  bound: true
+
+- name: create occevent
+  class: callback
+  callback: event
+  paths: occpath group
+  properties: occ property group
+  eventName: occ
+  eventMessage: "occ state has been changed."
