@@ -9,9 +9,11 @@ phosphor_event_manager_SOURCES = \
 	main.cpp \
 	../propertywatch.cpp \
 	event.cpp \
-	event_manager.cpp
+	event_manager.cpp \
+        event_serialize.cpp
 
 phosphor_event_manager_LDADD = \
+        -lstdc++fs \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \

@@ -11,12 +11,14 @@ phosphor_dbus_monitor_SOURCES = \
 	main.cpp \
 	propertywatch.cpp \
 	events/event.cpp \
-	events/event_manager.cpp
+	events/event_manager.cpp \
+	events/event_serialize.cpp
 
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
-	$(PHOSPHOR_LOGGING_LIBS)
+	$(PHOSPHOR_LOGGING_LIBS) \
+        -lstdc++fs
 phosphor_dbus_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_DBUS_INTERFACES_CFLAGS) \
