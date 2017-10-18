@@ -17,6 +17,7 @@
 #include "config.h"
 #include "event.hpp"
 #include "event_manager.hpp"
+#include "event_serialize.hpp"
 
 #include <experimental/filesystem>
 
@@ -66,14 +67,66 @@ void Manager::create(const std::string& eventName,
     // event.
     if (eventQueue.size() == MAX_EVENTS)
     {
+        fs::path eventPath(EVENTS_PERSIST_PATH);
+        eventPath /= eventName;
+        eventPath /= std::to_string(eventQueue.front()->timestamp());
         eventQueue.pop();
+        std::error_code ec;
+        fs::remove(eventPath, ec);
     }
 
-    eventQueue.emplace(std::make_unique<Entry>(objPath,
-                                               ms, // Milliseconds since 1970
-                                               std::move(msg),
-                                               std::move(additionalData)));
+    auto event = std::make_unique<Entry>(objPath,
+                                         ms, // Milliseconds since 1970
+                                         std::move(msg),
+                                          std::move(additionalData));
+    serialize(*event, eventName);
+    eventQueue.push(std::move(event));
 }
+
+void Manager::restore()
+{
+    if (!fs::exists(EVENTS_PERSIST_PATH) || fs::is_empty(EVENTS_PERSIST_PATH))
+    {
+        return;
+    }
+
+    for (auto& eventFile: fs::recursive_directory_iterator(EVENTS_PERSIST_PATH))
+    {
+        if (!fs::is_regular_file(eventFile))
+        {
+            continue;
+        }
+
+        EventQueue events;
+
+        auto eventPath = eventFile.path().string();
+        auto pos1 = eventPath.rfind("/");
+        auto pos2 = eventPath.rfind("/",pos1-1) +1;
+        auto eventName = eventPath.substr(pos2,(pos1-pos2));
+        auto validEvent = false;
+        auto timestamp = eventFile.path().filename().string();
+        auto tsNum = std::stoll(timestamp);
+        auto objPath = std::string(OBJ_EVENT) + '/' + eventName + '/' +
+                       timestamp;
+
+        auto event = std::make_unique<Entry>(
+                       objPath,
+                       tsNum);
+        if (deserialize(eventFile.path(), *event))
+        {
+                event->emit_object_added();
+                events.push(std::move(event));
+                validEvent = true;
+        }
+
+        if (validEvent)
+        {
+            eventMap[eventName] = std::move(events);
+        }
+
+    }
+}
+
 
 Manager& getManager()
 {
