@@ -27,6 +27,20 @@ class Entry : public EntryIface
         Entry& operator=(Entry&&) = delete;
         virtual ~Entry() = default;
 
+        /** @brief Constructor to create an empty event object with only id,
+         *  caller should make a call to emit added signal.
+         *  @param[in] bus - Bus to attach to.
+         *  @param[in] path - Path to attach at.
+         *  @param[in] eventId - The event entry id.
+         */
+        Entry(sdbusplus::bus::bus& bus,
+              const std::string& path,
+              uint32_t eventId):
+                    EntryIface(bus, path.c_str(), true)
+        {
+            id(eventId);
+        };
+
         /** @brief Constructor to put object onto bus at a dbus path.
          *  @param[in] bus - Bus to attach to.
          *  @param[in] path - Path to attach at.

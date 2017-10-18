@@ -21,6 +21,7 @@
 
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server/manager.hpp>
+#include <experimental/filesystem>
 
 using namespace phosphor::dbus::monitoring;
 std::unique_ptr<phosphor::events::Manager> manager = nullptr;
@@ -50,6 +51,11 @@ int main(void)
     bus.request_name(BUSNAME_EVENT);
 
     manager = std::make_unique<phosphor::events::Manager>(bus);
+
+    // Create a directory to persist events.
+    std::experimental::filesystem::create_directories(EVENTS_PERSIST_PATH);
+    manager->restore();
+
     for (auto& watch : ConfigPropertyWatches::get())
     {
         watch->start();
