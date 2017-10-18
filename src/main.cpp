@@ -43,6 +43,8 @@ int main(void)
     sdbusplus::server::manager::manager objManager(bus, OBJ_EVENT);
     bus.request_name(BUSNAME_EVENT);
 
+    phosphor::events::getManager().restore();
+
     for (auto& watch : ConfigPropertyWatches::get())
     {
         watch->start();
