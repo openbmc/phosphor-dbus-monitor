@@ -70,5 +70,16 @@ AC_ARG_VAR(MAX_EVENTS, [Maximum number of events.])
 AS_IF([test "x$MAX_EVENTS" == "x"], [MAX_EVENTS=20])
 AC_DEFINE_UNQUOTED([MAX_EVENTS], [$MAX_EVENTS], [Maximum number of events.])
 
+AC_ARG_VAR(CLASS_VERSION, [Class version to register with Cereal])
+AS_IF([test "x$CLASS_VERSION" == "x"], [CLASS_VERSION=1])
+AC_DEFINE_UNQUOTED([CLASS_VERSION], [$CLASS_VERSION], [Class version to register with Cereal])
+
+AC_ARG_VAR(EVENTS_PERSIST_PATH, [Path of directory housing persisted events.])
+AS_IF([test "x$EVENTS_PERSIST_PATH" == "x"], \
+    [EVENTS_PERSIST_PATH="/var/lib/phosphor-dbus-monitor/events"])
+AC_DEFINE_UNQUOTED([EVENTS_PERSIST_PATH], ["$EVENTS_PERSIST_PATH"], \
+    [Path of directory housing persisted events])
+
+
 AC_CONFIG_FILES([Makefile src/Makefile src/test/Makefile mslverify/Makefile])
 AC_OUTPUT

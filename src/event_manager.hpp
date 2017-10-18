@@ -41,6 +41,11 @@ class Manager
             const std::string& propertyName,
             const std::string& propertyValue);
 
+        /** @brief Construct error d-bus objects from their persisted
+         *         representations.
+         */
+        void restore();
+
     private:
         using EventName = std::string;
         /** @brief Queue of events */
