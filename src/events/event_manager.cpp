@@ -16,6 +16,7 @@
 #include "event.hpp"
 #include "event_manager.hpp"
 #include "config.h"
+#include "event_serialize.hpp"
 
 namespace phosphor
 {
@@ -60,17 +61,60 @@ void Manager::create(const std::string& eventName,
     if (events.size() == MAX_EVENTS)
     {
         events.pop();
+        fs::path eventPath(EVENTS_PERSIST_PATH);
+        eventPath /= eventName;
+        eventPath /= std::to_string(events.front()->id());
+        fs::remove(eventPath);
     }
 
-    events.emplace(std::make_unique<Entry>(
+    auto event = std::make_unique<Entry>(
                        dBus,
                        objPath,
                        id,
                        ms, // Milliseconds since 1970
                        std::move(msg),
-                       std::move(additionalData)));
+                       std::move(additionalData));
 
+    serialize(*event, eventName);
+
+    events.push(std::move(event));
     eventMap[eventName] = std::move(events);
+}
+
+void Manager::restore()
+{
+    fs::path dir(EVENTS_PERSIST_PATH);
+
+    if (!fs::exists(dir) || fs::is_empty(dir))
+    {
+        return;
+    }
+
+    for (auto& eventDir: fs::directory_iterator(dir))
+    {
+        EventQueue events;
+
+        auto eventName = eventDir.path().filename().c_str();
+
+        for (auto& eventFile: fs::directory_iterator(eventDir))
+        {
+            auto id = eventFile.path().filename().c_str();
+            auto idNum = std::stol(id);
+            auto eventPath = std::string(eventName) + '/' + std::string(id);
+            auto objPath = std::string(OBJ_EVENT) + '/' + eventPath;
+
+            auto event = std::make_unique<Entry>(
+                       dBus,
+                       objPath,
+                       idNum);
+            if (deserialize(eventFile.path(), *event))
+            {
+                event->emit_object_added();
+                events.push(std::move(event));
+            }
+        }
+        eventMap[eventName] = std::move(events);
+    }
 }
 
 } // namespace events
