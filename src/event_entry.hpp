@@ -53,6 +53,21 @@ class Entry : public EntryIface
                 this->emit_object_added();
             }
 
+
+        /** @brief Constructor to create an empty event object with only
+         *  timestamp, caller should make a call to emit added signal.
+         *  @param[in] path - Path to attach at.
+         *  @param[in] timestamp - timestamp when the event created.
+         */
+        Entry(
+            const std::string& path,
+            uint64_t eventTimestamp) :
+                EntryIface(SDBusPlus::getBus(), path.c_str(), true),
+                objectPath(path)
+            {
+                timestamp(eventTimestamp);
+            }
+
         /** @brief Path of Object. */
         std::string objectPath;
 
