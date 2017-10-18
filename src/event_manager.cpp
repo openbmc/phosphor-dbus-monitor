@@ -17,6 +17,7 @@
 #include "config.h"
 #include "event.hpp"
 #include "event_manager.hpp"
+#include "event_serialize.hpp"
 
 #include <experimental/filesystem>
 
@@ -66,15 +67,64 @@ void Manager::create(
     // event.
     if (eventQueue.size() == MAX_EVENTS)
     {
+        fs::path eventPath(EVENTS_PERSIST_PATH);
+        eventPath /= eventName;
+        eventPath /= std::to_string(eventQueue.front()->timestamp());
         eventQueue.pop();
+        fs::remove(eventPath);
     }
 
-    eventQueue.emplace(std::make_unique<Entry>(
+    auto event = std::make_unique<Entry>(
                        objPath,
                        ms, // Milliseconds since 1970
                        std::move(msg),
-                       std::move(additionalData)));
+                       std::move(additionalData));
+    serialize(*event, eventName);
+    eventQueue.push(std::move(event));
 }
+
+void Manager::restore()
+{
+    fs::path dir(EVENTS_PERSIST_PATH);
+
+    if (!fs::exists(dir) || fs::is_empty(dir))
+    {
+        return;
+    }
+
+    for (auto& eventDir: fs::directory_iterator(dir))
+    {
+        EventQueue events;
+
+        auto eventName = eventDir.path().filename().c_str();
+        auto validEvent = false;
+
+        for (auto& eventFile: fs::directory_iterator(eventDir))
+        {
+            auto timestamp = eventFile.path().filename().c_str();
+            auto tsNum = std::stol(timestamp);
+            auto eventPath = std::string(eventName) + '/' +
+                             std::string(timestamp);
+            auto objPath = std::string(OBJ_EVENT) + '/' + eventPath;
+
+            auto event = std::make_unique<Entry>(
+                       objPath,
+                       tsNum);
+            if (deserialize(eventFile.path(), *event))
+            {
+                event->emit_object_added();
+                events.push(std::move(event));
+                validEvent = true;
+            }
+        }
+
+        if (validEvent)
+        {
+            eventMap[eventName] = std::move(events);
+        }
+    }
+}
+
 
 Manager& getManager()
 {
