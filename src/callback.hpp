@@ -100,9 +100,9 @@ class IndexedCallback : public Callback
 /** @class GroupOfCallbacks
  *  @brief Invoke multiple callbacks.
  *
- *  A group of callbacks is implemented as a vector of array indicies
+ *  A group of callbacks is implemented as a vector of array indices
  *  into an external array  of callbacks.  The group function call
- *  operator traverses the vector of indicies, invoking each
+ *  operator traverses the vector of indices, invoking each
  *  callback.
  *
  *  @tparam CallbackAccess - Access to the array of callbacks.
@@ -175,7 +175,7 @@ class ConditionalCallback: public Callback
  *  Deferrable callbacks wait a configurable period before
  *  invoking their associated callback.
  *
- *  When the callback condition is initally met, start a timer.  If the
+ *  When the callback condition is initially met, start a timer.  If the
  *  condition is tested again before the timer expires and it is not
  *  met cancel the timer.  If the timer expires invoke the associated
  *  callback.

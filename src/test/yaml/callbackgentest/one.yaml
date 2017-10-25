@@ -1,7 +1,7 @@
 # Validate two callbacks that share an index
 # and a single callback with its own index.
 #
-# Expecting three callbacks pointing at two indicies.
+# Expecting three callbacks pointing at two indices.
 
 - name: test path group 1
   class: group

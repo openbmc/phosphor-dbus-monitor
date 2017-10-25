@@ -266,7 +266,7 @@ class Path(ConfigEntry):
         super(Path, self).factory(objs)
 
     def setup(self, objs):
-        '''Resolve path and metadata names to indicies.'''
+        '''Resolve path and metadata names to indices.'''
 
         self.path = get_index(
             objs, 'pathname', self.name['path'])
@@ -318,7 +318,7 @@ class Property(ConfigEntry):
         super(Property, self).factory(objs)
 
     def setup(self, objs):
-        '''Resolve interface, property and metadata to indicies.'''
+        '''Resolve interface, property and metadata to indices.'''
 
         self.interface = get_index(
             objs, 'interface', self.name['interface'])
@@ -337,7 +337,7 @@ class Instance(ConfigEntry):
         super(Instance, self).__init__(**kw)
 
     def setup(self, objs):
-        '''Resolve elements to indicies.'''
+        '''Resolve elements to indices.'''
 
         self.interface = get_index(
             objs, 'interface', self.name['property']['interface'])
@@ -942,7 +942,7 @@ class Everything(Renderer):
         # is just an array index.
         #
         # At this point all objects have been created but references
-        # have not been resolved to array indicies.  Instruct objects
+        # have not been resolved to array indices.  Instruct objects
         # to do that now.
         for cls, items in objs.items():
             for obj in items:

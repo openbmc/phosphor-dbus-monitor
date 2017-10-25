@@ -1,4 +1,4 @@
-# Validate the same callback name works in differnt config files.
+# Validate the same callback name works in different config files.
 
 - name: test path group 1
   class: group

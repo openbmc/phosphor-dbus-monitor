@@ -62,7 +62,7 @@ TEST(PropertyWatchGenTest, storageCount)
 
 TEST(PropertyWatchGenTest, IndiciesSameSize)
 {
-    ASSERT_EQ(sizeof(expectedIndicies), sizeof(indicies));
+    ASSERT_EQ(sizeof(expectedIndicies), sizeof(indices));
 }
 
 TEST(PropertyWatchGenTest, WatchesSameSize)
@@ -85,7 +85,7 @@ TEST(PropertyWatchGenTest, IndiciesSameContent)
     size_t i;
     for (i = 0; i < expectedIndicies.size(); ++i)
     {
-        ASSERT_EQ(indicies[i],
+        ASSERT_EQ(indices[i],
                   expectedIndicies[i]);
     }
 }

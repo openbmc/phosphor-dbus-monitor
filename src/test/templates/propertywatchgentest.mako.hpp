@@ -1,6 +1,6 @@
 auto storageCount = ${len(instances)};
 
-const std::array<Index, ${len(instancegroups)}> indicies = {{
+const std::array<Index, ${len(instancegroups)}> indices = {{
 % for g in instancegroups:
     {
     % for i in g.members:
