@@ -14,11 +14,6 @@ namespace dbus
 namespace monitoring
 {
 
-static constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
-static constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
-static constexpr auto MAPPER_INTERFACE =
-    "xyz.openbmc_project.ObjectMapper";
-
 using MappedPropertyIndex =
     RefKeyMap<const std::string,
     RefKeyMap<const std::string,
