@@ -196,4 +196,5 @@ callbacktest_LDADD = \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	$(builddir)/../journal.o \
-	$(builddir)/../elog.o
+	$(builddir)/../elog.o \
+	$(builddir)/../resolve_errors.o
