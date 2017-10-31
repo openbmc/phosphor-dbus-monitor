@@ -3,6 +3,7 @@
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/bus/match.hpp>
+#include "data_types.hpp"
 
 struct Loop;
 
@@ -12,6 +13,10 @@ namespace dbus
 {
 namespace monitoring
 {
+
+constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
+constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
+constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
 
 /** @class SDBusPlus
  *  @brief DBus access delegate implementation for sdbusplus.
@@ -102,6 +107,29 @@ class SDBusPlus
                     getBus(),
                     match,
                     callback);
+        }
+
+        /** @brief Look up the bus name for a path and interface */
+        static auto getBusName(
+            const std::string& path,
+            const std::string& interface)
+        {
+            std::vector<std::string> interfaces{interface};
+
+            auto object = callMethodAndRead<GetObject>(
+                    MAPPER_BUSNAME,
+                    MAPPER_PATH,
+                    MAPPER_INTERFACE,
+                    "GetObject",
+                    path,
+                    interfaces);
+
+            std::string name;
+            if (!object.empty())
+            {
+                name = object.begin()->first;
+            }
+            return name;
         }
 
         friend Loop;
