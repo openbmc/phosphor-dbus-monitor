@@ -6,6 +6,7 @@
 #include "callback.hpp"
 #include "data_types.hpp"
 #include "propertywatch.hpp"
+#include "sdbusplus.hpp"
 
 namespace phosphor
 {
@@ -13,11 +14,6 @@ namespace dbus
 {
 namespace monitoring
 {
-
-static constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
-static constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
-static constexpr auto MAPPER_INTERFACE =
-    "xyz.openbmc_project.ObjectMapper";
 
 using MappedPropertyIndex =
     RefKeyMap<const std::string,
