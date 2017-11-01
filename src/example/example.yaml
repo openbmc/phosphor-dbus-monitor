@@ -114,6 +114,22 @@
     - value: replace
       type: string
 
+- name: example resolve callouts callback
+  description: >
+    'The resolveCallout callback resolves all error log entries that
+    are associated with the inventory path specified by setting the
+    Resolved property in the entries to true.
+
+    A use case could be to watch the Present property on the inventory
+    item and resolve all errors for it when a new one is plugged in and
+    the property changes to true.'
+
+  class: callback
+  callback: resolveCallout
+  paths: example path group
+  properties: example property group
+  callout: /xyz/openbmc_project/inventory/system/chassis/motherboard/fan0
+
 - name: example callback group
   description: >
     'Callbacks groups are simply named collections of other callbacks.
