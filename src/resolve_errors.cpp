@@ -24,9 +24,11 @@ namespace dbus
 namespace monitoring
 {
 
+constexpr auto LOGGING_IFACE = "xyz.openbmc_project.Logging.Entry";
 constexpr auto PROPERTY_IFACE = "org.freedesktop.DBus.Properties";
 constexpr auto ASSOCIATION_IFACE = "org.openbmc.Association";
 constexpr auto ENDPOINTS_PROPERTY = "endpoints";
+constexpr auto RESOLVED_PROPERTY = "Resolved";
 
 using namespace phosphor::logging;
 using EndpointList = std::vector<std::string>;
@@ -79,7 +81,43 @@ void ResolveCallout::operator()()
 
 void ResolveCallout::resolve(const std::string& logEntry)
 {
-    //TODO: fill in
+    try
+    {
+        static std::string busName;
+        if (busName.empty())
+        {
+            busName = SDBusPlus::getBusName(logEntry, LOGGING_IFACE);
+            if (busName.empty())
+            {
+                return;
+            }
+        }
+
+        sdbusplus::message::variant<bool> resolved = true;
+
+        auto response = SDBusPlus::callMethod(
+                busName,
+                logEntry,
+                PROPERTY_IFACE,
+                "Set",
+                LOGGING_IFACE,
+                RESOLVED_PROPERTY,
+                resolved);
+
+        if (response.is_method_error())
+        {
+            log<level::ERR>(
+                    "Failed to set Resolved property on an error log entry",
+                    entry("ENTRY=%s", logEntry.c_str()));
+        }
+    }
+    catch (const std::exception& e)
+    {
+        log<level::ERR>(
+                "Unable to resolve error log entry",
+                entry("ENTRY=%s", logEntry.c_str()),
+                entry("MESSAGE=%s", e.what()));
+    }
 }
 
 } // namespace monitoring
