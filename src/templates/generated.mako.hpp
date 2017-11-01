@@ -12,6 +12,7 @@
 #include "errors.hpp"
 #include "method.hpp"
 #include "propertywatchimpl.hpp"
+#include "resolve_errors.hpp"
 #include "sdbusplus.hpp"
 #include "sdevent.hpp"
 
