@@ -461,3 +461,10 @@
   countbound: 3
   op: '=='
   bound: false
+
+- name: test resolve errors
+  class: callback
+  callback: resolve callout
+  paths: test path group
+  properties: test byte property group
+  callout: /test/inventory/path
