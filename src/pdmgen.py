@@ -698,6 +698,19 @@ class Elog(Callback, Renderer):
             c=self,
             indent=indent)
 
+class ResolveCallout(Callback, Renderer):
+    '''Handle the resolveCallout callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.callout = kw.pop('callout')
+        super(ResolveCallout, self).__init__(**kw)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'resolve_errors.mako.cpp',
+            c=self,
+            indent=indent)
 
 class Method(ConfigEntry, Renderer):
     '''Handle the method callback config file directive.'''
@@ -869,6 +882,7 @@ class Everything(Renderer):
                 'elog': Elog,
                 'group': GroupOfCallbacks,
                 'method': Method,
+                'resolveCallout': ResolveCallout,
             },
             'condition': {
                 'count': CountCondition,
