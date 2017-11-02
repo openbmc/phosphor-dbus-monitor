@@ -176,6 +176,7 @@ class TrivialArgument(Argument):
 
         return a
 
+
 class Metadata(Argument):
     '''Metadata type arguments.'''
 
@@ -193,6 +194,7 @@ class Metadata(Argument):
             a = d(a)
 
         return a
+
 
 class Indent(object):
     '''Help templates be depth agnostic.'''
