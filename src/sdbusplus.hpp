@@ -20,12 +20,6 @@ namespace monitoring
 class SDBusPlus
 {
     private:
-        static auto& getBus()
-        {
-            static auto bus = sdbusplus::bus::new_default();
-            return bus;
-        }
-
         static auto& getWatches()
         {
             static std::vector<sdbusplus::bus::match::match> watches;
@@ -33,6 +27,12 @@ class SDBusPlus
         }
 
     public:
+        static auto& getBus()
+        {
+            static auto bus = sdbusplus::bus::new_default();
+            return bus;
+        }
+
         /** @brief Invoke a method; ignore reply. */
         template <typename ...Args>
         static void callMethodNoReply(
