@@ -61,6 +61,8 @@ class CountCondition : public IndexedConditional
                              [this](const auto & item)
             // *INDENT-OFF*
                              {
+                                 //Get the property value from storage[0],
+                                 //and save the op result in storage[1].
                                  const auto& storage = std::get<2>(
                                      item.second);
                                  // Don't count properties that don't exist.
@@ -70,7 +72,11 @@ class CountCondition : public IndexedConditional
                                  }
                                  const auto& value = any_ns::any_cast<T>(
                                      std::get<0>(storage.get()));
-                                 return propertyOp(value);
+                                 auto r = propertyOp(value);
+
+                                 std::get<1>(storage.get()) = r;
+
+                                 return r;
                              });
             // *INDENT-ON*
 
