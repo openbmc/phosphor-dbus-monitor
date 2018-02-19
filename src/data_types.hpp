@@ -18,7 +18,8 @@ constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
 constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
 constexpr auto pathIndex = 0;
 constexpr auto propertyIndex = 2;
-constexpr auto valueIndex = 2;
+constexpr auto storageIndex = 2;
+constexpr auto valueIndex = 0;
 constexpr auto metaIndex = 1;
 
 enum class Context
@@ -70,7 +71,7 @@ using PropertyIndex = TupleRefMap <
         TupleOfRefs<
             const std::string,
             const std::string,
-            any_ns::any>,
+            std::tuple<any_ns::any, any_ns::any>>,
         const std::string,
         const std::string,
         const std::string >;

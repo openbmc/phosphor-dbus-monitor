@@ -46,10 +46,11 @@ class EventBase : public IndexedCallback
             for (const auto& n : index)
             {
                 const auto& path = std::get<pathIndex>(n.first);
-                const auto& propertyMeta = std::get<propertyIndex>(n.first);
-                const auto& value = std::get<valueIndex>(n.second);
+                const auto& propertyMeta = std::get<metaIndex>(n.first);
+                const auto& storage = std::get<storageIndex>(n.second);
+                const auto& value = std::get<valueIndex>(storage.get());
 
-                if (!value.get().empty())
+                if (!value.empty())
                 {
                     createEvent(
                             path,

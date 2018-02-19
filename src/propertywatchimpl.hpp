@@ -146,7 +146,8 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
             continue;
         }
 
-        std::get<2>(item->second).get() = p.second.template get<T>();
+        std::get<0>(std::get<2>(item->second).get()) =
+                p.second.template get<T>();
 
         // Invoke callback if present.
         this->callback(Context::SIGNAL);
