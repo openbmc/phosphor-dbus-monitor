@@ -29,9 +29,10 @@ void JournalBase::operator()()
         const auto& path = std::get<0>(n.first);
         const auto& pathMeta = std::get<0>(n.second);
         const auto& propertyMeta = std::get<1>(n.second);
-        const auto& value = std::get<2>(n.second);
+        const auto& storage = std::get<2>(n.second);
+        const auto& value = std::get<0>(storage.get());
 
-        if (!value.get().empty())
+        if (!value.empty())
         {
             log(message,
                 pathMeta,
