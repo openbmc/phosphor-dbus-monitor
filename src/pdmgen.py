@@ -718,6 +718,29 @@ class Event(Callback, Renderer):
             c=self,
             indent=indent)
 
+
+class ElogWithMetadata(Callback, Renderer):
+    '''Handle the elog_with_metadata callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.error = kw.pop('error')
+        self.metadata = kw.pop('metadata')
+        super(ElogWithMetadata, self).__init__(**kw)
+
+    def construct(self, loader, indent):
+        with open('errors.hpp', 'a') as fd:
+            fd.write(
+                self.render(
+                    loader,
+                    'errors.mako.hpp',
+                    c=self))
+        return self.render(
+            loader,
+            'elog_with_metadata.mako.cpp',
+            c=self,
+            indent=indent)
+
+
 class ResolveCallout(Callback, Renderer):
     '''Handle the 'resolve callout' callback config file directive.'''
 
@@ -901,6 +924,7 @@ class Everything(Renderer):
             'callback': {
                 'journal': Journal,
                 'elog': Elog,
+                'elog_with_metadata': ElogWithMetadata,
                 'event': Event,
                 'group': GroupOfCallbacks,
                 'method': Method,
