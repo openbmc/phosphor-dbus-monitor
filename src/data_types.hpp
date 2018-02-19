@@ -60,7 +60,7 @@ using PropertyIndex = TupleRefMap <
         TupleOfRefs<
             const std::string,
             const std::string,
-            any_ns::any>,
+            std::tuple<any_ns::any, any_ns::any>>,
         const std::string,
         const std::string,
         const std::string >;

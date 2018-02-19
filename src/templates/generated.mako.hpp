@@ -92,7 +92,7 @@ struct ConfigProperties
 
 struct ConfigPropertyStorage
 {
-    using Storage = std::array<any_ns::any, ${len(instances)}>;
+    using Storage = std::array<std::tuple<any_ns::any, any_ns::any>, ${len(instances)}>;
 
     static auto& get()
     {
