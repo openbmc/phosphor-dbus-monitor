@@ -645,6 +645,9 @@ class CountCondition(Condition, Renderer):
         self.countbound = kw.pop('countbound')
         self.op = kw.pop('op')
         self.bound = kw.pop('bound')
+        self.oneshot = TrivialArgument(
+            type='boolean',
+            value=kw.pop('oneshot', False))
         super(CountCondition, self).__init__(**kw)
 
     def setup(self, objs):

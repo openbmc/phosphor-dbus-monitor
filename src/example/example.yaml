@@ -181,7 +181,12 @@
 
     For example, a callback that requires at least three temperature sensors
     in the group to be higher than 115 degrees might use a count condition
-    with an op of >, a count op of >=, a bound of 115, and a countbound of 3.'
+    with an op of >, a count op of >=, a bound of 115, and a countbound of 3.
+
+    The optional oneshot parameter defaults to false.  If it is specified and
+    set to true, then the callback will only be called once for as long as the
+    condition is repeatedly passing.  The condition needs to fail at least
+    once to rearm the callback.'
 
   class: condition
   condition: count
@@ -192,6 +197,7 @@
   countbound: 3
   op: '>='
   bound: 115
+  oneshot: true
 
 - name: example deferred condition
   description: >
