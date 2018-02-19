@@ -27,7 +27,7 @@ const std::array<std::string, 2> properties =
 
 const std::string meta;
 
-std::array<any_ns::any, 8> storage = { };
+std::array<std::tuple<any_ns::any, any_ns::any>, 8> storage = { };
 
 const PropertyIndex watchIndex =
 {
@@ -204,7 +204,7 @@ void testStart()
     ndx = 0;
     for (auto s : storage)
     {
-        ASSERT_EQ(s.empty(), false);
+        ASSERT_EQ(std::get<0>(s).empty(), false);
         ASSERT_EQ(any_ns::any_cast<T>(s), ExpectedValues<T>::get(ndx));
         ++ndx;
     }
