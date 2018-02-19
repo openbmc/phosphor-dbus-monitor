@@ -317,6 +317,7 @@
   countbound: 3
   op: '<'
   bound: 115
+  oneshot: true
 
 - name: test count lte
   class: condition
@@ -329,6 +330,7 @@
   countbound: 3
   op: '<='
   bound: 115
+  oneshot: false
 
 - name: test count gt
   class: condition
