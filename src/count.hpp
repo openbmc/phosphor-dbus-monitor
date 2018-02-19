@@ -24,6 +24,9 @@ namespace monitoring
  *  one.  In pass two, apply a second C++ relational operator
  *  to the number of properties that pass the test from pass one
  *  to a count provided by the configuration file.
+ *
+ *  If the oneshot parameter is true, then this condition won't pass
+ *  again until it fails at least once.
  */
 template <typename T>
 class CountCondition : public IndexedConditional
@@ -39,10 +42,12 @@ class CountCondition : public IndexedConditional
         CountCondition(
             const PropertyIndex& conditionIndex,
             const std::function<bool(size_t)>& _countOp,
-            const std::function<bool(T)>& _propertyOp) :
+            const std::function<bool(T)>& _propertyOp,
+            bool oneshot = false) :
             IndexedConditional(conditionIndex),
             countOp(_countOp),
-            propertyOp(_propertyOp) {}
+            propertyOp(_propertyOp),
+            oneshot(oneshot) {}
 
         bool operator()() override
         {
@@ -68,7 +73,18 @@ class CountCondition : public IndexedConditional
             // *INDENT-ON*
 
             // Now apply the count condition to the count.
-            return countOp(count);
+            auto result = countOp(count);
+
+            // If this was a oneshot and the the condition has already
+            // passed, then don't let it pass again until the condition
+            // has gone back to false.
+            if (oneshot && result && lastResult)
+            {
+                return false;
+            }
+
+            lastResult = result;
+            return result;
         }
 
     private:
@@ -76,6 +92,11 @@ class CountCondition : public IndexedConditional
         std::function<bool(size_t)> countOp;
         /** @brief The comparison to perform on each property. */
         std::function<bool(T)> propertyOp;
+        /** @brief If the condition can be allowed to pass again
+                   on subsequent checks that are also true. */
+        const bool oneshot;
+        /** @brief The result of the previous check. */
+        bool lastResult = true;
 };
 } // namespace monitoring
 } // namespace dbus
