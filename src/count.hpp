@@ -64,12 +64,12 @@ class CountCondition : public IndexedConditional
                                  const auto& storage = std::get<2>(
                                      item.second);
                                  // Don't count properties that don't exist.
-                                 if (storage.get().empty())
+                                 if (std::get<0>(storage.get()).empty())
                                  {
                                      return false;
                                  }
                                  const auto& value = any_ns::any_cast<T>(
-                                     storage);
+                                     std::get<0>(storage.get()));
                                  return propertyOp(value);
                              });
             // *INDENT-ON*
