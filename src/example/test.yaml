@@ -278,6 +278,22 @@
   properties: test string property group
   error: xyz::openbmc_project::Common::Error::InternalFailure
 
+- name: test elog that captures the passing string metadata
+  class: callback
+  callback: elog_with_metadata
+  paths: test path group
+  properties: test string property group
+  error: xyz::openbmc_project::Sensor::Threshold::Error::CriticalHigh
+  metadata: xyz::openbmc_project::Sensor::Threshold::CriticalHigh::SENSOR_TYPE
+
+- name: test elog that captures the passing int64_t metadata
+  class: callback
+  callback: elog_with_metadata
+  paths: test path group
+  properties: test s64 property group
+  error: xyz::openbmc_project::Sensor::Threshold::Error::CriticalHigh
+  metadata: xyz::openbmc_project::Sensor::Threshold::CriticalHigh::SENSOR_TYPE
+
 - name: test method
   class: callback
   callback: method

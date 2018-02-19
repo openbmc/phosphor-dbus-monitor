@@ -99,6 +99,29 @@
       value: testing...
       type: string
 
+- name: example elog with metadata capture callback
+  description: >
+    'Callbacks are actions pdm should take when instructed to do so.
+
+    This callback creates an elog, and it will capture the values of the
+    properties that passed its condition check in the metadata field
+    (that must be a string type) in the form:
+
+        |path1:property1=value1|path2:property2=value2|
+
+    This would require that this callback also uses the same paths and
+    properties keywords as the condition that calls it.
+
+    Currently an error log with only 1 metadata entry of type string is
+    supported'
+
+  class: callback
+  callback: elog_with_metadata
+  paths: example path group
+  properties: example property group
+  error: xyz::openbmc_project::Sensor::Threshold::Error::CriticalHigh
+  metadata: xyz::openbmc_project::Sensor::Threshold::CriticalHigh::SENSOR_TYPE
+
 - name: example method callback
   description: >
     'The method callback invokes the specified D-Bus method.'
