@@ -104,12 +104,12 @@ void PropertyWatch<DBusInterfaceType>::start()
 }
 
 template <typename DBusInterfaceType>
-void PropertyWatch<DBusInterfaceType>::callback()
+void PropertyWatch<DBusInterfaceType>::callback(Context ctx)
 {
     // Invoke callback if present.
     if (this->alreadyRan && this->cb)
     {
-        (*this->cb)();
+        (*this->cb)(ctx);
     }
 }
 
@@ -149,7 +149,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
         std::get<2>(item->second).get() = p.second.template get<T>();
 
         // Invoke callback if present.
-        this->callback();
+        this->callback(Context::SIGNAL);
     }
 }
 

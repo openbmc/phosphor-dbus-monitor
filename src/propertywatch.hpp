@@ -50,7 +50,7 @@ class PropertyWatch : public Watch
          *
          *  Watch callback interface implementation for PropertyWatch.
          */
-        void callback() override;
+        void callback(Context ctx) override;
 
         /** @brief Update properties.
          *

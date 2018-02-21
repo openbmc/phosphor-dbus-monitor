@@ -1,5 +1,7 @@
 #pragma once
 
+#include "data_types.hpp"
+
 namespace phosphor
 {
 namespace dbus
@@ -34,7 +36,7 @@ class Watch
         virtual void start() = 0;
 
         /** @brief Invoke the callback associated with the watch. */
-        virtual void callback() = 0;
+        virtual void callback(Context ctx) = 0;
 
 };
 

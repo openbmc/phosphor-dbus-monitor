@@ -30,7 +30,7 @@ class ElogBase : public Callback
             Callback() {}
 
         /** @brief Callback interface implementation. */
-        void operator()() override;
+        void operator()(Context ctx) override;
 
     private:
         /** @brief Delegate type specific calls to subclasses. */

@@ -41,7 +41,7 @@ class ResolveCallout : public Callback
          * Resolves all error log entries that are associated
          * with the callout.
          */
-        void operator()() override;
+        void operator()(Context ctx) override;
 
     private:
 

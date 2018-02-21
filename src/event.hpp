@@ -30,7 +30,7 @@ class EventBase : public IndexedCallback
             IndexedCallback(index) {}
 
         /** @brief Callback interface implementation. */
-        void operator()() override
+        void operator()(Context ctx) override
         {
             for (const auto& n : index)
             {

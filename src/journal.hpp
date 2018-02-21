@@ -31,7 +31,7 @@ class JournalBase : public IndexedCallback
             IndexedCallback(index), message(msg) {}
 
         /** @brief Callback interface implementation. */
-        void operator()() override;
+        void operator()(Context ctx) override;
 
     private:
         /** @brief Delegate type specific calls to subclasses. */

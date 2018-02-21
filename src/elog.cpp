@@ -22,7 +22,7 @@ namespace dbus
 namespace monitoring
 {
 
-void ElogBase::operator()()
+void ElogBase::operator()(Context ctx)
 {
     log();
 }

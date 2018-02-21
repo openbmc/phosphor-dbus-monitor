@@ -10,6 +10,6 @@ TEST(JournalTest, Test)
     // make sure the program runs without crashing...
     for (auto& c : ConfigPropertyCallbacks::get())
     {
-        (*c)();
+        (*c)(Context::START);
     }
 }

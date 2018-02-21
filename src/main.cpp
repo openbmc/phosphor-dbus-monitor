@@ -39,7 +39,7 @@ int main(void)
 
     for (auto& watch : ConfigPropertyWatches::get())
     {
-        watch->callback();
+        watch->callback(Context::START);
     }
 
     Loop::run();
