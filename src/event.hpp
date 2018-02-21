@@ -32,10 +32,18 @@ class EventBase : public IndexedCallback
         /** @brief Callback interface implementation. */
         void operator()(Context ctx) override
         {
+            if (ctx == Context::START)
+            {
+                // No action should be taken
+                // as this call back is being called from
+                // daemon Startup.
+                return;
+            }
+
             for (const auto& n : index)
             {
                 const auto& path = std::get<pathIndex>(n.first);
-                const auto& propertyMeta = std::get<metaIndex>(n.first);
+                const auto& propertyMeta = std::get<propertyIndex>(n.first);
                 const auto& value = std::get<valueIndex>(n.second);
 
                 if (!value.get().empty())
