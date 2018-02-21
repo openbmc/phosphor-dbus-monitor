@@ -34,7 +34,7 @@ using namespace phosphor::logging;
 using EndpointList = std::vector<std::string>;
 using EndpointsProperty = sdbusplus::message::variant<EndpointList>;
 
-void ResolveCallout::operator()()
+void ResolveCallout::operator()(Context ctx)
 {
     //Resolve all errors for this callout:
     // 1) Read the 'endpoints' property for the callout/fault object

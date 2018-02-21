@@ -65,7 +65,7 @@ class MethodBase : public Callback
                   method(m) {}
 
         /** @brief Callback interface implementation. */
-        void operator()() override = 0;
+        void operator()(Context ctx) override = 0;
 
     protected:
         const std::string& bus;
@@ -100,7 +100,7 @@ class Method : public MethodBase
               args(std::forward<MethodArgs>(arguments)...) {}
 
         /** @brief Callback interface implementation. */
-        void operator()() override
+        void operator()(Context ctx) override
         {
             std::experimental::apply(
                 detail::CallDBusMethod<DBusInterface, MethodArgs...>::op,

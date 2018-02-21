@@ -22,7 +22,7 @@ namespace dbus
 namespace monitoring
 {
 
-void JournalBase::operator()()
+void JournalBase::operator()(Context ctx)
 {
     for (const auto& n : index)
     {

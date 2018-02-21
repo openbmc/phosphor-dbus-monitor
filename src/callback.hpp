@@ -25,8 +25,14 @@ class Callback
         Callback& operator=(Callback&&) = default;
         virtual ~Callback() = default;
 
-        /** @brief Run the callback. */
-        virtual void operator()() = 0;
+        /** @brief Run the callback.
+         *  @param[in] ctx - caller context
+         *     Context could be Startup or Signal
+         *     Startup: Callback is called as part of process startup.
+         *     Signal: Callback is called as part of watch condition has been met.
+         *
+         */
+        virtual void operator()(Context ctx) = 0;
 };
 
 /** @class Conditional
@@ -89,7 +95,7 @@ class IndexedCallback : public Callback
             : Callback(), index(callbackIndex) {}
 
         /** @brief Run the callback. */
-        virtual void operator()() override = 0;
+        virtual void operator()(Context ctx) override = 0;
 
     protected:
 
@@ -122,11 +128,11 @@ class GroupOfCallbacks : public Callback
             : graph(graphEntry) {}
 
         /** @brief Run the callbacks. */
-        void operator()() override
+        void operator()(Context ctx) override
         {
             for (auto e : graph)
             {
-                (*CallbackAccess::get()[e])();
+                (*CallbackAccess::get()[e])(ctx);
             }
         }
 
@@ -154,11 +160,11 @@ class ConditionalCallback: public Callback
             : graph(graphEntry), condition(cond) {}
 
         /** @brief Run the callback if the condition is satisfied. */
-        virtual void operator()() override
+        virtual void operator()(Context ctx) override
         {
             if (condition())
             {
-                (*CallbackAccess::get()[graph[0]])();
+                (*CallbackAccess::get()[graph[0]])(ctx);
             }
         }
 
@@ -202,15 +208,15 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
               delayInterval(delay),
               timer(nullptr) {}
 
-        void operator()() override
+        void operator()(Context ctx) override
         {
             if (!timer)
             {
                 timer = std::make_unique<TimerType>(
 // **INDENT-OFF**
-                    [this](auto & source)
+                    [ctx, this](auto & source)
                     {
-                        this->ConditionalCallback<CallbackAccess>::operator()();
+                        this->ConditionalCallback<CallbackAccess>::operator()(ctx);
                     });
 // **INDENT-ON**
                 timer->disable();
