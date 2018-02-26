@@ -4,6 +4,7 @@
 #include "data_types.hpp"
 
 #include <algorithm>
+#include <functional>
 
 namespace phosphor
 {
