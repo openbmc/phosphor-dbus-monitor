@@ -146,7 +146,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
             continue;
         }
 
-        std::get<0>(std::get<2>(item->second).get()) =
+        std::get<valueIndex>(std::get<storageIndex>(item->second).get()) =
                 p.second.template get<T>();
 
         // Invoke callback if present.

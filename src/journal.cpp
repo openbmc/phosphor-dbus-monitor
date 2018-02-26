@@ -26,11 +26,11 @@ void JournalBase::operator()(Context ctx)
 {
     for (const auto& n : index)
     {
-        const auto& path = std::get<0>(n.first);
-        const auto& pathMeta = std::get<0>(n.second);
-        const auto& propertyMeta = std::get<1>(n.second);
-        const auto& storage = std::get<2>(n.second);
-        const auto& value = std::get<0>(storage.get());
+        const auto& path = std::get<pathIndex>(n.first);
+        const auto& pathMeta = std::get<pathMetaIndex>(n.second);
+        const auto& propertyMeta = std::get<propertyMetaIndex>(n.second);
+        const auto& storage = std::get<storageIndex>(n.second);
+        const auto& value = std::get<valueIndex>(storage.get());
 
         if (!value.empty())
         {

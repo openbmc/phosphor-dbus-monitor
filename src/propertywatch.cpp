@@ -36,9 +36,9 @@ MappedPropertyIndex convert(const PropertyIndex& index)
 
     for (const auto& i : index)
     {
-        const auto& path = std::get<0>(i.first);
-        const auto& interface = std::get<1>(i.first);
-        const auto& property = std::get<2>(i.first);
+        const auto& path = std::get<pathIndex>(i.first);
+        const auto& interface = std::get<interfaceIndex>(i.first);
+        const auto& property = std::get<propertyIndex>(i.first);
         m[path][interface].push_back(property);
     }
 
