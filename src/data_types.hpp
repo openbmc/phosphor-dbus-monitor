@@ -16,11 +16,20 @@ namespace monitoring
 constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
 constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
 constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
+
+//PropertyIndex::key_type fields
 constexpr auto pathIndex = 0;
+constexpr auto interfaceIndex = 1;
 constexpr auto propertyIndex = 2;
+
+//PropertyIndex::mapped_type fields
+constexpr auto pathMetaIndex = 0;
+constexpr auto propertyMetaIndex = 1;
 constexpr auto storageIndex = 2;
+
+//ConfigPropertyStorage fields
 constexpr auto valueIndex = 0;
-constexpr auto metaIndex = 1;
+constexpr auto resultIndex = 1;
 
 enum class Context
 {
