@@ -171,7 +171,7 @@ class ElogWithMetadataCapture : public IndexedCallback
          * @brief Builds a metadata string with property information
          *
          * Finds all of the properties in the index that have
-         * their condition pass/fail fields (get<1>(storage))
+         * their condition pass/fail fields (get<resultIndex>(storage))
          * set to true, and then packs those paths, names, and values
          * into a metadata string that looks like:
          *
@@ -185,16 +185,17 @@ class ElogWithMetadataCapture : public IndexedCallback
 
             for (const auto& n : index)
             {
-                const auto& storage = std::get<2>(n.second).get();
-                const auto& result = std::get<1>(storage);
+                const auto& storage = std::get<storageIndex>(n.second).get();
+                const auto& result = std::get<resultIndex>(storage);
 
                 if (!result.empty() && any_ns::any_cast<bool>(result))
                 {
-                    const auto& path = std::get<0>(n.first).get();
-                    const auto& propertyName = std::get<2>(n.first).get();
+                    const auto& path = std::get<pathIndex>(n.first).get();
+                    const auto& propertyName = std::get<propertyIndex>(
+                            n.first).get();
                     auto value = ToString<propertyType>::op(
                             any_ns::any_cast<propertyType>(
-                                    std::get<0>(storage)));
+                                    std::get<valueIndex>(storage)));
 
                     metadata += path + ":" + propertyName +
                             '=' + value + '|';
