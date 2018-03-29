@@ -17,8 +17,7 @@ using TupleOfRefs = std::tuple<std::reference_wrapper<T>...>;
 namespace detail
 {
 /** @brief Less than implementation for tuples of references. */
-template <size_t size, size_t i, typename T, typename U>
-struct TupleOfRefsLess
+template <size_t size, size_t i, typename T, typename U> struct TupleOfRefsLess
 {
     static constexpr bool compare(const T& l, const U& r)
     {
@@ -30,7 +29,7 @@ struct TupleOfRefsLess
         {
             return false;
         }
-        return TupleOfRefsLess < size, i + 1, T, U >::compare(l, r);
+        return TupleOfRefsLess<size, i + 1, T, U>::compare(l, r);
     }
 };
 
@@ -49,17 +48,13 @@ struct TupleOfRefsLess<size, size, T, U>
 struct TupleOfRefsLess
 {
     template <typename... T, typename... U>
-    constexpr bool operator()(
-        const TupleOfRefs<T...>& l,
-        const TupleOfRefs<U...>& r) const
+    constexpr bool operator()(const TupleOfRefs<T...>& l,
+                              const TupleOfRefs<U...>& r) const
     {
         static_assert(sizeof...(T) == sizeof...(U),
                       "Cannot compare tuples of different lengths.");
-        return detail::TupleOfRefsLess <
-               sizeof...(T),
-               0,
-               TupleOfRefs<T...>,
-               TupleOfRefs<U... >>::compare(l, r);
+        return detail::TupleOfRefsLess<sizeof...(T), 0, TupleOfRefs<T...>,
+                                       TupleOfRefs<U...>>::compare(l, r);
     }
 };
 

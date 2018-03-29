@@ -27,7 +27,6 @@ void ElogBase::operator()(Context ctx)
     log();
 }
 
-
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor

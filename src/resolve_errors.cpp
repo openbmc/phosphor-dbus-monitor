@@ -36,7 +36,7 @@ using EndpointsProperty = sdbusplus::message::variant<EndpointList>;
 
 void ResolveCallout::operator()(Context ctx)
 {
-    //Resolve all errors for this callout:
+    // Resolve all errors for this callout:
     // 1) Read the 'endpoints' property for the callout/fault object
     //
     // 2) Follow each endpoint to its log entry
@@ -50,21 +50,17 @@ void ResolveCallout::operator()(Context ctx)
 
         if (busName.empty())
         {
-            //Just means there are no error logs with this callout
+            // Just means there are no error logs with this callout
             return;
         }
 
         auto endpoints = SDBusPlus::callMethodAndRead<EndpointsProperty>(
-                busName,
-                path,
-                PROPERTY_IFACE,
-                "Get",
-                ASSOCIATION_IFACE,
-                ENDPOINTS_PROPERTY);
+            busName, path, PROPERTY_IFACE, "Get", ASSOCIATION_IFACE,
+            ENDPOINTS_PROPERTY);
 
         const auto& logEntries = endpoints.get<EndpointList>();
 
-        //Resolve each log entry
+        // Resolve each log entry
         for (const auto& logEntry : logEntries)
         {
             resolve(logEntry);
@@ -72,10 +68,9 @@ void ResolveCallout::operator()(Context ctx)
     }
     catch (const std::exception& e)
     {
-        log<level::ERR>(
-                "Failed getting callout fault associations",
-                entry("CALLOUT=%s", callout.c_str()),
-                entry("MESSAGE=%s", e.what()));
+        log<level::ERR>("Failed getting callout fault associations",
+                        entry("CALLOUT=%s", callout.c_str()),
+                        entry("MESSAGE=%s", e.what()));
     }
 }
 
@@ -95,28 +90,22 @@ void ResolveCallout::resolve(const std::string& logEntry)
 
         sdbusplus::message::variant<bool> resolved = true;
 
-        auto response = SDBusPlus::callMethod(
-                busName,
-                logEntry,
-                PROPERTY_IFACE,
-                "Set",
-                LOGGING_IFACE,
-                RESOLVED_PROPERTY,
-                resolved);
+        auto response =
+            SDBusPlus::callMethod(busName, logEntry, PROPERTY_IFACE, "Set",
+                                  LOGGING_IFACE, RESOLVED_PROPERTY, resolved);
 
         if (response.is_method_error())
         {
             log<level::ERR>(
-                    "Failed to set Resolved property on an error log entry",
-                    entry("ENTRY=%s", logEntry.c_str()));
+                "Failed to set Resolved property on an error log entry",
+                entry("ENTRY=%s", logEntry.c_str()));
         }
     }
     catch (const std::exception& e)
     {
-        log<level::ERR>(
-                "Unable to resolve error log entry",
-                entry("ENTRY=%s", logEntry.c_str()),
-                entry("MESSAGE=%s", e.what()));
+        log<level::ERR>("Unable to resolve error log entry",
+                        entry("ENTRY=%s", logEntry.c_str()),
+                        entry("MESSAGE=%s", e.what()));
     }
 }
 

@@ -24,20 +24,19 @@ namespace monitoring
  */
 class Watch
 {
-    public:
-        Watch() = default;
-        Watch(const Watch&) = default;
-        Watch(Watch&&) = default;
-        Watch& operator=(const Watch&) = default;
-        Watch& operator=(Watch&&) = default;
-        virtual ~Watch() = default;
+  public:
+    Watch() = default;
+    Watch(const Watch&) = default;
+    Watch(Watch&&) = default;
+    Watch& operator=(const Watch&) = default;
+    Watch& operator=(Watch&&) = default;
+    virtual ~Watch() = default;
 
-        /** @brief Start the watch. */
-        virtual void start() = 0;
+    /** @brief Start the watch. */
+    virtual void start() = 0;
 
-        /** @brief Invoke the callback associated with the watch. */
-        virtual void callback(Context ctx) = 0;
-
+    /** @brief Invoke the callback associated with the watch. */
+    virtual void callback(Context ctx) = 0;
 };
 
 } // namespace monitoring

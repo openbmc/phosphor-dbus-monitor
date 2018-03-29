@@ -20,30 +20,29 @@ namespace monitoring
  */
 class JournalBase : public IndexedCallback
 {
-    public:
-        JournalBase() = delete;
-        JournalBase(const JournalBase&) = delete;
-        JournalBase(JournalBase&&) = default;
-        JournalBase& operator=(const JournalBase&) = delete;
-        JournalBase& operator=(JournalBase&&) = default;
-        virtual ~JournalBase() = default;
-        JournalBase(const char* msg, const PropertyIndex& index) :
-            IndexedCallback(index), message(msg) {}
+  public:
+    JournalBase() = delete;
+    JournalBase(const JournalBase&) = delete;
+    JournalBase(JournalBase&&) = default;
+    JournalBase& operator=(const JournalBase&) = delete;
+    JournalBase& operator=(JournalBase&&) = default;
+    virtual ~JournalBase() = default;
+    JournalBase(const char* msg, const PropertyIndex& index) :
+        IndexedCallback(index), message(msg)
+    {
+    }
 
-        /** @brief Callback interface implementation. */
-        void operator()(Context ctx) override;
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx) override;
 
-    private:
-        /** @brief Delegate type specific calls to subclasses. */
-        virtual void log(
-            const char* message,
-            const std::string& pathMeta,
-            const std::string& path,
-            const std::string& propertyMeta,
-            const any_ns::any& value) const = 0;
+  private:
+    /** @brief Delegate type specific calls to subclasses. */
+    virtual void log(const char* message, const std::string& pathMeta,
+                     const std::string& path, const std::string& propertyMeta,
+                     const any_ns::any& value) const = 0;
 
-        /** @brief The client provided message to be traced.  */
-        const char* message;
+    /** @brief The client provided message to be traced.  */
+    const char* message;
 };
 
 /** @struct Display
@@ -77,34 +76,33 @@ template <> struct Display<std::string>
 template <typename T, phosphor::logging::level Severity>
 class Journal : public JournalBase
 {
-    public:
-        Journal() = delete;
-        Journal(const Journal&) = delete;
-        Journal(Journal&&) = default;
-        Journal& operator=(const Journal&) = delete;
-        Journal& operator=(Journal&&) = default;
-        ~Journal() = default;
-        Journal(const char* msg, const PropertyIndex& index) :
-            JournalBase(msg, index) {}
+  public:
+    Journal() = delete;
+    Journal(const Journal&) = delete;
+    Journal(Journal&&) = default;
+    Journal& operator=(const Journal&) = delete;
+    Journal& operator=(Journal&&) = default;
+    ~Journal() = default;
+    Journal(const char* msg, const PropertyIndex& index) :
+        JournalBase(msg, index)
+    {
+    }
 
-    private:
-        /** @brief log interface implementation. */
-        void log(
-            const char* message,
-            const std::string& pathMeta,
-            const std::string& path,
-            const std::string& propertyMeta,
-            const any_ns::any& value) const override
-        {
-            phosphor::logging::log<Severity>(
-                message,
-                phosphor::logging::entry(
-                    (pathMeta + GetFormat<decltype(pathMeta)>::format).c_str(),
-                    path.c_str()),
-                phosphor::logging::entry(
-                    (propertyMeta + GetFormat<T>::format).c_str(),
-                    detail::Display<T>::op(any_ns::any_cast<T>(value))));
-        }
+  private:
+    /** @brief log interface implementation. */
+    void log(const char* message, const std::string& pathMeta,
+             const std::string& path, const std::string& propertyMeta,
+             const any_ns::any& value) const override
+    {
+        phosphor::logging::log<Severity>(
+            message,
+            phosphor::logging::entry(
+                (pathMeta + GetFormat<decltype(pathMeta)>::format).c_str(),
+                path.c_str()),
+            phosphor::logging::entry(
+                (propertyMeta + GetFormat<T>::format).c_str(),
+                detail::Display<T>::op(any_ns::any_cast<T>(value))));
+    }
 };
 
 } // namespace monitoring

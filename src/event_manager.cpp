@@ -25,12 +25,11 @@ namespace phosphor
 namespace events
 {
 
-void Manager::create(
-    const std::string& eventName,
-    const std::string& eventMessage,
-    const std::string& objectPath,
-    const std::string& propertyName,
-    const std::string& propertyValue)
+void Manager::create(const std::string& eventName,
+                     const std::string& eventMessage,
+                     const std::string& objectPath,
+                     const std::string& propertyName,
+                     const std::string& propertyValue)
 {
     using namespace std::string_literals;
     namespace fs = std::experimental::filesystem;
@@ -53,14 +52,15 @@ void Manager::create(
     {
         fs::path path(eventQueue.back()->objectPath);
         id = std::stoi(std::string(path.filename().c_str()));
-        id ++;
+        id++;
     }
 
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                  std::chrono::system_clock::now().time_since_epoch()).count();
+                  std::chrono::system_clock::now().time_since_epoch())
+                  .count();
 
-    auto objPath =  std::string(OBJ_EVENT) + '/' + eventName + '/' +
-                        std::to_string(id);
+    auto objPath =
+        std::string(OBJ_EVENT) + '/' + eventName + '/' + std::to_string(id);
 
     // check for capping of the events,if cap reached then erase the oldest
     // event.
@@ -69,11 +69,10 @@ void Manager::create(
         eventQueue.pop();
     }
 
-    eventQueue.emplace(std::make_unique<Entry>(
-                       objPath,
-                       ms, // Milliseconds since 1970
-                       std::move(msg),
-                       std::move(additionalData)));
+    eventQueue.emplace(std::make_unique<Entry>(objPath,
+                                               ms, // Milliseconds since 1970
+                                               std::move(msg),
+                                               std::move(additionalData)));
 }
 
 Manager& getManager()

@@ -34,11 +34,7 @@ void JournalBase::operator()(Context ctx)
 
         if (!value.empty())
         {
-            log(message,
-                pathMeta,
-                path,
-                propertyMeta,
-                value);
+            log(message, pathMeta, path, propertyMeta, value);
         }
     }
 }

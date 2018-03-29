@@ -39,21 +39,22 @@ template <> struct ToString<std::string>
  */
 class ElogBase : public Callback
 {
-    public:
-        ElogBase(const ElogBase&) = delete;
-        ElogBase(ElogBase&&) = default;
-        ElogBase& operator=(const ElogBase&) = delete;
-        ElogBase& operator=(ElogBase&&) = default;
-        virtual ~ElogBase() = default;
-        ElogBase() :
-            Callback() {}
+  public:
+    ElogBase(const ElogBase&) = delete;
+    ElogBase(ElogBase&&) = default;
+    ElogBase& operator=(const ElogBase&) = delete;
+    ElogBase& operator=(ElogBase&&) = default;
+    virtual ~ElogBase() = default;
+    ElogBase() : Callback()
+    {
+    }
 
-        /** @brief Callback interface implementation. */
-        void operator()(Context ctx) override;
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx) override;
 
-    private:
-        /** @brief Delegate type specific calls to subclasses. */
-        virtual void log() const = 0;
+  private:
+    /** @brief Delegate type specific calls to subclasses. */
+    virtual void log() const = 0;
 };
 
 namespace detail
@@ -65,10 +66,9 @@ namespace detail
  *  @tparam T - Error log type
  *  @tparam Args - Metadata fields types.
  */
-template <typename T, typename ...Args>
-struct CallElog
+template <typename T, typename... Args> struct CallElog
 {
-    static void op(Args&& ...args)
+    static void op(Args&&... args)
     {
         phosphor::logging::report<T>(std::forward<Args>(args)...);
     }
@@ -84,30 +84,28 @@ struct CallElog
  *  @tparam Args - Metadata fields types.
  *  @param[in] arguments - Metadata fields to be added to the error log
  */
-template <typename T, typename ...Args>
-class Elog : public ElogBase
+template <typename T, typename... Args> class Elog : public ElogBase
 {
-    public:
-        Elog(const Elog&) = delete;
-        Elog(Elog&&) = default;
-        Elog& operator=(const Elog&) = delete;
-        Elog& operator=(Elog&&) = default;
-        ~Elog() = default;
-        Elog(Args&& ... arguments) :
-            ElogBase(), args(std::forward<Args>(arguments)...) {}
+  public:
+    Elog(const Elog&) = delete;
+    Elog(Elog&&) = default;
+    Elog& operator=(const Elog&) = delete;
+    Elog& operator=(Elog&&) = default;
+    ~Elog() = default;
+    Elog(Args&&... arguments) :
+        ElogBase(), args(std::forward<Args>(arguments)...)
+    {
+    }
 
-    private:
-        /** @brief elog interface implementation. */
-        void log() const override
-        {
-            std::experimental::apply(
-                detail::CallElog<T, Args...>::op,
-                std::tuple_cat(args));
-        }
-        std::tuple<Args...> args;
-
+  private:
+    /** @brief elog interface implementation. */
+    void log() const override
+    {
+        std::experimental::apply(detail::CallElog<T, Args...>::op,
+                                 std::tuple_cat(args));
+    }
+    std::tuple<Args...> args;
 };
-
 
 /**
  * @class ElogWithMetadataCapture
@@ -135,75 +133,69 @@ class Elog : public ElogBase
  * @tparam metadataType - The metadata to use
  * @tparam propertyType - The data type of the captured properties
  */
-template<typename errorType,
-         typename metadataType,
-         typename propertyType>
+template <typename errorType, typename metadataType, typename propertyType>
 class ElogWithMetadataCapture : public IndexedCallback
 {
-    public:
-        ElogWithMetadataCapture() = delete;
-        ElogWithMetadataCapture(const ElogWithMetadataCapture&) = delete;
-        ElogWithMetadataCapture(ElogWithMetadataCapture&&) = default;
-        ElogWithMetadataCapture& operator=(
-                const ElogWithMetadataCapture&) = delete;
-        ElogWithMetadataCapture& operator=(
-                ElogWithMetadataCapture&&) = default;
-        virtual ~ElogWithMetadataCapture() = default;
-        explicit ElogWithMetadataCapture(
-                const PropertyIndex& index) :
-            IndexedCallback(index) {}
+  public:
+    ElogWithMetadataCapture() = delete;
+    ElogWithMetadataCapture(const ElogWithMetadataCapture&) = delete;
+    ElogWithMetadataCapture(ElogWithMetadataCapture&&) = default;
+    ElogWithMetadataCapture& operator=(const ElogWithMetadataCapture&) = delete;
+    ElogWithMetadataCapture& operator=(ElogWithMetadataCapture&&) = default;
+    virtual ~ElogWithMetadataCapture() = default;
+    explicit ElogWithMetadataCapture(const PropertyIndex& index) :
+        IndexedCallback(index)
+    {
+    }
 
-        /**
-         * @brief Callback interface implementation that
-         *        creates an error log
-         */
-        void operator()(Context ctx) override
+    /**
+     * @brief Callback interface implementation that
+     *        creates an error log
+     */
+    void operator()(Context ctx) override
+    {
+        auto data = captureMetadata();
+
+        phosphor::logging::report<errorType>(metadataType(data.c_str()));
+    }
+
+  private:
+    /**
+     * @brief Builds a metadata string with property information
+     *
+     * Finds all of the properties in the index that have
+     * their condition pass/fail fields (get<resultIndex>(storage))
+     * set to true, and then packs those paths, names, and values
+     * into a metadata string that looks like:
+     *
+     * |path1:name1=value1|path2:name2=value2|...
+     *
+     * @return The metadata string
+     */
+    std::string captureMetadata()
+    {
+        std::string metadata{'|'};
+
+        for (const auto& n : index)
         {
-            auto data = captureMetadata();
+            const auto& storage = std::get<storageIndex>(n.second).get();
+            const auto& result = std::get<resultIndex>(storage);
 
-            phosphor::logging::report<errorType>(
-                    metadataType(data.c_str()));
+            if (!result.empty() && any_ns::any_cast<bool>(result))
+            {
+                const auto& path = std::get<pathIndex>(n.first).get();
+                const auto& propertyName =
+                    std::get<propertyIndex>(n.first).get();
+                auto value =
+                    ToString<propertyType>::op(any_ns::any_cast<propertyType>(
+                        std::get<valueIndex>(storage)));
+
+                metadata += path + ":" + propertyName + '=' + value + '|';
+            }
         }
 
-    private:
-
-        /**
-         * @brief Builds a metadata string with property information
-         *
-         * Finds all of the properties in the index that have
-         * their condition pass/fail fields (get<resultIndex>(storage))
-         * set to true, and then packs those paths, names, and values
-         * into a metadata string that looks like:
-         *
-         * |path1:name1=value1|path2:name2=value2|...
-         *
-         * @return The metadata string
-         */
-        std::string captureMetadata()
-        {
-            std::string metadata{'|'};
-
-            for (const auto& n : index)
-            {
-                const auto& storage = std::get<storageIndex>(n.second).get();
-                const auto& result = std::get<resultIndex>(storage);
-
-                if (!result.empty() && any_ns::any_cast<bool>(result))
-                {
-                    const auto& path = std::get<pathIndex>(n.first).get();
-                    const auto& propertyName = std::get<propertyIndex>(
-                            n.first).get();
-                    auto value = ToString<propertyType>::op(
-                            any_ns::any_cast<propertyType>(
-                                    std::get<valueIndex>(storage)));
-
-                    metadata += path + ":" + propertyName +
-                            '=' + value + '|';
-                }
-            }
-
-            return metadata;
-        };
+        return metadata;
+    };
 };
 
 /** @brief Argument type deduction for constructing Elog instances.
@@ -212,11 +204,9 @@ class ElogWithMetadataCapture : public IndexedCallback
  *  @tparam Args - Metadata fields types.
  *  @param[in] arguments - Metadata fields to be added to the error log
  */
-template <typename T, typename ...Args>
-auto makeElog(Args&& ... arguments)
+template <typename T, typename... Args> auto makeElog(Args&&... arguments)
 {
-    return std::make_unique<Elog<T, Args...>>(
-               std::forward<Args>(arguments)...);
+    return std::make_unique<Elog<T, Args...>>(std::forward<Args>(arguments)...);
 }
 
 } // namespace monitoring

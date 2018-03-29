@@ -49,84 +49,81 @@ using Event = std::unique_ptr<sd_event, EventDeleter>;
  */
 class Event
 {
-    public:
-        /* Define all of the basic class operations:
-         *     Not allowed:
-         *         - Default constructor to avoid nullptrs.
-         *         - Copy operations due to internal unique_ptr.
-         *     Allowed:
-         *         - Move operations.
-         *         - Destructor.
-         */
-        Event() = delete;
-        Event(const Event&) = delete;
-        Event& operator=(const Event&) = delete;
-        Event(Event&&) = default;
-        Event& operator=(Event&&) = default;
-        ~Event() = default;
+  public:
+    /* Define all of the basic class operations:
+     *     Not allowed:
+     *         - Default constructor to avoid nullptrs.
+     *         - Copy operations due to internal unique_ptr.
+     *     Allowed:
+     *         - Move operations.
+     *         - Destructor.
+     */
+    Event() = delete;
+    Event(const Event&) = delete;
+    Event& operator=(const Event&) = delete;
+    Event(Event&&) = default;
+    Event& operator=(Event&&) = default;
+    ~Event() = default;
 
-        /** @brief Conversion constructor from 'EventPtr'.
-         *
-         *  Increments ref-count of the event-pointer and releases it when
-         *  done.
-         */
-        explicit Event(EventPtr e);
+    /** @brief Conversion constructor from 'EventPtr'.
+     *
+     *  Increments ref-count of the event-pointer and releases it when
+     *  done.
+     */
+    explicit Event(EventPtr e);
 
-        /** @brief Constructor for 'Event'.
-         *
-         *  Takes ownership of the event-pointer and releases it when done.
-         */
-        Event(EventPtr e, std::false_type);
+    /** @brief Constructor for 'Event'.
+     *
+     *  Takes ownership of the event-pointer and releases it when done.
+     */
+    Event(EventPtr e, std::false_type);
 
-        /** @brief Release ownership of the stored event-pointer. */
-        EventPtr release()
-        {
-            return evt.release();
-        }
+    /** @brief Release ownership of the stored event-pointer. */
+    EventPtr release()
+    {
+        return evt.release();
+    }
 
-        /** @brief Wait indefinitely for new event sources. */
-        void loop()
-        {
-            sd_event_loop(evt.get());
-        }
+    /** @brief Wait indefinitely for new event sources. */
+    void loop()
+    {
+        sd_event_loop(evt.get());
+    }
 
-        /** @brief Attach to a DBus loop. */
-        void attach(sdbusplus::bus::bus& bus)
-        {
-            bus.attach_event(evt.get(), SD_EVENT_PRIORITY_NORMAL);
-        }
+    /** @brief Attach to a DBus loop. */
+    void attach(sdbusplus::bus::bus& bus)
+    {
+        bus.attach_event(evt.get(), SD_EVENT_PRIORITY_NORMAL);
+    }
 
-        /** @brief C++ wrapper for sd_event_now. */
-        auto now()
-        {
-            using namespace std::chrono;
+    /** @brief C++ wrapper for sd_event_now. */
+    auto now()
+    {
+        using namespace std::chrono;
 
-            uint64_t usec;
-            sd_event_now(evt.get(), CLOCK_MONOTONIC, &usec);
-            microseconds d(usec);
-            return steady_clock::time_point(d);
-        }
+        uint64_t usec;
+        sd_event_now(evt.get(), CLOCK_MONOTONIC, &usec);
+        microseconds d(usec);
+        return steady_clock::time_point(d);
+    }
 
-        friend class timer::Timer;
+    friend class timer::Timer;
 
-    private:
+  private:
+    EventPtr get()
+    {
+        return evt.get();
+    }
 
-        EventPtr get()
-        {
-            return evt.get();
-        }
-
-        details::Event evt;
+    details::Event evt;
 };
 
 inline Event::Event(EventPtr l) : evt(sd_event_ref(l))
 {
-
 }
 
 inline Event::Event(EventPtr l, std::false_type) : evt(l)
 {
-
 }
 
 inline Event newDefault()

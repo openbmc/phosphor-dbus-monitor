@@ -9,15 +9,13 @@ using PathMeta = TupleOfRefs<const std::string, const std::string>;
 
 #include "pathgentest.hpp"
 
-const std::array<std::string, 3> expectedMeta =
-{
+const std::array<std::string, 3> expectedMeta = {
     "PATH1"s,
     "PATH3"s,
     "PATH2"s,
 };
 
-const std::array<std::string, 6> expectedPaths =
-{
+const std::array<std::string, 6> expectedPaths = {
     "/xyz/openbmc_project/testing/inst1"s,
     "/xyz/openbmc_project/testing/inst2"s,
     "/xyz/openbmc_project/testing/inst3"s,
@@ -26,55 +24,49 @@ const std::array<std::string, 6> expectedPaths =
     "/xyz/openbmc_project/testing/inst6"s,
 };
 
-const std::array<PathMeta, 14> expectedPathMeta =
-{
-    {
-        PathMeta{ paths[0], meta[0] },
-        PathMeta{ paths[1], meta[0] },
-        PathMeta{ paths[2], meta[0] },
-        PathMeta{ paths[3], meta[0] },
-        PathMeta{ paths[0], meta[1] },
-        PathMeta{ paths[1], meta[1] },
-        PathMeta{ paths[2], meta[1] },
-        PathMeta{ paths[3], meta[1] },
-        PathMeta{ paths[4], meta[0] },
-        PathMeta{ paths[5], meta[0] },
-        PathMeta{ paths[3], meta[2] },
-        PathMeta{ paths[2], meta[2] },
-        PathMeta{ paths[1], meta[2] },
-        PathMeta{ paths[0], meta[2] },
-    }
-};
+const std::array<PathMeta, 14> expectedPathMeta = {{
+    PathMeta{paths[0], meta[0]},
+    PathMeta{paths[1], meta[0]},
+    PathMeta{paths[2], meta[0]},
+    PathMeta{paths[3], meta[0]},
+    PathMeta{paths[0], meta[1]},
+    PathMeta{paths[1], meta[1]},
+    PathMeta{paths[2], meta[1]},
+    PathMeta{paths[3], meta[1]},
+    PathMeta{paths[4], meta[0]},
+    PathMeta{paths[5], meta[0]},
+    PathMeta{paths[3], meta[2]},
+    PathMeta{paths[2], meta[2]},
+    PathMeta{paths[1], meta[2]},
+    PathMeta{paths[0], meta[2]},
+}};
 
-const std::array<RefVector<const std::string>, 4> expectedGroups =
-{
+const std::array<RefVector<const std::string>, 4> expectedGroups = {{
     {
-        {
-            paths[0],
-            paths[1],
-            paths[2],
-            paths[3],
-        },
-        {
-            paths[0],
-            paths[1],
-            paths[2],
-            paths[3],
-        },
-        {
-            paths[0],
-            paths[1],
-            paths[4],
-            paths[5],
-        },
-        {
-            paths[3],
-            paths[2],
-            paths[1],
-            paths[0],
-        },
-    }
-};
+        paths[0],
+        paths[1],
+        paths[2],
+        paths[3],
+    },
+    {
+        paths[0],
+        paths[1],
+        paths[2],
+        paths[3],
+    },
+    {
+        paths[0],
+        paths[1],
+        paths[4],
+        paths[5],
+    },
+    {
+        paths[3],
+        paths[2],
+        paths[1],
+        paths[0],
+    },
+}};
 
 TEST(PathGenTest, MetaSameSize)
 {
@@ -138,7 +130,6 @@ TEST(PathGenTest, GroupsSameContent)
         for (j = 0; j < groups[i].size(); ++j)
         {
             ASSERT_EQ(groups[i][j].get(), expectedGroups[i][j].get());
-
         }
     }
 }

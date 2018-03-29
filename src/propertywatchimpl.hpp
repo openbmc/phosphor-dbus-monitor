@@ -16,8 +16,7 @@ namespace monitoring
 
 using MappedPropertyIndex =
     RefKeyMap<const std::string,
-    RefKeyMap<const std::string,
-    RefVector<const std::string>>>;
+              RefKeyMap<const std::string, RefVector<const std::string>>>;
 
 MappedPropertyIndex convert(const PropertyIndex& index);
 
@@ -41,11 +40,9 @@ void PropertyWatch<DBusInterfaceType>::start()
         // Watch for new interfaces on this path.
         DBusInterfaceType::addMatch(
             sdbusplus::bus::match::rules::interfacesAdded(path),
-            [this](auto & msg)
-        // *INDENT-OFF*
-            {
-                this->interfacesAdded(msg);
-            });
+            [this](auto& msg)
+            // *INDENT-OFF*
+            { this->interfacesAdded(msg); });
         // *INDENT-ON*
 
         // Do a query to populate the cache.  Start with a mapper query.
@@ -53,12 +50,8 @@ void PropertyWatch<DBusInterfaceType>::start()
         const std::vector<std::string> queryInterfaces; // all interfaces
         auto mapperResp =
             DBusInterfaceType::template callMethodAndRead<GetObject>(
-                MAPPER_BUSNAME,
-                MAPPER_PATH,
-                MAPPER_INTERFACE,
-                "GetObject",
-                path,
-                queryInterfaces);
+                MAPPER_BUSNAME, MAPPER_PATH, MAPPER_INTERFACE, "GetObject",
+                path, queryInterfaces);
 
         for (const auto& i : interfaces)
         {
@@ -66,9 +59,9 @@ void PropertyWatch<DBusInterfaceType>::start()
 
             // Watch for property changes on this interface.
             DBusInterfaceType::addMatch(
-                sdbusplus::bus::match::rules::propertiesChanged(
-                        path, interface),
-                [this](auto & msg)
+                sdbusplus::bus::match::rules::propertiesChanged(path,
+                                                                interface),
+                [this](auto& msg)
                 // *INDENT-OFF*
                 {
                     std::string interface;
@@ -76,7 +69,7 @@ void PropertyWatch<DBusInterfaceType>::start()
                     auto path = msg.get_path();
                     this->propertiesChanged(msg, path, interface);
                 });
-                // *INDENT-ON*
+            // *INDENT-ON*
 
             // The mapper response is a busname:[interfaces] map.  Look for
             // each interface in the index and if found, query the service and
@@ -85,10 +78,9 @@ void PropertyWatch<DBusInterfaceType>::start()
             {
                 const auto& busName = mr.first;
                 const auto& mapperInterfaces = mr.second;
-                if (mapperInterfaces.end() == std::find(
-                        mapperInterfaces.begin(),
-                        mapperInterfaces.end(),
-                        interface))
+                if (mapperInterfaces.end() ==
+                    std::find(mapperInterfaces.begin(), mapperInterfaces.end(),
+                              interface))
                 {
                     // This interface isn't being watched.
                     continue;
@@ -115,24 +107,19 @@ void PropertyWatch<DBusInterfaceType>::callback(Context ctx)
 
 template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::updateProperties(
-    const std::string& busName,
-    const std::string& path,
+    const std::string& busName, const std::string& path,
     const std::string& interface)
 {
     auto properties =
         DBusInterfaceType::template callMethodAndRead<PropertiesChanged<T>>(
-            busName.c_str(),
-            path.c_str(),
-            "org.freedesktop.DBus.Properties",
-            "GetAll",
-            interface);
+            busName.c_str(), path.c_str(), "org.freedesktop.DBus.Properties",
+            "GetAll", interface);
     propertiesChanged(path, interface, properties);
 }
 
 template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
-    const std::string& path,
-    const std::string& interface,
+    const std::string& path, const std::string& interface,
     const PropertiesChanged<T>& properties)
 {
     // Update the cache for any watched properties.
@@ -147,7 +134,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
         }
 
         std::get<valueIndex>(std::get<storageIndex>(item->second).get()) =
-                p.second.template get<T>();
+            p.second.template get<T>();
 
         // Invoke callback if present.
         this->callback(Context::SIGNAL);
@@ -156,8 +143,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
 
 template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
-    sdbusplus::message::message& msg,
-    const std::string& path,
+    sdbusplus::message::message& msg, const std::string& path,
     const std::string& interface)
 {
     PropertiesChanged<T> properties;
@@ -167,8 +153,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
 
 template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::interfacesAdded(
-    const std::string& path,
-    const InterfacesAdded<T>& interfaces)
+    const std::string& path, const InterfacesAdded<T>& interfaces)
 {
     for (const auto& i : interfaces)
     {

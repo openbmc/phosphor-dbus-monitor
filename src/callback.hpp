@@ -17,22 +17,22 @@ namespace monitoring
  */
 class Callback
 {
-    public:
-        Callback() = default;
-        Callback(const Callback&) = delete;
-        Callback(Callback&&) = default;
-        Callback& operator=(const Callback&) = delete;
-        Callback& operator=(Callback&&) = default;
-        virtual ~Callback() = default;
+  public:
+    Callback() = default;
+    Callback(const Callback&) = delete;
+    Callback(Callback&&) = default;
+    Callback& operator=(const Callback&) = delete;
+    Callback& operator=(Callback&&) = default;
+    virtual ~Callback() = default;
 
-        /** @brief Run the callback.
-         *  @param[in] ctx - caller context
-         *     Context could be Startup or Signal
-         *     Startup: Callback is called as part of process startup.
-         *     Signal: Callback is called as part of watch condition has been met.
-         *
-         */
-        virtual void operator()(Context ctx) = 0;
+    /** @brief Run the callback.
+     *  @param[in] ctx - caller context
+     *     Context could be Startup or Signal
+     *     Startup: Callback is called as part of process startup.
+     *     Signal: Callback is called as part of watch condition has been met.
+     *
+     */
+    virtual void operator()(Context ctx) = 0;
 };
 
 /** @class Conditional
@@ -42,16 +42,16 @@ class Callback
  */
 class Conditional
 {
-    public:
-        Conditional() = default;
-        Conditional(const Conditional&) = delete;
-        Conditional(Conditional&&) = default;
-        Conditional& operator=(const Conditional&) = delete;
-        Conditional& operator=(Conditional&&) = default;
-        virtual ~Conditional() = default;
+  public:
+    Conditional() = default;
+    Conditional(const Conditional&) = delete;
+    Conditional(Conditional&&) = default;
+    Conditional& operator=(const Conditional&) = delete;
+    Conditional& operator=(Conditional&&) = default;
+    virtual ~Conditional() = default;
 
-        /** @brief Test the condition. */
-        virtual bool operator()() = 0;
+    /** @brief Test the condition. */
+    virtual bool operator()() = 0;
 };
 
 /** @class IndexedConditional
@@ -59,24 +59,25 @@ class Conditional
  */
 class IndexedConditional : public Conditional
 {
-    public:
-        IndexedConditional() = delete;
-        IndexedConditional(const IndexedConditional&) = delete;
-        IndexedConditional(IndexedConditional&&) = default;
-        IndexedConditional& operator=(const IndexedConditional&) = delete;
-        IndexedConditional& operator=(IndexedConditional&&) = default;
-        virtual ~IndexedConditional() = default;
+  public:
+    IndexedConditional() = delete;
+    IndexedConditional(const IndexedConditional&) = delete;
+    IndexedConditional(IndexedConditional&&) = default;
+    IndexedConditional& operator=(const IndexedConditional&) = delete;
+    IndexedConditional& operator=(IndexedConditional&&) = default;
+    virtual ~IndexedConditional() = default;
 
-        explicit IndexedConditional(const PropertyIndex& conditionIndex)
-            : Conditional(), index(conditionIndex) {}
+    explicit IndexedConditional(const PropertyIndex& conditionIndex) :
+        Conditional(), index(conditionIndex)
+    {
+    }
 
-        /** @brief Test the condition. */
-        virtual bool operator()() override = 0;
+    /** @brief Test the condition. */
+    virtual bool operator()() override = 0;
 
-    protected:
-
-        /** @brief Property names and their associated storage. */
-        const PropertyIndex& index;
+  protected:
+    /** @brief Property names and their associated storage. */
+    const PropertyIndex& index;
 };
 
 /** @class IndexedCallback
@@ -84,23 +85,24 @@ class IndexedConditional : public Conditional
  */
 class IndexedCallback : public Callback
 {
-    public:
-        IndexedCallback() = delete;
-        IndexedCallback(const IndexedCallback&) = delete;
-        IndexedCallback(IndexedCallback&&) = default;
-        IndexedCallback& operator=(const IndexedCallback&) = delete;
-        IndexedCallback& operator=(IndexedCallback&&) = default;
-        virtual ~IndexedCallback() = default;
-        explicit IndexedCallback(const PropertyIndex& callbackIndex)
-            : Callback(), index(callbackIndex) {}
+  public:
+    IndexedCallback() = delete;
+    IndexedCallback(const IndexedCallback&) = delete;
+    IndexedCallback(IndexedCallback&&) = default;
+    IndexedCallback& operator=(const IndexedCallback&) = delete;
+    IndexedCallback& operator=(IndexedCallback&&) = default;
+    virtual ~IndexedCallback() = default;
+    explicit IndexedCallback(const PropertyIndex& callbackIndex) :
+        Callback(), index(callbackIndex)
+    {
+    }
 
-        /** @brief Run the callback. */
-        virtual void operator()(Context ctx) override = 0;
+    /** @brief Run the callback. */
+    virtual void operator()(Context ctx) override = 0;
 
-    protected:
-
-        /** @brief Property names and their associated storage. */
-        const PropertyIndex& index;
+  protected:
+    /** @brief Property names and their associated storage. */
+    const PropertyIndex& index;
 };
 
 /** @class GroupOfCallbacks
@@ -113,67 +115,68 @@ class IndexedCallback : public Callback
  *
  *  @tparam CallbackAccess - Access to the array of callbacks.
  */
-template <typename CallbackAccess>
-class GroupOfCallbacks : public Callback
+template <typename CallbackAccess> class GroupOfCallbacks : public Callback
 {
-    public:
-        GroupOfCallbacks() = delete;
-        GroupOfCallbacks(const GroupOfCallbacks&) = delete;
-        GroupOfCallbacks(GroupOfCallbacks&&) = default;
-        GroupOfCallbacks& operator=(const GroupOfCallbacks&) = delete;
-        GroupOfCallbacks& operator=(GroupOfCallbacks&&) = default;
-        ~GroupOfCallbacks() = default;
-        explicit GroupOfCallbacks(
-            const std::vector<size_t>& graphEntry)
-            : graph(graphEntry) {}
+  public:
+    GroupOfCallbacks() = delete;
+    GroupOfCallbacks(const GroupOfCallbacks&) = delete;
+    GroupOfCallbacks(GroupOfCallbacks&&) = default;
+    GroupOfCallbacks& operator=(const GroupOfCallbacks&) = delete;
+    GroupOfCallbacks& operator=(GroupOfCallbacks&&) = default;
+    ~GroupOfCallbacks() = default;
+    explicit GroupOfCallbacks(const std::vector<size_t>& graphEntry) :
+        graph(graphEntry)
+    {
+    }
 
-        /** @brief Run the callbacks. */
-        void operator()(Context ctx) override
+    /** @brief Run the callbacks. */
+    void operator()(Context ctx) override
+    {
+        for (auto e : graph)
         {
-            for (auto e : graph)
-            {
-                (*CallbackAccess::get()[e])(ctx);
-            }
+            (*CallbackAccess::get()[e])(ctx);
         }
+    }
 
-    private:
-        /** @brief The offsets of the callbacks in the group. */
-        const std::vector<size_t>& graph;
+  private:
+    /** @brief The offsets of the callbacks in the group. */
+    const std::vector<size_t>& graph;
 };
 
 /** @class ConditionalCallback
  *  @brief Callback adaptor that asssociates a condition with a callback.
  */
-template <typename CallbackAccess>
-class ConditionalCallback: public Callback
+template <typename CallbackAccess> class ConditionalCallback : public Callback
 {
-    public:
-        ConditionalCallback() = delete;
-        ConditionalCallback(const ConditionalCallback&) = delete;
-        ConditionalCallback(ConditionalCallback&&) = default;
-        ConditionalCallback& operator=(const ConditionalCallback&) = delete;
-        ConditionalCallback& operator=(ConditionalCallback&&) = default;
-        virtual ~ConditionalCallback() = default;
-        ConditionalCallback(
-            const std::vector<size_t>& graphEntry,
-            Conditional& cond)
-            : graph(graphEntry), condition(cond) {}
+  public:
+    ConditionalCallback() = delete;
+    ConditionalCallback(const ConditionalCallback&) = delete;
+    ConditionalCallback(ConditionalCallback&&) = default;
+    ConditionalCallback& operator=(const ConditionalCallback&) = delete;
+    ConditionalCallback& operator=(ConditionalCallback&&) = default;
+    virtual ~ConditionalCallback() = default;
+    ConditionalCallback(const std::vector<size_t>& graphEntry,
+                        Conditional& cond) :
+        graph(graphEntry),
+        condition(cond)
+    {
+    }
 
-        /** @brief Run the callback if the condition is satisfied. */
-        virtual void operator()(Context ctx) override
+    /** @brief Run the callback if the condition is satisfied. */
+    virtual void operator()(Context ctx) override
+    {
+        if (condition())
         {
-            if (condition())
-            {
-                (*CallbackAccess::get()[graph[0]])(ctx);
-            }
+            (*CallbackAccess::get()[graph[0]])(ctx);
         }
+    }
 
-    protected:
-        /** @brief The index of the callback to conditionally invoke. */
-        const std::vector<size_t>& graph;
+  protected:
+    /** @brief The index of the callback to conditionally invoke. */
+    const std::vector<size_t>& graph;
 
-        /** @brief The condition to test. */
-        Conditional& condition;
+    /** @brief The condition to test. */
+    Conditional& condition;
 };
 
 /** @class DeferrableCallback
@@ -192,59 +195,57 @@ class ConditionalCallback: public Callback
 template <typename CallbackAccess, typename TimerType>
 class DeferrableCallback : public ConditionalCallback<CallbackAccess>
 {
-    public:
-        DeferrableCallback() = delete;
-        DeferrableCallback(const DeferrableCallback&) = delete;
-        DeferrableCallback(DeferrableCallback&&) = default;
-        DeferrableCallback& operator=(const DeferrableCallback&) = delete;
-        DeferrableCallback& operator=(DeferrableCallback&&) = default;
-        ~DeferrableCallback() = default;
+  public:
+    DeferrableCallback() = delete;
+    DeferrableCallback(const DeferrableCallback&) = delete;
+    DeferrableCallback(DeferrableCallback&&) = default;
+    DeferrableCallback& operator=(const DeferrableCallback&) = delete;
+    DeferrableCallback& operator=(DeferrableCallback&&) = default;
+    ~DeferrableCallback() = default;
 
-        DeferrableCallback(
-            const std::vector<size_t>& graphEntry,
-            Conditional& cond,
-            const std::chrono::microseconds& delay)
-            : ConditionalCallback<CallbackAccess>(graphEntry, cond),
-              delayInterval(delay),
-              timer(nullptr) {}
+    DeferrableCallback(const std::vector<size_t>& graphEntry, Conditional& cond,
+                       const std::chrono::microseconds& delay) :
+        ConditionalCallback<CallbackAccess>(graphEntry, cond),
+        delayInterval(delay), timer(nullptr)
+    {
+    }
 
-        void operator()(Context ctx) override
+    void operator()(Context ctx) override
+    {
+        if (!timer)
         {
-            if (!timer)
-            {
-                timer = std::make_unique<TimerType>(
-// **INDENT-OFF**
-                    [ctx, this](auto & source)
-                    {
-                        this->ConditionalCallback<CallbackAccess>::operator()(ctx);
-                    });
-// **INDENT-ON**
-                timer->disable();
-            }
-
-            if (this->condition())
-            {
-                if (!timer->enabled())
-                {
-                    // This is the first time the condition evaluated.
-                    // Start the countdown.
-                    timer->update(timer->now() + delayInterval);
-                    timer->enable();
-                }
-            }
-            else
-            {
-                // The condition did not evaluate.  Stop the countdown.
-                timer->disable();
-            }
+            timer = std::make_unique<TimerType>(
+                // **INDENT-OFF**
+                [ctx, this](auto& source) {
+                    this->ConditionalCallback<CallbackAccess>::operator()(ctx);
+                });
+            // **INDENT-ON**
+            timer->disable();
         }
 
-    private:
-        /** @brief The length to wait for the condition to stop evaluating. */
-        std::chrono::microseconds delayInterval;
+        if (this->condition())
+        {
+            if (!timer->enabled())
+            {
+                // This is the first time the condition evaluated.
+                // Start the countdown.
+                timer->update(timer->now() + delayInterval);
+                timer->enable();
+            }
+        }
+        else
+        {
+            // The condition did not evaluate.  Stop the countdown.
+            timer->disable();
+        }
+    }
 
-        /** @brief Delegated timer functions. */
-        std::unique_ptr<TimerType> timer;
+  private:
+    /** @brief The length to wait for the condition to stop evaluating. */
+    std::chrono::microseconds delayInterval;
+
+    /** @brief Delegated timer functions. */
+    std::unique_ptr<TimerType> timer;
 };
 
 } // namespace monitoring

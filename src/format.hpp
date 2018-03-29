@@ -14,7 +14,6 @@ namespace detail
 /** @brief Map format strings to undecorated C++ types. */
 template <typename T> struct GetFormatType
 {
-
 };
 template <> struct GetFormatType<bool>
 {

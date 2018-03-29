@@ -21,13 +21,13 @@
 
 using namespace std::literals::string_literals;
 
-template <typename T>
-struct BusMeetsMSL
+template <typename T> struct BusMeetsMSL
 {
     std::string path;
 
-    BusMeetsMSL(const std::string& p)
-        :path(p) {}
+    BusMeetsMSL(const std::string& p) : path(p)
+    {
+    }
 
     auto operator()(const T& arg)
     {
@@ -36,16 +36,14 @@ struct BusMeetsMSL
 
         const auto& busName = arg.first;
         return util::sdbusplus::getProperty<bool>(
-                busName,
-                path,
-                "xyz.openbmc_project.Inventory."
-                    "Decorator.MeetsMinimumShipLevel"s,
-                "MeetsMinimumShipLevel"s);
+            busName, path,
+            "xyz.openbmc_project.Inventory."
+            "Decorator.MeetsMinimumShipLevel"s,
+            "MeetsMinimumShipLevel"s);
     }
 };
 
-template <typename T>
-struct PathMeetsMSL
+template <typename T> struct PathMeetsMSL
 {
     auto operator()(const T& arg)
     {
@@ -55,19 +53,17 @@ struct PathMeetsMSL
 
         const auto& path = arg.first;
         return std::all_of(
-                arg.second.begin(),
-                arg.second.end(),
-                BusMeetsMSL<typename decltype(arg.second)::value_type>(path));
+            arg.second.begin(), arg.second.end(),
+            BusMeetsMSL<typename decltype(arg.second)::value_type>(path));
     }
 };
 
 int main(void)
 {
-    auto mslVerificationRequired =
-        util::sdbusplus::getProperty<bool>(
-                "/xyz/openbmc_project/control/minimum_ship_level_required"s,
-                "xyz.openbmc_project.Control.MinimumShipLevel"s,
-                "MinimumShipLevelRequired"s);
+    auto mslVerificationRequired = util::sdbusplus::getProperty<bool>(
+        "/xyz/openbmc_project/control/minimum_ship_level_required"s,
+        "xyz.openbmc_project.Control.MinimumShipLevel"s,
+        "MinimumShipLevelRequired"s);
 
     if (!mslVerificationRequired)
     {
@@ -80,32 +76,23 @@ int main(void)
     // the minimum ship level has been met.
 
     using SubTreeType =
-        std::map<
-            std::string,
-            std::map<std::string, std::vector<std::string>>>;
+        std::map<std::string, std::map<std::string, std::vector<std::string>>>;
 
-    auto subtree =
-        util::sdbusplus::callMethodAndRead<SubTreeType>(
-                "xyz.openbmc_project.ObjectMapper"s,
-                "/xyz/openbmc_project/object_mapper"s,
-                "xyz.openbmc_project.ObjectMapper"s,
-                "GetSubTree"s,
-                "/"s,
-                0,
-                std::vector<std::string>{
-                    "xyz.openbmc_project.Inventory"
-                        ".Decorator.MeetsMinimumShipLevel"s});
+    auto subtree = util::sdbusplus::callMethodAndRead<SubTreeType>(
+        "xyz.openbmc_project.ObjectMapper"s,
+        "/xyz/openbmc_project/object_mapper"s,
+        "xyz.openbmc_project.ObjectMapper"s, "GetSubTree"s, "/"s, 0,
+        std::vector<std::string>{"xyz.openbmc_project.Inventory"
+                                 ".Decorator.MeetsMinimumShipLevel"s});
 
-    auto result = std::all_of(
-            subtree.begin(),
-            subtree.end(),
-            PathMeetsMSL<SubTreeType::value_type>());
+    auto result = std::all_of(subtree.begin(), subtree.end(),
+                              PathMeetsMSL<SubTreeType::value_type>());
 
     if (!result)
     {
         phosphor::logging::log<phosphor::logging::level::INFO>(
-                "The physical system configuration does not "
-                "satisfy the minimum ship level.");
+            "The physical system configuration does not "
+            "satisfy the minimum ship level.");
 
         return 1;
     }
