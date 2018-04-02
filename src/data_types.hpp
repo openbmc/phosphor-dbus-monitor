@@ -35,6 +35,7 @@ enum class Context
 {
     START,
     SIGNAL,
+    INTERFACE,
 };
 
 /** @brief A map with references as keys. */
@@ -56,11 +57,12 @@ template <typename T> using RefVector = std::vector<std::reference_wrapper<T>>;
  */
 using MapperPath = std::string;
 
+using Value =
+    sdbusplus::message::variant<bool, uint8_t, int16_t, uint16_t, int32_t,
+                                uint32_t, int64_t, uint64_t, std::string>;
+
 /** @brief ObjectManager.InterfacesAdded signal signature alias. */
-template <typename T>
-using InterfacesAdded =
-    std::map<std::string,
-             std::map<std::string, sdbusplus::message::variant<T>>>;
+using InterfacesAdded = std::map<std::string, std::map<std::string, Value>>;
 
 /** @brief ObjectMapper.GetObject response signature alias. */
 using GetObject = std::map<MapperPath, std::vector<std::string>>;
