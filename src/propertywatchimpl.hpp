@@ -37,14 +37,6 @@ void PropertyWatch<DBusInterfaceType>::start()
         const auto& path = m.first.get();
         const auto& interfaces = m.second;
 
-        // Watch for new interfaces on this path.
-        DBusInterfaceType::addMatch(
-            sdbusplus::bus::match::rules::interfacesAdded(path),
-            [this](auto& msg)
-            // *INDENT-OFF*
-            { this->interfacesAdded(msg); });
-        // *INDENT-ON*
-
         // Do a query to populate the cache.  Start with a mapper query.
         // The specific services are queried below.
         const std::vector<std::string> queryInterfaces; // all interfaces
@@ -149,26 +141,6 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
     PropertiesChanged<T> properties;
     msg.read(properties);
     propertiesChanged(path, interface, properties);
-}
-
-template <typename T, typename DBusInterfaceType>
-void PropertyWatchOfType<T, DBusInterfaceType>::interfacesAdded(
-    const std::string& path, const InterfacesAdded<T>& interfaces)
-{
-    for (const auto& i : interfaces)
-    {
-        propertiesChanged(path, i.first, i.second);
-    }
-}
-
-template <typename T, typename DBusInterfaceType>
-void PropertyWatchOfType<T, DBusInterfaceType>::interfacesAdded(
-    sdbusplus::message::message& msg)
-{
-    sdbusplus::message::object_path path;
-    InterfacesAdded<T> interfaces;
-    msg.read(path, interfaces);
-    interfacesAdded(path, interfaces);
 }
 
 } // namespace monitoring
