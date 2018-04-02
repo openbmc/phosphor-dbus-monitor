@@ -79,14 +79,6 @@ template <typename DBusInterfaceType> class PropertyWatch : public Watch
                                    const std::string& path,
                                    const std::string& interface) = 0;
 
-    /** @brief Dbus signal callback for InterfacesAdded.
-     *
-     *  Subclasses to update the cache.
-     *
-     *  @param[in] msg - The org.freedesktop.DBus.PropertiesChanged
-     *               message.
-     */
-    virtual void interfacesAdded(sdbusplus::message::message& msg) = 0;
 
   protected:
     /** @brief Property names and their associated storage. */
@@ -154,21 +146,6 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
     void propertiesChanged(const std::string& path,
                            const std::string& interface,
                            const PropertiesChanged<T>& properties);
-
-    /** @brief PropertyMatch implementation for PropertyWatchOfType.
-     *
-     *  @param[in] msg - The org.freedesktop.DBus.PropertiesChanged
-     *               message.
-     */
-    void interfacesAdded(sdbusplus::message::message& msg) override;
-
-    /** @brief DBus agnostic implementation of interfacesAdded.
-     *
-     *  @param[in] path - The path of the added interfaces.
-     *  @param[in] interfaces - The added interfaces.
-     */
-    void interfacesAdded(const std::string& path,
-                         const InterfacesAdded<T>& interfaces);
 };
 
 } // namespace monitoring

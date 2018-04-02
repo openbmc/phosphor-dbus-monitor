@@ -10,6 +10,7 @@ phosphor_dbus_monitor_SOURCES = \
 	elog.cpp \
 	main.cpp \
 	propertywatch.cpp \
+	interfacewatch.cpp \
 	resolve_errors.cpp \
 	event_manager.cpp
 phosphor_dbus_monitor_LDADD = \
