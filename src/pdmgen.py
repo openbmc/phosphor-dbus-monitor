@@ -144,7 +144,7 @@ class Quote(object):
 
 
 class Argument(NamedElement, Renderer):
-    '''Define argument type inteface.'''
+    '''Define argument type interface.'''
 
     def __init__(self, **kw):
         self.type = kw.pop('type', None)
