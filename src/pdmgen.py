@@ -354,6 +354,17 @@ class Instance(ConfigEntry):
 
         super(Instance, self).setup(objs)
 
+class PathInstance(ConfigEntry):
+    '''Path association.'''
+
+    def __init__(self, *a, **kw):
+        super(PathInstance, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve elements to indices.'''
+        self.path = self.name['path']['path']
+        self.pathmeta = self.name['path']['meta']
+        super(PathInstance, self).setup(objs)
 
 class Group(ConfigEntry):
     '''Pop the members keyword for groups.'''
@@ -468,6 +479,27 @@ class GroupOfInstances(ImplicitGroup):
 
         super(GroupOfInstances, self).setup(objs)
 
+class GroupOfPathInstances(ImplicitGroup):
+    '''A group of path instances.'''
+
+    def __init__(self, *a, **kw):
+        super(GroupOfPathInstances, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve group members.'''
+
+        def map_member(x):
+            path = get_index(objs, 'pathname', x['path']['path'])
+            pathmeta = get_index(objs, 'meta', x['path']['meta'])
+            pathinstance = get_index(objs, 'pathinstance', x)
+            return (path, pathmeta, pathinstance)
+
+        self.members = map(
+            map_member,
+            self.members)
+
+        super(GroupOfPathInstances, self).setup(objs)
+
 
 class HasPropertyIndex(ConfigEntry):
     '''Handle config file directives that require an index to be
@@ -531,6 +563,54 @@ class HasPropertyIndex(ConfigEntry):
 
         super(HasPropertyIndex, self).setup(objs)
 
+class HasPathIndex(ConfigEntry):
+    '''Handle config file directives that require an index to be
+    constructed.'''
+
+    def __init__(self, *a, **kw):
+        self.paths = kw.pop('paths')
+        super(HasPathIndex, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create a group of instances for this index.'''
+
+        members = []
+        path_group = get_index(
+            objs, 'pathgroup', self.paths, config=self.configfile)
+
+        for path in objs['pathgroup'][path_group].members:
+            member = {
+                'path': path,
+            }
+            members.append(member)
+
+        args = {
+            'members': members,
+            'class': 'pathinstancegroup',
+            'pathinstancegroup': 'pathinstance',
+            'name': '{0}'.format(self.paths)
+        }
+
+        group = GroupOfPathInstances(configfile=self.configfile, **args)
+        add_unique(group, objs, config=self.configfile)
+        group.factory(objs)
+
+        super(HasPathIndex, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve path and instance groups.'''
+
+        self.pathinstances = get_index(
+            objs,
+            'pathinstancegroup',
+            '{0}'.format(self.paths),
+            config=self.configfile)
+        self.paths = get_index(
+            objs,
+            'pathgroup',
+            self.paths,
+            config=self.configfile)
+        super(HasPathIndex, self).setup(objs)
 
 class PropertyWatch(HasPropertyIndex):
     '''Handle the property watch config file directive.'''
@@ -551,6 +631,23 @@ class PropertyWatch(HasPropertyIndex):
 
         super(PropertyWatch, self).setup(objs)
 
+class PathWatch(HasPathIndex):
+    '''Handle the path watch config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.pathcallback = kw.pop('pathcallback', None)
+        super(PathWatch, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve optional callback.'''
+        if self.pathcallback:
+            self.pathcallback = get_index(
+                objs,
+                'pathcallback',
+                self.pathcallback,
+                config=self.configfile)
+        super(PathWatch, self).setup(objs)
+
 
 class Callback(HasPropertyIndex):
     '''Interface and common logic for callbacks.'''
@@ -558,6 +655,11 @@ class Callback(HasPropertyIndex):
     def __init__(self, *a, **kw):
         super(Callback, self).__init__(**kw)
 
+class PathCallback(HasPathIndex):
+    '''Interface and common logic for callbacks.'''
+
+    def __init__(self, *a, **kw):
+        super(PathCallback, self).__init__(**kw)
 
 class ConditionCallback(ConfigEntry, Renderer):
     '''Handle the journal callback config file directive.'''
@@ -718,6 +820,19 @@ class Event(Callback, Renderer):
             c=self,
             indent=indent)
 
+class EventPath(PathCallback, Renderer):
+    '''Handle the event path callback config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.eventType = kw.pop('eventType')
+        super(EventPath, self).__init__(**kw)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'eventpath.mako.cpp',
+            c=self,
+            indent=indent)
 
 class ElogWithMetadata(Callback, Renderer):
     '''Handle the elog_with_metadata callback config file directive.'''
@@ -854,6 +969,24 @@ class CallbackGraphEntry(Group):
 
         super(CallbackGraphEntry, self).setup(objs)
 
+class PathCallbackGraphEntry(Group):
+    '''An entry in a traversal list for groups of callbacks.'''
+
+    def __init__(self, *a, **kw):
+        super(PathCallbackGraphEntry, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve group members.'''
+
+        def map_member(x):
+            return get_index(
+                objs, 'pathcallback', x, config=self.configfile)
+
+        self.members = map(
+            map_member,
+            self.members)
+
+        super(PathCallbackGraphEntry, self).setup(objs)
 
 class GroupOfCallbacks(ConfigEntry, Renderer):
     '''Handle the callback group config file directive.'''
@@ -893,6 +1026,42 @@ class GroupOfCallbacks(ConfigEntry, Renderer):
             c=self,
             indent=indent)
 
+class GroupOfPathCallbacks(ConfigEntry, Renderer):
+    '''Handle the callback group config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.members = kw.pop('members')
+        super(GroupOfPathCallbacks, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Create a graph instance for this group of callbacks.'''
+
+        args = {
+            'configfile': self.configfile,
+            'members': self.members,
+            'class': 'pathcallbackgroup',
+            'pathcallbackgroup': 'pathcallback',
+            'name': self.members
+        }
+
+        entry = PathCallbackGraphEntry(**args)
+        add_unique(entry, objs, config=self.configfile)
+        super(GroupOfPathCallbacks, self).factory(objs)
+
+    def setup(self, objs):
+        '''Resolve graph entry.'''
+
+        self.graph = get_index(
+            objs, 'callbackpathgroup', self.members, config=self.configfile)
+
+        super(GroupOfPathCallbacks, self).setup(objs)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'callbackpathgroup.mako.cpp',
+            c=self,
+            indent=indent)
 
 class Everything(Renderer):
     '''Parse/render entry point.'''
@@ -918,8 +1087,14 @@ class Everything(Renderer):
             'watch': {
                 'property': PropertyWatch,
             },
+            'pathwatch': {
+                'path': PathWatch,
+            },
             'instance': {
                 'element': Instance,
+            },
+            'pathinstance': {
+                'element': PathInstance,
             },
             'callback': {
                 'journal': Journal,
@@ -929,6 +1104,10 @@ class Everything(Renderer):
                 'group': GroupOfCallbacks,
                 'method': Method,
                 'resolve callout': ResolveCallout,
+            },
+            'pathcallback': {
+                'eventpath': EventPath,
+                'grouppath': GroupOfPathCallbacks,
             },
             'condition': {
                 'count': CountCondition,
@@ -1020,10 +1199,15 @@ class Everything(Renderer):
         self.propertynames = kw.pop('propertyname', [])
         self.propertygroups = kw.pop('propertygroup', [])
         self.instances = kw.pop('instance', [])
+        self.pathinstances = kw.pop('pathinstance', [])
         self.instancegroups = kw.pop('instancegroup', [])
+        self.pathinstancegroups = kw.pop('pathinstancegroup', [])
         self.watches = kw.pop('watch', [])
+        self.pathwatches = kw.pop('pathwatch', [])
         self.callbacks = kw.pop('callback', [])
+        self.pathcallbacks = kw.pop('pathcallback', [])
         self.callbackgroups = kw.pop('callbackgroup', [])
+        self.pathcallbackgroups = kw.pop('pathcallbackgroup', [])
         self.conditions = kw.pop('condition', [])
 
         super(Everything, self).__init__(**kw)
@@ -1047,10 +1231,15 @@ class Everything(Renderer):
                     pathgroups=self.pathgroups,
                     propertygroups=self.propertygroups,
                     instances=self.instances,
+                    pathinstances=self.pathinstances,
                     watches=self.watches,
+                    pathwatches=self.pathwatches,
                     instancegroups=self.instancegroups,
+                    pathinstancegroups=self.pathinstancegroups,
                     callbacks=self.callbacks,
+                    pathcallbacks=self.pathcallbacks,
                     callbackgroups=self.callbackgroups,
+                    pathcallbackgroups=self.pathcallbackgroups,
                     conditions=self.conditions,
                     indent=Indent()))
 
