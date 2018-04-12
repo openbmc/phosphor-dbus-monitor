@@ -12,7 +12,8 @@ phosphor_dbus_monitor_SOURCES = \
 	propertywatch.cpp \
 	resolve_errors.cpp \
 	event_manager.cpp \
-	event_serialize.cpp
+	event_serialize.cpp \
+	event.cpp
 
 phosphor_dbus_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \

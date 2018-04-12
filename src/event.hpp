@@ -3,7 +3,6 @@
 #include <phosphor-logging/log.hpp>
 #include "callback.hpp"
 #include "event_manager.hpp"
-
 #include <sstream>
 
 namespace phosphor
@@ -120,6 +119,38 @@ template <typename T> class Event : public EventBase
 
     /** @brief Event Message */
     std::string message;
+};
+
+/** @class SNMPEvent
+ *  @brief SNMP event callback implementation.
+ *
+ *  The SNMP event callback raises a SNMP Trap for the event
+ *  which has event message and metadata as key value pairs
+ *  as specified by the client supplied object path.
+ *  The SNMP event is invoked when new interfaces are
+ *  added to the object path specified by the client
+ */
+class SNMPEvent : public Callback
+{
+  public:
+    SNMPEvent() = delete;
+    SNMPEvent(const SNMPEvent&) = delete;
+    SNMPEvent(SNMPEvent&&) = default;
+    SNMPEvent& operator=(const SNMPEvent&) = delete;
+    SNMPEvent& operator=(SNMPEvent&&) = default;
+    virtual ~SNMPEvent() = default;
+    SNMPEvent(std::string iType) : Callback(), type(iType)
+    {
+    }
+
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx) override;
+
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx, sdbusplus::message::message& msg) override;
+
+  private:
+    std::string type;
 };
 
 } // namespace monitoring
