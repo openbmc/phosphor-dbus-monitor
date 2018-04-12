@@ -122,6 +122,66 @@ template <typename T> class Event : public EventBase
     std::string message;
 };
 
+/** @class SNMPEvent
+ *  @brief SNMP event callback implementation.
+ *
+ *  The SNMP event callback raises a SNMP Trap for the event
+ *  which has event message and metadata as key value pairs
+ *  as specified by the client supplied object path.
+ *  The SNMP event is invoked when new interfaces are
+ *  added to the object path specified by the client
+ */
+class SNMPEvent : public Callback
+{
+  public:
+    SNMPEvent() = delete;
+    SNMPEvent(const SNMPEvent&) = delete;
+    SNMPEvent(SNMPEvent&&) = default;
+    SNMPEvent& operator=(const SNMPEvent&) = delete;
+    SNMPEvent& operator=(SNMPEvent&&) = default;
+    virtual ~SNMPEvent() = default;
+    SNMPEvent(std::string eventName, std::string eventMessage) :
+        Callback(), name(eventName), message(eventMessage)
+    {
+    }
+
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx) override
+    {
+        if (ctx == Context::START)
+        {
+            // No action should be taken
+            // as this call back is being called from
+            // daemon Startup.
+            return;
+        }
+    }
+
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx, sdbusplus::message::message& msg) override
+    {
+        if (ctx == Context::START)
+        {
+            // No action should be taken
+            // as this call back is being called from
+            // daemon Startup.
+            return;
+        }
+        if (ctx == Context::SIGNAL)
+        {
+            // TODO openbmc/openbmc#2328
+            // Send out SNMP traps corresponding to BMC error logs
+        }
+    }
+
+  private:
+    /** @brief Event Name */
+    std::string name;
+
+    /** @brief Event Message */
+    std::string message;
+};
+
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor
