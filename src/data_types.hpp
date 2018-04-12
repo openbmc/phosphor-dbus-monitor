@@ -61,6 +61,12 @@ template <typename T>
 using InterfacesAdded =
     std::map<std::string,
              std::map<std::string, sdbusplus::message::variant<T>>>;
+using Value =
+    sdbusplus::message::variant<bool, uint8_t, int16_t, uint16_t, int32_t,
+                                uint32_t, int64_t, uint64_t, std::string>;
+
+/** @brief ObjectManager.InterfacesAdded signal signature alias. */
+using PathInterfacesAdded = std::map<std::string, std::map<std::string, Value>>;
 
 /** @brief ObjectMapper.GetObject response signature alias. */
 using GetObject = std::map<MapperPath, std::vector<std::string>>;
