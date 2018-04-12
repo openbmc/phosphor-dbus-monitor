@@ -244,3 +244,28 @@
   countbound: 3
   op: '>='
   bound: 115
+
+- name: errorlog path group
+  class: group
+  group: path
+  members:
+    - meta: PATH
+      path: /xyz/openbmc_project/logging
+
+- name: pathwatch errorlog
+  description: >
+    'A pathwatch watches on new interfacess added to the specified object
+    path goup.
+    pathcallback are actions PDM should take when instructed to do so.'
+
+  class: pathwatch
+  pathwatch: path
+  paths: errorlog path group
+  pathcallback: create errorlog event
+
+- name: create errorlog event
+  class: pathcallback
+  pathcallback: eventpath
+  paths: errorlog path group
+  eventName: error
+  eventMessage: "New error entry is created."
