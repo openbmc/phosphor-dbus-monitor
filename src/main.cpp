@@ -54,6 +54,15 @@ int main(void)
     {
         watch->callback(Context::START);
     }
+    for (auto& watch : ConfigPathWatches::get())
+    {
+        watch->start();
+    }
+
+    for (auto& watch : ConfigPathWatches::get())
+    {
+        watch->callback(Context::START);
+    }
 
     Loop::run();
 
