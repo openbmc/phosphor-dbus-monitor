@@ -122,6 +122,82 @@ template <typename T> class Event : public EventBase
     std::string message;
 };
 
+/** @class PathEvent
+ *  @brief Path event callback implementation.
+ *
+ *  The path event callback creates the event dbus object
+ *  which has event message and metadata as key value pairs
+ *  as specified by the client supplied object path.
+ *  The path event callback is invoked when new interfaces are added to the
+ *  object path specified by the client
+ */
+class PathEvent : public Callback
+{
+  public:
+    PathEvent() = delete;
+    PathEvent(const PathEvent&) = delete;
+    PathEvent(PathEvent&&) = default;
+    PathEvent& operator=(const PathEvent&) = delete;
+    PathEvent& operator=(PathEvent&&) = default;
+    virtual ~PathEvent() = default;
+    PathEvent(std::string eventName, std::string eventMessage) :
+            Callback(), name(eventName), message(eventMessage)
+    {
+    }
+
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx) override
+    {
+        if (ctx == Context::START)
+        {
+            // No action should be taken
+            // as this call back is being called from
+            // daemon Startup.
+            return;
+        }
+    }
+
+    /** @brief Callback interface implementation. */
+    void operator()(Context ctx, sdbusplus::message::message& msg) override
+    {
+        if (ctx == Context::START)
+        {
+            // No action should be taken
+            // as this call back is being called from
+            // daemon Startup.
+            return;
+        }
+        if (ctx == Context::SIGNAL)
+        {
+            sdbusplus::message::object_path path;
+            msg.read(path);
+            PathInterfacesAdded intfs;
+            msg.read(intfs);
+            for (auto& intf : intfs)
+            {
+                createEvent(path, intf.first);
+            }
+        }
+    }
+
+  private:
+    /** @brief Create the event Dbus Object.
+     *  @param[in] path - Dbus Object Path for which the
+     *                    interface has been added.
+     *  @param[in] interface - Interface added
+     */
+    void createEvent(const std::string& path,
+                     const std::string& interface) const
+    {
+        phosphor::events::getManager().create(name, message, path, interface);
+    }
+    /** @brief Event Name */
+    std::string name;
+
+    /** @brief Event Message */
+    std::string message;
+};
+
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor
