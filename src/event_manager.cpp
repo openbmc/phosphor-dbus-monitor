@@ -36,15 +36,41 @@ void Manager::create(const std::string& eventName,
     namespace fs = std::experimental::filesystem;
 
     auto msg = eventMessage;
-    std::vector<std::string> additionalData;
+    AdditionalData additionalData;
 
     auto propVal = propertyName + "=" + propertyValue;
     auto path = "path="s + objectPath;
 
     additionalData.push_back(std::move(path));
     additionalData.push_back(std::move(propVal));
+    createHelper(eventName, eventMessage, objectPath,
+                 std::move(additionalData));
+}
 
+void Manager::create(const std::string& eventName,
+                     const std::string& eventMessage,
+                     const std::string& objectPath,
+                     const std::string& interface)
+{
+    using namespace std::string_literals;
+    auto path = "path="s + objectPath;
+
+    std::vector<std::string> additionalData;
+    additionalData.push_back(std::move(path));
+    additionalData.push_back(interface);
+
+    createHelper(eventName, eventMessage, objectPath,
+                 std::move(additionalData));
+}
+
+void Manager::createHelper(const std::string& eventName,
+                           const std::string& eventMessage,
+                           const std::string& objectPath,
+                           AdditionalData&& additionalData)
+{
     auto& eventQueue = eventMap[eventName];
+    auto msg = eventMessage;
+    namespace fs = std::experimental::filesystem;
 
     // get the last event entry for this event
     // to generate the id.

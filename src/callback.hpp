@@ -33,6 +33,15 @@ class Callback
      *
      */
     virtual void operator()(Context ctx) = 0;
+
+    /** @brief Run the callback.
+     *  @param[in] ctx - caller context
+     *     Context could be Startup or Signal
+     *     Startup: Callback is called as part of process startup.
+     *     Signal: Callback is called as part of watch condition has been met.
+     *  @param[in] msg - The sdbusplus signal message
+     */
+    virtual void operator()(Context ctx, sdbusplus::message::message& msg) {};
 };
 
 /** @class Conditional
