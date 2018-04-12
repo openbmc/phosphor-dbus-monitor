@@ -10,6 +10,7 @@ phosphor_dbus_monitor_SOURCES = \
 	elog.cpp \
 	main.cpp \
 	propertywatch.cpp \
+	pathwatch.cpp \
 	resolve_errors.cpp \
 	event_manager.cpp \
 	event_serialize.cpp
