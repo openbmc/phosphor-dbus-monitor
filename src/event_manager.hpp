@@ -1,7 +1,7 @@
 #pragma once
 
 #include "event_entry.hpp"
-
+#include "data_types.hpp"
 #include <map>
 #include <memory>
 #include <queue>
@@ -38,7 +38,31 @@ class Manager
                 const std::string& objectPath, const std::string& propertyName,
                 const std::string& propertyValue);
 
+    /** @brief Create the D-Bus Event object.
+     *  @detail Add the objectPath, interface added as additional data
+     *          of the event object
+     *  @param[in] eventName - Name of the event.
+     *  @param[in] eventMessage - Message for the event.
+     *  @param[in] objectPath - Path of the D-Bus object.
+     *  @param[in] intrfName - Name of the interface added.
+     */
+    void create(const std::string& eventName, const std::string& eventMessage,
+                const std::string& objectPath, const std::string& interface);
+
   private:
+    using AdditionalData = std::vector<std::string>;
+
+    /** @brief Helper method to create the D-Bus Event object.
+     *  @param[in] eventName - Name of the event.
+     *  @param[in] eventMessage - Message for the event.
+     *  @param[in] objectPath - Path of the D-Bus object.
+     *  @param[in] additionalData - Additional data
+     */
+    void createHelper(const std::string& eventName,
+                      const std::string& eventMessage,
+                      const std::string& objectPath,
+                      AdditionalData&& additionalData);
+
     using EventName = std::string;
     /** @brief Queue of events */
     using EventQueue = std::queue<std::unique_ptr<Entry>>;
