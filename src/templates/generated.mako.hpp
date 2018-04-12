@@ -12,9 +12,11 @@
 #include "errors.hpp"
 #include "method.hpp"
 #include "propertywatchimpl.hpp"
+#include "pathwatchimpl.hpp"
 #include "resolve_errors.hpp"
 #include "sdbusplus.hpp"
 #include "event.hpp"
+#include "snmp_trap.hpp"
 #include "sdevent.hpp"
 
 using namespace std::string_literals;
@@ -72,6 +74,22 @@ struct ConfigInterfaces
 % endfor
         };
         return interfaces;
+    }
+};
+
+struct ConfigIntfAddPaths
+{
+    using Paths = std::array<std::string, ${len(pathinstances)}>;
+
+    static auto& get()
+    {
+        static const Paths paths =
+        {
+% for p in pathinstances:
+            "${p.path}"s,
+% endfor
+        };
+        return paths;
     }
 };
 
@@ -186,6 +204,22 @@ struct ConfigPropertyCallbacks
     }
 };
 
+struct ConfigPathCallbacks
+{
+    using Callbacks = std::array<std::unique_ptr<Callback>, ${len(pathcallbacks)}>;
+
+    static auto& get()
+    {
+        static const Callbacks pathCallbacks =
+        {
+% for c in pathcallbacks:
+            ${c.construct(loader, indent=indent +3)},
+% endfor
+        };
+        return pathCallbacks;
+    }
+};
+
 struct ConfigPropertyWatches
 {
     using PropertyWatches = std::array<std::unique_ptr<Watch>, ${len(watches)}>;
@@ -205,6 +239,28 @@ struct ConfigPropertyWatches
 % endfor
         };
         return propertyWatches;
+    }
+};
+
+struct ConfigPathWatches
+{
+    using PathWatches = std::array<std::unique_ptr<Watch>, ${len(pathwatches)}>;
+
+    static auto& get()
+    {
+        static const PathWatches pathWatches =
+        {
+% for w in pathwatches:
+            std::make_unique<PathWatch<SDBusPlus>>(
+    % if w.pathcallback is None:
+                ConfigIntfAddPaths::get()[${w.pathinstances}]),
+    % else:
+                ConfigIntfAddPaths::get()[${w.pathinstances}],
+                *ConfigPathCallbacks::get()[${w.pathcallback}]),
+    % endif
+% endfor
+        };
+        return pathWatches;
     }
 };
 } // namespace monitoring
