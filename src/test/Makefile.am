@@ -201,3 +201,28 @@ callbacktest_LDADD = \
 	$(builddir)/../event_manager.o \
 	$(builddir)/../event_serialize.o \
 	-lstdc++fs
+
+check_PROGRAMS += interfaceaddtest
+interfaceaddtest_SOURCES = \
+	interfaceaddtest.cpp
+interfaceaddtest_CXXFLAGS = \
+	$(gtest_cflags)
+interfaceaddtest_LDFLAGS = \
+	$(OESDK_TESTCASE_FLAGS)
+interfaceaddtest_LDADD = \
+	${gtest_ldadd}
+
+BUILT_SOURCES += interfaceaddtest.hpp
+CLEANFILES += interfaceaddtest.hpp
+
+INTERFACEADD_TEST_GEN_DEPS = \
+	templates/interfaceaddtest.mako.hpp \
+	yaml/interfaceaddtest
+
+interfaceaddtest.hpp: $(PDMGEN) $(INTERFACEADD_TEST_GEN_DEPS)
+	$(AM_V_GEN) $(PYTHON) $(PDMGEN) \
+		-t interfaceaddtest.mako.hpp \
+		-p "${TEMPLATESEARCH}" \
+		-d ${srcdir}/yaml/interfaceaddtest \
+		-o $(builddir)/$@ \
+		generate-cpp
