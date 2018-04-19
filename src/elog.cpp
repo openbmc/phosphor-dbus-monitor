@@ -24,6 +24,12 @@ namespace monitoring
 
 void ElogBase::operator()(Context ctx)
 {
+    if (ctx == Context::START)
+    {
+        // No action should be taken as this call back is being called from
+        // daemon Startup.
+        return;
+    }
     log();
 }
 
