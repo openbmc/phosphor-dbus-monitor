@@ -154,6 +154,12 @@ class ElogWithMetadataCapture : public IndexedCallback
      */
     void operator()(Context ctx) override
     {
+        if (ctx == Context::START)
+        {
+            // No action should be taken as this call back is being called from
+            // daemon Startup.
+            return;
+        }
         auto data = captureMetadata();
 
         phosphor::logging::report<errorType>(metadataType(data.c_str()));
