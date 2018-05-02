@@ -1,15 +1,56 @@
 #include "snmp_trap.hpp"
+#include "snmp.hpp"
+#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 namespace phosphor
 {
 namespace dbus
 {
 namespace monitoring
 {
+using namespace phosphor::logging;
+using namespace sdbusplus::xyz::openbmc_project::Logging::server;
+using namespace phosphor::network::snmp;
+using InternalFailure =
+    sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
+
+static constexpr auto entry = "xyz.openbmc_project.Logging.Entry";
+
 void ErrorTrap::trap(sdbusplus::message::message& msg) const
 {
-    // TODO openbmc/openbmc#3059
-    // TODO: Send trap to SNMP to be added after phoshpor-snmp is merged
+    sdbusplus::message::object_path path;
+    msg.read(path);
+    PathInterfacesAdded intfs;
+    msg.read(intfs);
+    auto it = intfs.find(entry);
+    if (it == intfs.end())
+    {
+        return;
+    }
+    auto& propMap = it->second;
+    auto errorID = propMap.at("Id").get<uint32_t>();
+    auto timestamp = propMap.at("Timestamp").get<uint64_t>();
+    auto sev = propMap.at("Severity").get<std::string>();
+    auto isev = static_cast<uint8_t>(Entry::convertLevelFromString(sev));
+    auto message = propMap.at("Message").get<std::string>();
+    try
+    {
+        sendTrap<ErrorNotification>(errorID, timestamp, isev, message);
+    }
+    catch (const InternalFailure& e)
+    {
+        log<level::INFO>(
+            "Failed to send SNMP trap",
+            phosphor::logging::entry("ERROR_ID=%d", errorID),
+            phosphor::logging::entry("TIMESTAMP=%llu", timestamp),
+            phosphor::logging::entry("SEVERITY=%s", sev.c_str()),
+            phosphor::logging::entry("MESSAGE=%s", message.c_str()));
+    }
 }
+
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor
