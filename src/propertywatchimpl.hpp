@@ -1,5 +1,7 @@
 #pragma once
 
+#include <phosphor-logging/log.hpp>
+#include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <vector>
@@ -13,6 +15,9 @@ namespace dbus
 {
 namespace monitoring
 {
+
+using namespace phosphor::logging;
+using sdbusplus::exception::SdBusError;
 
 using MappedPropertyIndex =
     RefKeyMap<const std::string,
@@ -147,7 +152,17 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
     const std::string& interface)
 {
     PropertiesChanged<T> properties;
-    msg.read(properties);
+    try
+    {
+        msg.read(properties);
+    }
+    catch (const SdBusError& e)
+    {
+        log<level::ERR>("Error in propertiesChanged response",
+                        entry("ERROR=%s", e.what()),
+                        entry("REPLY_SIG=%s", msg.get_signature()));
+        return;
+    }
     propertiesChanged(path, interface, properties);
 }
 
@@ -167,7 +182,17 @@ void PropertyWatchOfType<T, DBusInterfaceType>::interfacesAdded(
 {
     sdbusplus::message::object_path path;
     InterfacesAdded<T> interfaces;
-    msg.read(path, interfaces);
+    try
+    {
+        msg.read(path, interfaces);
+    }
+    catch (const SdBusError& e)
+    {
+        log<level::ERR>("Error in interfacesAdded response",
+                        entry("ERROR=%s", e.what()),
+                        entry("REPLY_SIG=%s", msg.get_signature()));
+        return;
+    }
     interfacesAdded(path, interfaces);
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
@@ -13,6 +14,8 @@ namespace detail
 {
 namespace errors = sdbusplus::xyz::openbmc_project::Common::Error;
 } // namespace detail
+
+using sdbusplus::exception::SdBusError;
 
 /** @brief Alias for PropertiesChanged signal callbacks. */
 template <typename... T>
@@ -73,7 +76,18 @@ static auto
     ::sdbusplus::message::message respMsg = callMethod<Args...>(
         bus, busName, path, interface, method, std::forward<Args>(args)...);
     Ret resp;
-    respMsg.read(resp);
+    try
+    {
+        respMsg.read(resp);
+    }
+    catch (const SdBusError& e)
+    {
+        phosphor::logging::log<phosphor::logging::level::ERR>(
+            "Error in method call",
+            phosphor::logging::entry("ERROR=%s", e.what()),
+            phosphor::logging::entry("REPLY_SIG=%s", respMsg.get_signature()));
+    }
+
     return resp;
 }
 
@@ -124,7 +138,18 @@ static auto getProperty(::sdbusplus::bus::bus& bus, const std::string& busName,
         callMethod(bus, busName, path, "org.freedesktop.DBus.Properties"s,
                    "Get"s, interface, property);
     ::sdbusplus::message::variant<Property> value;
-    msg.read(value);
+    try
+    {
+        msg.read(value);
+    }
+    catch (const SdBusError& e)
+    {
+        phosphor::logging::log<phosphor::logging::level::ERR>(
+            "Error in get property call",
+            phosphor::logging::entry("ERROR=%s", e.what()),
+            phosphor::logging::entry("REPLY_SIG=%s", msg.get_signature()));
+    }
+
     return value.template get<Property>();
 }
 
