@@ -1,6 +1,8 @@
 #pragma once
 
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include "data_types.hpp"
@@ -13,6 +15,9 @@ namespace dbus
 {
 namespace monitoring
 {
+
+using namespace phosphor::logging;
+using sdbusplus::exception::SdBusError;
 
 /** @class SDBusPlus
  *  @brief DBus access delegate implementation for sdbusplus.
@@ -72,7 +77,16 @@ class SDBusPlus
         Ret resp;
         sdbusplus::message::message respMsg = callMethod<Args...>(
             busName, path, interface, method, std::forward<Args>(args)...);
-        respMsg.read(resp);
+        try
+        {
+            respMsg.read(resp);
+        }
+        catch (const SdBusError& e)
+        {
+            log<level::ERR>("Error in method call response",
+                            entry("ERROR=%s", e.what()),
+                            entry("REPLY_SIG=%s", respMsg.get_signature()));
+        }
         return resp;
     }
 
