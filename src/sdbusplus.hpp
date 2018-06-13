@@ -83,9 +83,8 @@ class SDBusPlus
         }
         catch (const SdBusError& e)
         {
-            log<level::ERR>("Failed to parse method response",
-                            entry("ERROR=%s", e.what()),
-                            entry("REPLY_SIG=%s", respMsg.get_signature()));
+            // Empty responses are expected sometimes, and the calling
+            // code is set up to handle it.
         }
         return resp;
     }
