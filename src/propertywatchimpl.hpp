@@ -47,11 +47,22 @@ void PropertyWatch<DBusInterfaceType>::start()
 
         // Do a query to populate the cache.  Start with a mapper query.
         // The specific services are queried below.
-        const std::vector<std::string> queryInterfaces; // all interfaces
-        auto mapperResp =
-            DBusInterfaceType::template callMethodAndRead<GetObject>(
-                MAPPER_BUSNAME, MAPPER_PATH, MAPPER_INTERFACE, "GetObject",
-                path, queryInterfaces);
+        auto getObjectFromMapper = [](const auto& path) {
+            const std::vector<std::string> queryInterfaces; // all interfaces
+            try
+            {
+                return DBusInterfaceType::template callMethodAndRead<GetObject>(
+                    MAPPER_BUSNAME, MAPPER_PATH, MAPPER_INTERFACE, "GetObject",
+                    path, queryInterfaces);
+            }
+            catch (const sdbusplus::exception::SdBusError&)
+            {
+                // Paths in the configuration may not exist yet.  Prime those
+                // later, when/if InterfacesAdded occurs.
+                return GetObject();
+            }
+        };
+        auto mapperResp = getObjectFromMapper(path);
 
         for (const auto& i : interfaces)
         {
@@ -87,7 +98,16 @@ void PropertyWatch<DBusInterfaceType>::start()
                 }
 
                 // Delegate type specific property updates to subclasses.
-                updateProperties(busName, path, interface);
+                try
+                {
+                    updateProperties(busName, path, interface);
+                }
+                catch (const sdbusplus::exception::SdBusError&)
+                {
+                    // If for some reason the path has gone away since
+                    // the mapper lookup we'll simply try again if/when
+                    // InterfacesAdded occurs the next time it shows up.
+                }
             }
         }
     }
