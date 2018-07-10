@@ -102,15 +102,23 @@ class SDBusPlus
                            const std::string& interface)
     {
         std::vector<std::string> interfaces{interface};
-
-        auto object = callMethodAndRead<GetObject>(
-            MAPPER_BUSNAME, MAPPER_PATH, MAPPER_INTERFACE, "GetObject", path,
-            interfaces);
-
         std::string name;
-        if (!object.empty())
+
+        try
         {
-            name = object.begin()->first;
+            auto object = callMethodAndRead<GetObject>(
+                MAPPER_BUSNAME, MAPPER_PATH, MAPPER_INTERFACE, "GetObject",
+                path, interfaces);
+
+            if (!object.empty())
+            {
+                name = object.begin()->first;
+            }
+        }
+        catch (const SdBusError& e)
+        {
+            // Empty responses are expected sometimes, and the calling
+            // code is set up to handle it.
         }
         return name;
     }
