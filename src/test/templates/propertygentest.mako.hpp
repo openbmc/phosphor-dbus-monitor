@@ -21,7 +21,7 @@ const std::array<GroupOfProperties, ${len(propertygroups)}> groups = {{
     // ${g.name}
     {
         % for p in g.members:
-        Property{ interfaces[${p[0]}], properties[${p[1]}], meta[${p[2]}] },
+        ::Property{ interfaces[${p[0]}], properties[${p[1]}], meta[${p[2]}] },
         % endfor
     },
 % endfor

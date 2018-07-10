@@ -9,7 +9,7 @@ using namespace phosphor::dbus::monitoring;
 using Property =
     TupleOfRefs<const std::string, const std::string, const std::string>;
 
-using GroupOfProperties = std::vector<Property>;
+using GroupOfProperties = std::vector<::Property>;
 
 #include "propertygentest.hpp"
 const std::array<std::string, 3> expectedMeta = {
@@ -34,21 +34,21 @@ const std::array<std::string, 4> expectedProperties = {
 
 const std::array<GroupOfProperties, 4> expectedGroups = {{
     {
-        Property{interfaces[0], properties[0], meta[0]},
-        Property{interfaces[1], properties[1], meta[1]},
+        ::Property{interfaces[0], properties[0], meta[0]},
+        ::Property{interfaces[1], properties[1], meta[1]},
     },
     {
-        Property{interfaces[0], properties[2], meta[0]},
-        Property{interfaces[1], properties[0], meta[1]},
+        ::Property{interfaces[0], properties[2], meta[0]},
+        ::Property{interfaces[1], properties[0], meta[1]},
     },
     {
-        Property{interfaces[2], properties[0], meta[0]},
-        Property{interfaces[3], properties[1], meta[1]},
+        ::Property{interfaces[2], properties[0], meta[0]},
+        ::Property{interfaces[3], properties[1], meta[1]},
     },
     {
-        Property{interfaces[0], properties[2], meta[0]},
-        Property{interfaces[1], properties[1], meta[1]},
-        Property{interfaces[2], properties[3], meta[2]},
+        ::Property{interfaces[0], properties[2], meta[0]},
+        ::Property{interfaces[1], properties[1], meta[1]},
+        ::Property{interfaces[2], properties[3], meta[2]},
     },
 }};
 
