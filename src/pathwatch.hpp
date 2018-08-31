@@ -22,7 +22,8 @@ class Callback;
 /** @class PathWatch
  *  @brief Watch on object path for interfaceadded/interfaceremoved signals
  */
-template <typename DBusInterfaceType> class PathWatch : public Watch
+template <typename DBusInterfaceType>
+class PathWatch : public Watch
 {
   public:
     PathWatch() = delete;

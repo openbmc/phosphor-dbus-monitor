@@ -1,7 +1,8 @@
 #pragma once
 
-#include <experimental/tuple>
 #include "callback.hpp"
+
+#include <experimental/tuple>
 
 namespace phosphor
 {
@@ -19,7 +20,8 @@ namespace detail
  *  @tparam DBusInterface - The DBus interface to use.
  *  @tparam MethodArgs - DBus method argument types.
  */
-template <typename DBusInterface, typename... MethodArgs> struct CallDBusMethod
+template <typename DBusInterface, typename... MethodArgs>
+struct CallDBusMethod
 {
     static void op(const std::string& bus, const std::string& path,
                    const std::string& iface, const std::string& method,

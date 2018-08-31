@@ -1,9 +1,9 @@
 #pragma once
 
-#include <phosphor-logging/log.hpp>
 #include "callback.hpp"
 #include "event_manager.hpp"
 
+#include <phosphor-logging/log.hpp>
 #include <sstream>
 
 namespace phosphor
@@ -76,7 +76,8 @@ class EventBase : public IndexedCallback
  *
  *  @tparam T - The C++ type of the property values being traced.
  */
-template <typename T> class Event : public EventBase
+template <typename T>
+class Event : public EventBase
 {
   public:
     Event() = delete;

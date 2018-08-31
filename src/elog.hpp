@@ -1,9 +1,10 @@
 #pragma once
+#include "callback.hpp"
+
+#include <experimental/tuple>
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include "callback.hpp"
 #include <sdbusplus/exception.hpp>
-#include <experimental/tuple>
 
 namespace phosphor
 {
@@ -15,7 +16,8 @@ namespace monitoring
 /** @struct ToString
  * @brief Convert numbers to strings
  */
-template <typename T> struct ToString
+template <typename T>
+struct ToString
 {
     static auto op(T&& value)
     {
@@ -23,7 +25,8 @@ template <typename T> struct ToString
     }
 };
 
-template <> struct ToString<std::string>
+template <>
+struct ToString<std::string>
 {
     static auto op(const std::string& value)
     {
@@ -66,7 +69,8 @@ namespace detail
  *  @tparam T - Error log type
  *  @tparam Args - Metadata fields types.
  */
-template <typename T, typename... Args> struct CallElog
+template <typename T, typename... Args>
+struct CallElog
 {
     static void op(Args&&... args)
     {
@@ -84,7 +88,8 @@ template <typename T, typename... Args> struct CallElog
  *  @tparam Args - Metadata fields types.
  *  @param[in] arguments - Metadata fields to be added to the error log
  */
-template <typename T, typename... Args> class Elog : public ElogBase
+template <typename T, typename... Args>
+class Elog : public ElogBase
 {
   public:
     Elog(const Elog&) = delete;
@@ -210,7 +215,8 @@ class ElogWithMetadataCapture : public IndexedCallback
  *  @tparam Args - Metadata fields types.
  *  @param[in] arguments - Metadata fields to be added to the error log
  */
-template <typename T, typename... Args> auto makeElog(Args&&... arguments)
+template <typename T, typename... Args>
+auto makeElog(Args&&... arguments)
 {
     return std::make_unique<Elog<T, Args...>>(std::forward<Args>(arguments)...);
 }

@@ -1,10 +1,11 @@
 #pragma once
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-#include <string>
-
 #include "data_types.hpp"
 #include "sdbusplus/bus/match.hpp"
+
+#include <string>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 namespace phosphor
 {
@@ -292,11 +293,13 @@ struct MockDBusInterface
 /** @class Expect
  *  @brief Enable use of EXPECT_CALL from a C++ template.
  */
-template <typename T> struct Expect
+template <typename T>
+struct Expect
 {
 };
 
-template <> struct Expect<uint64_t>
+template <>
+struct Expect<uint64_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -309,7 +312,8 @@ template <> struct Expect<uint64_t>
     }
 };
 
-template <> struct Expect<uint32_t>
+template <>
+struct Expect<uint32_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -322,7 +326,8 @@ template <> struct Expect<uint32_t>
     }
 };
 
-template <> struct Expect<uint16_t>
+template <>
+struct Expect<uint16_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -335,7 +340,8 @@ template <> struct Expect<uint16_t>
     }
 };
 
-template <> struct Expect<uint8_t>
+template <>
+struct Expect<uint8_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -348,7 +354,8 @@ template <> struct Expect<uint8_t>
     }
 };
 
-template <> struct Expect<int64_t>
+template <>
+struct Expect<int64_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -361,7 +368,8 @@ template <> struct Expect<int64_t>
     }
 };
 
-template <> struct Expect<int32_t>
+template <>
+struct Expect<int32_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -374,7 +382,8 @@ template <> struct Expect<int32_t>
     }
 };
 
-template <> struct Expect<int16_t>
+template <>
+struct Expect<int16_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -387,7 +396,8 @@ template <> struct Expect<int16_t>
     }
 };
 
-template <> struct Expect<int8_t>
+template <>
+struct Expect<int8_t>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,
@@ -400,7 +410,8 @@ template <> struct Expect<int8_t>
     }
 };
 
-template <> struct Expect<std::string>
+template <>
+struct Expect<std::string>
 {
     template <typename MockObjType>
     static auto& getProperties(MockObjType&& mockObj, const std::string& path,

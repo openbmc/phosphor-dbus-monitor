@@ -1,7 +1,8 @@
 #pragma once
 
-#include <chrono>
 #include "data_types.hpp"
+
+#include <chrono>
 
 namespace phosphor
 {
@@ -124,7 +125,8 @@ class IndexedCallback : public Callback
  *
  *  @tparam CallbackAccess - Access to the array of callbacks.
  */
-template <typename CallbackAccess> class GroupOfCallbacks : public Callback
+template <typename CallbackAccess>
+class GroupOfCallbacks : public Callback
 {
   public:
     GroupOfCallbacks() = delete;
@@ -155,7 +157,8 @@ template <typename CallbackAccess> class GroupOfCallbacks : public Callback
 /** @class ConditionalCallback
  *  @brief Callback adaptor that asssociates a condition with a callback.
  */
-template <typename CallbackAccess> class ConditionalCallback : public Callback
+template <typename CallbackAccess>
+class ConditionalCallback : public Callback
 {
   public:
     ConditionalCallback() = delete;

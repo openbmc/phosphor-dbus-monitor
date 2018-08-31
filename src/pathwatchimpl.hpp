@@ -5,12 +5,13 @@
  */
 #pragma once
 
-#include <sdbusplus/message.hpp>
-#include <sdbusplus/bus/match.hpp>
-#include <vector>
 #include "callback.hpp"
 #include "data_types.hpp"
 #include "pathwatch.hpp"
+
+#include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/message.hpp>
+#include <vector>
 
 namespace phosphor
 {
@@ -19,7 +20,8 @@ namespace dbus
 namespace monitoring
 {
 
-template <typename DBusInterfaceType> void PathWatch<DBusInterfaceType>::start()
+template <typename DBusInterfaceType>
+void PathWatch<DBusInterfaceType>::start()
 {
     if (alreadyRan)
     {

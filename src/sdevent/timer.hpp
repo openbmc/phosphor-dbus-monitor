@@ -1,12 +1,13 @@
 #pragma once
 
+#include "sdevent/event.hpp"
+#include "sdevent/source.hpp"
+
+#include <systemd/sd-event.h>
+
 #include <chrono>
 #include <functional>
 #include <memory>
-#include <systemd/sd-event.h>
-
-#include "sdevent/source.hpp"
-#include "sdevent/event.hpp"
 
 // TODO: openbmc/openbmc#1720 - add error handling for sd_event API failures
 

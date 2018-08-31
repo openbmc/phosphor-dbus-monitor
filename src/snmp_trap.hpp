@@ -47,7 +47,8 @@ class ErrorTrap : public Trap
 /** @class SNMPTrap
  *  @brief SNMP trap callback implementation.
  */
-template <typename T> class SNMPTrap : public Callback
+template <typename T>
+class SNMPTrap : public Callback
 {
   public:
     SNMPTrap(const SNMPTrap&) = delete;

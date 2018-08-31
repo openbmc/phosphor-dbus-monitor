@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
+#include "util.hpp"
+
 #include <algorithm>
 #include <map>
 #include <string>
-#include "util.hpp"
 
 using namespace std::literals::string_literals;
 
-template <typename T> struct BusMeetsMSL
+template <typename T>
+struct BusMeetsMSL
 {
     std::string path;
 
@@ -43,7 +45,8 @@ template <typename T> struct BusMeetsMSL
     }
 };
 
-template <typename T> struct PathMeetsMSL
+template <typename T>
+struct PathMeetsMSL
 {
     auto operator()(const T& arg)
     {

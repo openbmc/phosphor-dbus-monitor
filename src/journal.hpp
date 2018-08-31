@@ -1,8 +1,9 @@
 #pragma once
 
-#include <phosphor-logging/log.hpp>
 #include "callback.hpp"
 #include "format.hpp"
+
+#include <phosphor-logging/log.hpp>
 
 namespace phosphor
 {
@@ -50,7 +51,8 @@ class JournalBase : public IndexedCallback
  */
 namespace detail
 {
-template <typename T> struct Display
+template <typename T>
+struct Display
 {
     static auto op(T&& value)
     {
@@ -58,7 +60,8 @@ template <typename T> struct Display
     }
 };
 
-template <> struct Display<std::string>
+template <>
+struct Display<std::string>
 {
     static auto op(const std::string& value)
     {

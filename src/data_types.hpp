@@ -1,8 +1,9 @@
 #pragma once
 
+#include "tupleref.hpp"
+
 #include <experimental/any>
 #include <sdbusplus/message.hpp>
-#include "tupleref.hpp"
 
 namespace any_ns = std::experimental;
 
@@ -46,7 +47,8 @@ template <typename Value, typename... Keys>
 using TupleRefMap = std::map<TupleOfRefs<Keys...>, Value, TupleOfRefsLess>;
 
 /** @brief A vector of references. */
-template <typename T> using RefVector = std::vector<std::reference_wrapper<T>>;
+template <typename T>
+using RefVector = std::vector<std::reference_wrapper<T>>;
 
 /** @brief
  *
@@ -92,11 +94,13 @@ using PropertyIndex =
  *  1. Remove references.
  *  2. Remove 'const' and 'volatile'.
  */
-template <typename T> struct Downcast
+template <typename T>
+struct Downcast
 {
     using Type = std::remove_cv_t<std::remove_reference_t<T>>;
 };
-template <typename T> using DowncastType = typename Downcast<T>::Type;
+template <typename T>
+using DowncastType = typename Downcast<T>::Type;
 
 } // namespace monitoring
 } // namespace dbus

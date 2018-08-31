@@ -1,8 +1,10 @@
+#include "event.hpp"
+#include "pathwatchimpl.hpp"
+
 #include <array>
 #include <string>
+
 #include <gtest/gtest.h>
-#include "pathwatchimpl.hpp"
-#include "event.hpp"
 
 using namespace std::string_literals;
 using namespace phosphor::dbus::monitoring;

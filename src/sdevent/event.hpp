@@ -1,9 +1,10 @@
 #pragma once
 
+#include <systemd/sd-event.h>
+
 #include <chrono>
 #include <memory>
 #include <sdbusplus/bus.hpp>
-#include <systemd/sd-event.h>
 
 // TODO: openbmc/openbmc#1720 - add error handling for sd_event API failures
 

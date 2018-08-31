@@ -25,7 +25,8 @@ class Callback;
  *  A property watch maintains the state of one or more DBus properties
  *  as specified by the supplied index.
  */
-template <typename DBusInterfaceType> class PropertyWatch : public Watch
+template <typename DBusInterfaceType>
+class PropertyWatch : public Watch
 {
   public:
     PropertyWatch() = delete;

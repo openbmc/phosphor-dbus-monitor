@@ -31,7 +31,8 @@ namespace monitoring
  *  If the oneshot parameter is true, then this condition won't pass
  *  again until it fails at least once.
  */
-template <typename T> class CountCondition : public IndexedConditional
+template <typename T>
+class CountCondition : public IndexedConditional
 {
   public:
     CountCondition() = delete;

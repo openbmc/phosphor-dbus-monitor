@@ -1,6 +1,8 @@
-#include <array>
-#include "propertywatchimpl.hpp"
 #include "propertywatchtest.hpp"
+
+#include "propertywatchimpl.hpp"
+
+#include <array>
 
 using namespace std::string_literals;
 using namespace phosphor::dbus::monitoring;
@@ -47,10 +49,12 @@ const PropertyIndex watchIndex = {
     },
 };
 
-template <typename T> struct ExpectedValues
+template <typename T>
+struct ExpectedValues
 {
 };
-template <> struct ExpectedValues<uint8_t>
+template <>
+struct ExpectedValues<uint8_t>
 {
     static auto& get(size_t i)
     {
@@ -61,7 +65,8 @@ template <> struct ExpectedValues<uint8_t>
     }
 };
 
-template <> struct ExpectedValues<uint16_t>
+template <>
+struct ExpectedValues<uint16_t>
 {
     static auto& get(size_t i)
     {
@@ -72,7 +77,8 @@ template <> struct ExpectedValues<uint16_t>
     }
 };
 
-template <> struct ExpectedValues<uint32_t>
+template <>
+struct ExpectedValues<uint32_t>
 {
     static auto& get(size_t i)
     {
@@ -83,7 +89,8 @@ template <> struct ExpectedValues<uint32_t>
     }
 };
 
-template <> struct ExpectedValues<uint64_t>
+template <>
+struct ExpectedValues<uint64_t>
 {
     static auto& get(size_t i)
     {
@@ -94,7 +101,8 @@ template <> struct ExpectedValues<uint64_t>
     }
 };
 
-template <> struct ExpectedValues<std::string>
+template <>
+struct ExpectedValues<std::string>
 {
     static auto& get(size_t i)
     {
@@ -105,7 +113,8 @@ template <> struct ExpectedValues<std::string>
     }
 };
 
-template <typename T> void testStart()
+template <typename T>
+void testStart()
 {
     using ::testing::_;
     using ::testing::Return;

@@ -17,7 +17,8 @@ using TupleOfRefs = std::tuple<std::reference_wrapper<T>...>;
 namespace detail
 {
 /** @brief Less than implementation for tuples of references. */
-template <size_t size, size_t i, typename T, typename U> struct TupleOfRefsLess
+template <size_t size, size_t i, typename T, typename U>
+struct TupleOfRefsLess
 {
     static constexpr bool compare(const T& l, const U& r)
     {
