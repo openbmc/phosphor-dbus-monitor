@@ -1,7 +1,8 @@
 #pragma once
 
-#include <experimental/tuple>
 #include "callback.hpp"
+
+#include <experimental/tuple>
 
 namespace phosphor
 {

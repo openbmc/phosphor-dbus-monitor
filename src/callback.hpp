@@ -1,7 +1,8 @@
 #pragma once
 
-#include <chrono>
 #include "data_types.hpp"
+
+#include <chrono>
 
 namespace phosphor
 {

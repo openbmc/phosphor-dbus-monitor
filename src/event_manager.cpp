@@ -15,8 +15,10 @@
  */
 
 #include "config.h"
-#include "event.hpp"
+
 #include "event_manager.hpp"
+
+#include "event.hpp"
 #include "event_serialize.hpp"
 
 #include <experimental/filesystem>

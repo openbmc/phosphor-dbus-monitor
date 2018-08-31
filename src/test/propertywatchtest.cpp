@@ -1,6 +1,8 @@
-#include <array>
-#include "propertywatchimpl.hpp"
 #include "propertywatchtest.hpp"
+
+#include "propertywatchimpl.hpp"
+
+#include <array>
 
 using namespace std::string_literals;
 using namespace phosphor::dbus::monitoring;

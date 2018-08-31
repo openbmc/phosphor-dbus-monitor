@@ -1,11 +1,12 @@
 #include "snmp_trap.hpp"
+
+#include <phosphor-logging/elog-errors.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/log.hpp>
 #include <snmp.hpp>
 #include <snmp_notification.hpp>
-#include <phosphor-logging/log.hpp>
-#include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/elog-errors.hpp>
-#include <xyz/openbmc_project/Logging/Entry/server.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
 namespace phosphor
 {
 namespace dbus

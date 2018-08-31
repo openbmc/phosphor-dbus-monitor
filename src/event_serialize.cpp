@@ -1,11 +1,12 @@
-#include <cereal/types/string.hpp>
-#include <cereal/types/vector.hpp>
-#include <cereal/archives/binary.hpp>
-#include <fstream>
+#include "config.h"
 
 #include "event_serialize.hpp"
+
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+#include <fstream>
 #include <phosphor-logging/log.hpp>
-#include "config.h"
 
 // Register class version
 // From cereal documentation;

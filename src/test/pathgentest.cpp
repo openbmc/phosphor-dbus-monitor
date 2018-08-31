@@ -1,7 +1,9 @@
+#include "data_types.hpp"
+
 #include <array>
 #include <string>
+
 #include <gtest/gtest.h>
-#include "data_types.hpp"
 
 using namespace std::string_literals;
 using namespace phosphor::dbus::monitoring;

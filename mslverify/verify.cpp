@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+#include "util.hpp"
+
 #include <algorithm>
 #include <map>
 #include <string>
-#include "util.hpp"
 
 using namespace std::literals::string_literals;
 

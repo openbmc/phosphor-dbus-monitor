@@ -1,11 +1,12 @@
 #pragma once
 
+#include "data_types.hpp"
+
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
-#include <sdbusplus/bus/match.hpp>
-#include "data_types.hpp"
 
 struct Loop;
 

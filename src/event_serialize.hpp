@@ -1,8 +1,10 @@
 #pragma once
 
-#include <experimental/filesystem>
-#include "event_entry.hpp"
 #include "config.h"
+
+#include "event_entry.hpp"
+
+#include <experimental/filesystem>
 
 namespace phosphor
 {

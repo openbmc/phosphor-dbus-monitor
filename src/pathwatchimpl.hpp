@@ -5,12 +5,13 @@
  */
 #pragma once
 
-#include <sdbusplus/message.hpp>
-#include <sdbusplus/bus/match.hpp>
-#include <vector>
 #include "callback.hpp"
 #include "data_types.hpp"
 #include "pathwatch.hpp"
+
+#include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/message.hpp>
+#include <vector>
 
 namespace phosphor
 {

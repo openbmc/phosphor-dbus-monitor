@@ -1,8 +1,9 @@
 #pragma once
 
-#include <phosphor-logging/log.hpp>
 #include "callback.hpp"
 #include "format.hpp"
+
+#include <phosphor-logging/log.hpp>
 
 namespace phosphor
 {

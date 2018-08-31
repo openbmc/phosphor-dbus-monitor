@@ -1,10 +1,11 @@
 #pragma once
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-#include <string>
-
 #include "data_types.hpp"
 #include "sdbusplus/bus/match.hpp"
+
+#include <string>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 namespace phosphor
 {
