@@ -107,8 +107,8 @@ template <> struct ExpectedValues<std::string>
 
 template <typename T> void testStart()
 {
-    using ::testing::Return;
     using ::testing::_;
+    using ::testing::Return;
 
     MockDBusInterface dbus;
     MockDBusInterface::instance(dbus);

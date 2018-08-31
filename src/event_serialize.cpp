@@ -93,5 +93,5 @@ bool deserialize(const fs::path& path, Entry& event)
     }
 }
 
-} // namespace event
+} // namespace events
 } // namespace phosphor

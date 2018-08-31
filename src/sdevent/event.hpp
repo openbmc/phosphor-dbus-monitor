@@ -15,7 +15,7 @@ namespace timer
 {
 class Timer;
 } // namespace timer
-}
+} // namespace event
 namespace event
 {
 
