@@ -72,7 +72,7 @@ void ResolveCallout::operator()(Context ctx)
     {
         log<level::ERR>("Failed getting callout fault associations",
                         entry("CALLOUT=%s", callout.c_str()),
-                        entry("MESSAGE=%s", e.what()));
+                        entry("ERROR=%s", e.what()));
     }
 }
 
@@ -107,7 +107,7 @@ void ResolveCallout::resolve(const std::string& logEntry)
     {
         log<level::ERR>("Unable to resolve error log entry",
                         entry("ENTRY=%s", logEntry.c_str()),
-                        entry("MESSAGE=%s", e.what()));
+                        entry("ERROR=%s", e.what()));
     }
 }
 
