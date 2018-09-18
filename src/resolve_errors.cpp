@@ -28,7 +28,7 @@ namespace monitoring
 
 constexpr auto LOGGING_IFACE = "xyz.openbmc_project.Logging.Entry";
 constexpr auto PROPERTY_IFACE = "org.freedesktop.DBus.Properties";
-constexpr auto ASSOCIATION_IFACE = "org.openbmc.Association";
+constexpr auto ASSOCIATION_IFACE = "xyz.openbmc_project.Association";
 constexpr auto ENDPOINTS_PROPERTY = "endpoints";
 constexpr auto RESOLVED_PROPERTY = "Resolved";
 
