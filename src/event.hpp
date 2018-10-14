@@ -92,7 +92,7 @@ class Event : public EventBase
      *  @param[in] eventMessage- Event Message.
      *  @param[in] index - look up index for the properties.
      */
-    Event(std::string eventName, std::string eventMessage,
+    Event(const std::string& eventName, const std::string& eventMessage,
           const PropertyIndex& index) :
         EventBase(index),
         name(eventName), message(eventMessage)
