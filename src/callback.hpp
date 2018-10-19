@@ -3,6 +3,9 @@
 #include "data_types.hpp"
 
 #include <chrono>
+#include <sdeventplus/clock.hpp>
+#include <sdeventplus/event.hpp>
+#include <sdeventplus/utility/timer.hpp>
 
 namespace phosphor
 {
@@ -202,17 +205,19 @@ class ConditionalCallback : public Callback
  *  callback.
  *
  *  @tparam CallbackAccess - Provide access to callback group instances.
- *  @tparam TimerType - Delegated timer access methods.
  */
-template <typename CallbackAccess, typename TimerType>
+template <typename CallbackAccess>
 class DeferrableCallback : public ConditionalCallback<CallbackAccess>
 {
   public:
+    using TimerType =
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>;
+
     DeferrableCallback() = delete;
     DeferrableCallback(const DeferrableCallback&) = delete;
-    DeferrableCallback(DeferrableCallback&&) = default;
+    DeferrableCallback(DeferrableCallback&&) = delete;
     DeferrableCallback& operator=(const DeferrableCallback&) = delete;
-    DeferrableCallback& operator=(DeferrableCallback&&) = default;
+    DeferrableCallback& operator=(DeferrableCallback&&) = delete;
     ~DeferrableCallback() = default;
 
     DeferrableCallback(const std::vector<size_t>& graphEntry, Conditional& cond,
@@ -227,28 +232,27 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
         if (!timer)
         {
             timer = std::make_unique<TimerType>(
+                sdeventplus::Event::get_default(),
                 // **INDENT-OFF**
                 [ctx, this](auto& source) {
                     this->ConditionalCallback<CallbackAccess>::operator()(ctx);
                 });
             // **INDENT-ON**
-            timer->disable();
         }
 
         if (this->condition())
         {
-            if (!timer->enabled())
+            if (!timer->isEnabled())
             {
                 // This is the first time the condition evaluated.
                 // Start the countdown.
-                timer->update(timer->now() + delayInterval);
-                timer->enable();
+                timer->restartOnce(delayInterval);
             }
         }
         else
         {
             // The condition did not evaluate.  Stop the countdown.
-            timer->disable();
+            timer->setEnabled(false);
         }
     }
 

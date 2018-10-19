@@ -187,6 +187,7 @@ callbacktest_SOURCES = \
 callbacktest_CXXFLAGS = \
 	$(gtest_cflags)
 	$(SDBUSPLUS_CFLAGS) \
+	$(SDEVENTPLUS_CFLAGS) \
 	$(PHOSPHOR_DBUS_INTERFACES_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS)
 callbacktest_LDFLAGS = \
@@ -194,6 +195,7 @@ callbacktest_LDFLAGS = \
 callbacktest_LDADD = \
 	${gtest_ldadd} \
 	${SDBUSPLUS_LIBS} \
+	${SDEVENTPLUS_LIBS} \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	$(builddir)/../journal.o \
