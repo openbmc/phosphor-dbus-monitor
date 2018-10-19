@@ -17,7 +17,6 @@
 #include "sdbusplus.hpp"
 #include "event.hpp"
 #include "snmp_trap.hpp"
-#include "sdevent.hpp"
 
 using namespace std::string_literals;
 using namespace std::chrono_literals;

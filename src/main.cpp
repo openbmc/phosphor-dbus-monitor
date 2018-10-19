@@ -21,23 +21,13 @@
 
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server/manager.hpp>
+#include <sdeventplus/event.hpp>
 
 using namespace phosphor::dbus::monitoring;
 
-struct Loop
-{
-    /** @brief indefinitely process dbus traffic. */
-    static void run()
-    {
-        auto& bus = SDBusPlus::getBus();
-        auto& event = SDEvent::getEvent();
-        event.attach(bus);
-        event.loop();
-    }
-};
-
 int main(void)
 {
+    auto event = sdeventplus::Event::get_default();
     auto& bus = SDBusPlus::getBus();
 
     // Add sdbusplus Object Manager for the 'root' path of events.
@@ -65,7 +55,6 @@ int main(void)
         watch->callback(Context::START);
     }
 
-    Loop::run();
-
-    return -1;
+    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
+    return event.loop();
 }
