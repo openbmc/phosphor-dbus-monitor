@@ -155,7 +155,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
         }
 
         std::get<valueIndex>(std::get<storageIndex>(item->second).get()) =
-            p.second.template get<T>();
+            sdbusplus::message::variant_ns::get<T>(p.second);
 
         // Invoke callback if present.
         this->callback(Context::SIGNAL);
