@@ -222,14 +222,21 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
     {
     }
 
+    /** @brief Start internal timer if the condition is satisfied.
+     *
+     * When the timer expires, it calls operator() for the
+     * ConditionalCallback with the context saved in
+     * DeferrableCallback instance.
+     */
     void operator()(Context ctx) override
     {
         if (!timer)
         {
             timer = std::make_unique<TimerType>(
                 // **INDENT-OFF**
-                [ctx, this](auto& source) {
-                    this->ConditionalCallback<CallbackAccess>::operator()(ctx);
+                [this](auto& source) {
+                    // The timer uses the context saved on timer enable
+                    this->ConditionalCallback<CallbackAccess>::operator()(this->ctx);
                 });
             // **INDENT-ON**
             timer->disable();
@@ -240,6 +247,8 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
             if (!timer->enabled())
             {
                 // This is the first time the condition evaluated.
+                // Save current context for timer use.
+                this->ctx = ctx;
                 // Start the countdown.
                 timer->update(timer->now() + delayInterval);
                 timer->enable();
@@ -258,6 +267,9 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
 
     /** @brief Delegated timer functions. */
     std::unique_ptr<TimerType> timer;
+
+    /** @brief Current context for timer. */
+    Context ctx;
 };
 
 } // namespace monitoring
