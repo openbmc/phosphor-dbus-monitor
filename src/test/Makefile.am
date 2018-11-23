@@ -12,7 +12,6 @@ BUILT_SOURCES =
 CLEANFILES =
 
 TESTS = $(check_PROGRAMS)
-XFAIL_TESTS = callbacktest
 
 check_PROGRAMS += pathgentest
 pathgentest_SOURCES = \

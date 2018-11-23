@@ -3,6 +3,7 @@
 #include "callback.hpp"
 
 #include <experimental/tuple>
+#include <phosphor-logging/log.hpp>
 
 namespace phosphor
 {
@@ -12,6 +13,8 @@ namespace monitoring
 {
 namespace detail
 {
+
+using namespace phosphor::logging;
 
 /** @class CallDBusMethod
  *  @brief Provide explicit call forwarding to
@@ -27,8 +30,22 @@ struct CallDBusMethod
                    const std::string& iface, const std::string& method,
                    MethodArgs&&... args)
     {
-        DBusInterface::callMethodNoReply(bus, path, iface, method,
-                                         std::forward<MethodArgs>(args)...);
+        try
+        {
+            DBusInterface::callMethodNoReply(bus, path, iface, method,
+                                             std::forward<MethodArgs>(args)...);
+        }
+        catch (const sdbusplus::exception::SdBusError& e)
+        {
+            // clang-format off
+            log<level::ERR>("Unable to call DBus method",
+                            entry("BUS=%s", bus.c_str(),
+                                  "PATH=%s", path.c_str(),
+                                  "IFACE=%s", iface.c_str(),
+                                  "METHOD=%s", method.c_str(),
+                                  "ERROR=%s", e.what()));
+            // clang-format on
+        }
     }
 };
 } // namespace detail
