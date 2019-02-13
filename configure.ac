@@ -17,11 +17,11 @@ AM_PATH_PYTHON([2.7],
     [AC_MSG_ERROR([Could not find python-2.7 installed...python-2.7 is required])])
 
 # Checks for libraries.
-PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus],, AC_MSG_ERROR(["Requires sdbusplus package."]))
-PKG_CHECK_MODULES([SDEVENTPLUS], [sdeventplus],, AC_MSG_ERROR(["Requires sdeventplus package."]))
-PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces],, AC_MSG_ERROR(["Requires phosphor-dbus-interfaces package."]))
-PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging],, AC_MSG_ERROR(["Requires phosphor-logging."]))
-PKG_CHECK_MODULES([PHOSPHOR_SNMP], [phosphor-snmp],, AC_MSG_ERROR(["Requires phosphor-snmp."]))
+PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus])
+PKG_CHECK_MODULES([SDEVENTPLUS], [sdeventplus])
+PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces])
+PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging])
+PKG_CHECK_MODULES([PHOSPHOR_SNMP], [phosphor-snmp])
 
 # Check for sdbus++
 AC_PATH_PROG([SDBUSPLUSPLUS], [sdbus++])
