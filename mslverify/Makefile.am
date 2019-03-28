@@ -1,7 +1,7 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
 AM_CPPFLAGS = -iquote ${top_srcdir}
 
-sbin_PROGRAMS = phosphor-msl-verify
+bin_PROGRAMS = phosphor-msl-verify
 
 phosphor_msl_verify_SOURCES = \
 	verify.cpp

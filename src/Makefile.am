@@ -3,7 +3,7 @@ include ${top_srcdir}/vars.mk
 AM_DEFAULT_SOURCE_EXT = .cpp
 AM_CPPFLAGS = -iquote ${top_srcdir}
 
-sbin_PROGRAMS = phosphor-dbus-monitor
+bin_PROGRAMS = phosphor-dbus-monitor
 
 phosphor_dbus_monitor_SOURCES = \
 	journal.cpp \
