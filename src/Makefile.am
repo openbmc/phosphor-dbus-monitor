@@ -37,6 +37,7 @@ TEMPLATES = \
 	templates/callbackgroup.mako.cpp \
 	templates/conditional.mako.cpp \
 	templates/count.mako.cpp \
+	templates/median.mako.cpp \
 	templates/generated.mako.hpp \
 	templates/journal.mako.cpp \
 	templates/elog.mako.cpp \

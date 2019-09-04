@@ -768,6 +768,33 @@ class CountCondition(Condition, Renderer):
             indent=indent)
 
 
+class MedianCondition(Condition, Renderer):
+    '''Handle the median condition config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.op = kw.pop('op')
+        self.bound = kw.pop('bound')
+        self.oneshot = TrivialArgument(
+            type='boolean',
+            value=kw.pop('oneshot', False))
+        super(MedianCondition, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve type.'''
+
+        super(MedianCondition, self).setup(objs)
+        self.bound = TrivialArgument(
+            type=self.type,
+            value=self.bound)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'median.mako.cpp',
+            c=self,
+            indent=indent)
+
+
 class Journal(Callback, Renderer):
     '''Handle the journal callback config file directive.'''
 
@@ -1110,6 +1137,7 @@ class Everything(Renderer):
             },
             'condition': {
                 'count': CountCondition,
+                'median': MedianCondition,
             },
         }
 
