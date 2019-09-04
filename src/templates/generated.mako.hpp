@@ -230,6 +230,17 @@ struct ConfigPropertyWatches
         {
 % for w in watches:
             std::make_unique<PropertyWatchOfType<${w.datatype}, SDBusPlus>>(
+    % if w.filters:
+                std::vector<std::function<bool(${w.datatype})>>{
+        % for f in w.filters:
+                    [](const auto& val){
+                        return val ${f.op} ${f.argument(loader, indent=indent +1)};
+                    },
+        % endfor
+                },
+    % else:
+                std::vector<std::function<bool(${w.datatype})>>{},
+    % endif
     % if w.callback is None:
                 ConfigPropertyIndicies::get()[${w.instances}]),
     % else:
