@@ -616,6 +616,7 @@ class PropertyWatch(HasPropertyIndex):
     '''Handle the property watch config file directive.'''
 
     def __init__(self, *a, **kw):
+        self.filters = [TrivialArgument(**x) for x in kw.pop('filters', {})]
         self.callback = kw.pop('callback', None)
         super(PropertyWatch, self).__init__(**kw)
 
@@ -630,6 +631,7 @@ class PropertyWatch(HasPropertyIndex):
                 config=self.configfile)
 
         super(PropertyWatch, self).setup(objs)
+
 
 class PathWatch(HasPathIndex):
     '''Handle the path watch config file directive.'''
@@ -764,6 +766,33 @@ class CountCondition(Condition, Renderer):
         return self.render(
             loader,
             'count.mako.cpp',
+            c=self,
+            indent=indent)
+
+
+class MedianCondition(Condition, Renderer):
+    '''Handle the median condition config file directive.'''
+
+    def __init__(self, *a, **kw):
+        self.op = kw.pop('op')
+        self.bound = kw.pop('bound')
+        self.oneshot = TrivialArgument(
+            type='boolean',
+            value=kw.pop('oneshot', False))
+        super(MedianCondition, self).__init__(**kw)
+
+    def setup(self, objs):
+        '''Resolve type.'''
+
+        super(MedianCondition, self).setup(objs)
+        self.bound = TrivialArgument(
+            type=self.type,
+            value=self.bound)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'median.mako.cpp',
             c=self,
             indent=indent)
 
@@ -1110,6 +1139,7 @@ class Everything(Renderer):
             },
             'condition': {
                 'count': CountCondition,
+                'median': MedianCondition,
             },
         }
 
