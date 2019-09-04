@@ -6,6 +6,7 @@
 #include <chrono>
 #include <string>
 #include "count.hpp"
+#include "median.hpp"
 #include "data_types.hpp"
 #include "journal.hpp"
 #include "elog.hpp"
