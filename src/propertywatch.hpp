@@ -116,12 +116,16 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
     PropertyWatchOfType& operator=(const PropertyWatchOfType&) = delete;
     PropertyWatchOfType& operator=(PropertyWatchOfType&&) = default;
     ~PropertyWatchOfType() = default;
-    PropertyWatchOfType(const PropertyIndex& watchIndex, Callback& callback) :
-        PropertyWatch<DBusInterfaceType>(watchIndex, &callback)
+    PropertyWatchOfType(const std::vector<std::function<bool(T)>>& filterOps,
+                        const PropertyIndex& watchIndex, Callback& callback) :
+        PropertyWatch<DBusInterfaceType>(watchIndex, &callback),
+        filterOps(filterOps)
     {
     }
-    PropertyWatchOfType(const PropertyIndex& watchIndex) :
-        PropertyWatch<DBusInterfaceType>(watchIndex, nullptr)
+    PropertyWatchOfType(const std::vector<std::function<bool(T)>>& filterOps,
+                        const PropertyIndex& watchIndex) :
+        PropertyWatch<DBusInterfaceType>(watchIndex, nullptr),
+        filterOps(filterOps)
     {
     }
 
@@ -170,6 +174,10 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
      */
     void interfacesAdded(const std::string& path,
                          const InterfacesAdded<T>& interfaces);
+
+  private:
+      /** @brief List of filter operations to perform on property changes. */
+      const std::vector<std::function<bool(T)>>& filterOps;
 };
 
 } // namespace monitoring

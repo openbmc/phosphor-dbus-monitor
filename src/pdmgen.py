@@ -196,6 +196,30 @@ class Metadata(Argument):
         return a
 
 
+class OpArgument(Argument):
+    '''Operation type arguments.'''
+
+    def __init__(self, **kw):
+        self.op = kw.pop('op')
+        self.bound = kw.pop('bound')
+        self.decorators = kw.pop('decorators', [])
+        if kw.get('type', None):
+            self.decorators.insert(0, Literal(kw['type']))
+        if kw.get('type', None) == 'string':
+            self.decorators.insert(0, Quote())
+        if kw.get('type', None) == 'boolean':
+            self.decorators.insert(0, FixBool())
+
+        super(OpArgument, self).__init__(**kw)
+
+    def argument(self, loader, indent):
+        a = str(self.bound)
+        for d in self.decorators:
+            a = d(a)
+
+        return a
+
+
 class Indent(object):
     '''Help templates be depth agnostic.'''
 
@@ -616,6 +640,7 @@ class PropertyWatch(HasPropertyIndex):
     '''Handle the property watch config file directive.'''
 
     def __init__(self, *a, **kw):
+        self.filters = [OpArgument(**x) for x in kw.pop('filters', {})]
         self.callback = kw.pop('callback', None)
         super(PropertyWatch, self).__init__(**kw)
 
