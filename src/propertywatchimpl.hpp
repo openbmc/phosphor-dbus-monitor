@@ -154,11 +154,28 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
             continue;
         }
 
-        std::get<valueIndex>(std::get<storageIndex>(item->second).get()) =
-            sdbusplus::message::variant_ns::get<T>(p.second);
-
-        // Invoke callback if present.
-        this->callback(Context::SIGNAL);
+        // Run property value thru filter operations
+        auto isFiltered = false;
+        const auto& storage = std::get<storageIndex>(item->second);
+        auto value = sdbusplus::message::variant_ns::get<T>(p.second);
+        for (auto& filterOp : filterOps)
+        {
+            if (!filterOp(value))
+            {
+                // Property value filtered, clear it from storage so
+                // callback functions do not use it
+                isFiltered = true;
+                std::get<valueIndex>(storage.get()).clear();
+                break;
+            }
+        }
+        if (!isFiltered)
+        {
+            // Property value not filtered out, update
+            std::get<valueIndex>(storage.get()) = value;
+            // Invoke callback if present.
+            this->callback(Context::SIGNAL);
+        }
     }
 }
 
