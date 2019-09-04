@@ -50,12 +50,23 @@
     'A property watch instructs PDM to maintain a cache of the state
     of the specified properties on the specified D-Bus objects.
 
-    An optional callback can be triggered when property values change.'
+    An optional set of filters can be applied to the specified properties,
+    where each property's cache is cleared when it fails to pass
+    any one filter. The property's cache is cleared so it will not have an
+    affect on any optional callback that may be triggered.
+
+    An optional callback can be triggered when property values change and
+    those values pass all filters that may be defined.'
   class: watch
   watch: property
   paths: example path group
   properties: example property group
   callback: example count condition
+  filters:
+    - op: '>='
+      bound: 0
+    - op: '<='
+      bound: 100
 
 - name: example journal callback
   description: >
