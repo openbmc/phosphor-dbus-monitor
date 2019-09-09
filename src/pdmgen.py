@@ -636,16 +636,86 @@ class HasPathIndex(ConfigEntry):
             config=self.configfile)
         super(HasPathIndex, self).setup(objs)
 
+class GroupOfFilters(ConfigEntry):
+    '''Handle config file directives that require an index for filters.'''
+
+    def __init__(self, *a, **kw):
+        # Pop filters data for adding to the available filters array
+        self.type = kw.pop('type')
+        self.datatype = kw.pop('datatype', None)
+        self.filters = kw.pop('filters', None)
+
+        super(GroupOfFilters, self).__init__(**kw)
+
+    def factory(self, objs):
+        '''Modify filters to add the property value type and
+        make them of operation argument type.'''
+        if self.filters:
+            # 'type' used within OpArgument to generate filter
+            # argument values so add to each filter
+            for f in self.filters:
+                f['type'] = self.type
+            self.filters = [OpArgument(**x) for x in self.filters]
+
+        super(GroupOfFilters, self).factory(objs)
+
 class PropertyWatch(HasPropertyIndex):
     '''Handle the property watch config file directive.'''
 
     def __init__(self, *a, **kw):
-        self.filters = [OpArgument(**x) for x in kw.pop('filters', {})]
+        # Pop optional filters for the properties being watched
+        self.filters = kw.pop('filters', None)
         self.callback = kw.pop('callback', None)
         super(PropertyWatch, self).__init__(**kw)
 
+    def factory(self, objs):
+        '''Create any filters for this property watch.'''
+
+        if self.filters:
+            # Get the datatype(i.e. "int64_t") of the properties in this watch
+            # (Made available after all `super` classes init'd)
+            datatype = objs['propertygroup'][get_index(
+                objs,
+                'propertygroup',
+                self.properties,
+                config=self.configfile)].datatype
+            # Get the type(i.e. "int64") of the properties in this watch
+            # (Made available after all `super` classes init'd)
+            type = objs['propertygroup'][get_index(
+                objs,
+                'propertygroup',
+                self.properties,
+                config=self.configfile)].type
+            # Construct the data needed to make the filters for
+            # this watch available.
+            # *Note: 'class', 'subclass', 'name' are required for
+            # storing the filter data(i.e. 'type', 'datatype', & 'filters')
+            args = {
+                'type': type,
+                'datatype': datatype,
+                'filters': self.filters,
+                'class': 'filtersgroup',
+                'filtersgroup': 'filters',
+                'name': self.name,
+            }
+            # Init GroupOfFilters class with this watch's filters' arguments
+            group = GroupOfFilters(configfile=self.configfile, **args)
+            # Store this group of filters so it can be indexed later
+            add_unique(group, objs, config=self.configfile)
+            group.factory(objs)
+
+        super(PropertyWatch, self).factory(objs)
+
     def setup(self, objs):
-        '''Resolve optional callback.'''
+        '''Resolve optional filters and callback.'''
+
+        if self.filters:
+            # Watch has filters, provide array index to access them
+            self.filters = get_index(
+                objs,
+                'filtersgroup',
+                self.name,
+                config=self.configfile)
 
         if self.callback:
             self.callback = get_index(
@@ -672,7 +742,6 @@ class PathWatch(HasPathIndex):
                 self.pathcallback,
                 config=self.configfile)
         super(PathWatch, self).setup(objs)
-
 
 class Callback(HasPropertyIndex):
     '''Interface and common logic for callbacks.'''
@@ -1261,6 +1330,7 @@ class Everything(Renderer):
         self.callbackgroups = kw.pop('callbackgroup', [])
         self.pathcallbackgroups = kw.pop('pathcallbackgroup', [])
         self.conditions = kw.pop('condition', [])
+        self.filters = kw.pop('filtersgroup', [])
 
         super(Everything, self).__init__(**kw)
 
@@ -1293,6 +1363,7 @@ class Everything(Renderer):
                     callbackgroups=self.callbackgroups,
                     pathcallbackgroups=self.pathcallbackgroups,
                     conditions=self.conditions,
+                    filters=self.filters,
                     indent=Indent()))
 
 if __name__ == '__main__':
