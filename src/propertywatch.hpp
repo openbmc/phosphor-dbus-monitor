@@ -8,6 +8,7 @@
 #pragma once
 
 #include "data_types.hpp"
+#include "filters.hpp"
 #include "watch.hpp"
 
 namespace phosphor
@@ -116,14 +117,14 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
     PropertyWatchOfType& operator=(const PropertyWatchOfType&) = delete;
     PropertyWatchOfType& operator=(PropertyWatchOfType&&) = default;
     ~PropertyWatchOfType() = default;
-    PropertyWatchOfType(const std::vector<std::function<bool(T)>>& filterOps,
-                        const PropertyIndex& watchIndex, Callback& callback) :
+    PropertyWatchOfType(const PropertyIndex& watchIndex, Callback& callback,
+                        Filters* filterOps = nullptr) :
         PropertyWatch<DBusInterfaceType>(watchIndex, &callback),
         filterOps(filterOps)
     {
     }
-    PropertyWatchOfType(const std::vector<std::function<bool(T)>>& filterOps,
-                        const PropertyIndex& watchIndex) :
+    PropertyWatchOfType(const PropertyIndex& watchIndex,
+                        Filters* filterOps = nullptr) :
         PropertyWatch<DBusInterfaceType>(watchIndex, nullptr),
         filterOps(filterOps)
     {
@@ -176,8 +177,8 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
                          const InterfacesAdded<T>& interfaces);
 
   private:
-    /** @brief List of filter operations to perform on property changes. */
-    const std::vector<std::function<bool(T)>> filterOps;
+    /** @brief Optional filter operations to perform on property changes. */
+    Filters* const filterOps;
 };
 
 } // namespace monitoring
