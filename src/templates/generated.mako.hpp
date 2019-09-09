@@ -120,6 +120,30 @@ struct ConfigPropertyStorage
     }
 };
 
+struct ConfigPropertyFilters
+{
+    using PropertyFilters = std::array<std::unique_ptr<Filters>, ${len(filters)}>;
+
+    static auto& get()
+    {
+        static const PropertyFilters propertyFilters =
+        {
+% for f in filters:
+            std::make_unique<OperandFilters<${f.datatype}>>(
+                std::vector<std::function<bool(${f.datatype})>>{
+    % for o in f.filters:
+                    [](const auto& val){
+                        return val ${o.op} ${o.argument(loader, indent=indent +1)};
+                    },
+    % endfor
+                }
+            ),
+% endfor
+        };
+        return propertyFilters;
+    }
+};
+
 struct ConfigPropertyIndicies
 {
     using PropertyIndicies = std::array<PropertyIndex, ${len(instancegroups)}>;
@@ -230,22 +254,22 @@ struct ConfigPropertyWatches
         {
 % for w in watches:
             std::make_unique<PropertyWatchOfType<${w.datatype}, SDBusPlus>>(
-    % if w.filters:
-                std::vector<std::function<bool(${w.datatype})>>{
-        % for f in w.filters:
-                    [](const auto& val){
-                        return val ${f.op} ${f.argument(loader, indent=indent +1)};
-                    },
-        % endfor
-                },
-    % else:
-                std::vector<std::function<bool(${w.datatype})>>{},
-    % endif
     % if w.callback is None:
+        % if w.filters is None:
                 ConfigPropertyIndicies::get()[${w.instances}]),
+        % else:
+                ConfigPropertyIndicies::get()[${w.instances}],
+                ConfigPropertyFilters::get()[${w.filters}].get()),
+        % endif
     % else:
+        % if w.filters is None:
                 ConfigPropertyIndicies::get()[${w.instances}],
                 *ConfigPropertyCallbacks::get()[${w.callback}]),
+        % else:
+                ConfigPropertyIndicies::get()[${w.instances}],
+                *ConfigPropertyCallbacks::get()[${w.callback}],
+                ConfigPropertyFilters::get()[${w.filters}].get()),
+        % endif
     % endif
 % endfor
         };
