@@ -142,10 +142,7 @@ void testStart()
             .WillOnce(Return(GetObject({{"", mapperResponse}})));
         EXPECT_CALL(
             dbus, fwdAddMatch(
-                      sdbusplus::bus::match::rules::member("InterfacesAdded") +
-                          sdbusplus::bus::match::rules::path(path) +
-                          sdbusplus::bus::match::rules::interface(
-                              "org.freedesktop.DBus.ObjectManager"),
+                      sdbusplus::bus::match::rules::interfacesAdded(path),
                       _));
         for (const auto& i : interfaces)
         {
@@ -154,11 +151,8 @@ void testStart()
             EXPECT_CALL(
                 dbus,
                 fwdAddMatch(
-                    sdbusplus::bus::match::rules::member("PropertiesChanged") +
-                        sdbusplus::bus::match::rules::path(path) +
-                        sdbusplus::bus::match::rules::argN(0, interface) +
-                        sdbusplus::bus::match::rules::interface(
-                            "org.freedesktop.DBus.Properties"),
+                    sdbusplus::bus::match::rules::propertiesChanged(
+                        path, interface),
                     _));
 
             PropertiesChanged<T> serviceResponse;
@@ -177,8 +171,10 @@ void testStart()
     ndx = 0;
     for (auto s : storage)
     {
-        ASSERT_EQ(std::get<0>(s).empty(), false);
-        ASSERT_EQ(any_ns::any_cast<T>(s), ExpectedValues<T>::get(ndx));
+        ASSERT_EQ(std::get<valueIndex>(s).empty(), false);
+        ASSERT_EQ(
+            any_ns::any_cast<T>(std::get<valueIndex>(s)),
+            ExpectedValues<T>::get(ndx));
         ++ndx;
     }
 
