@@ -88,11 +88,7 @@ propertywatchgentest.hpp: $(PROPERTY_WATCH_TEST_GEN_DEPS)
 		-o $(builddir)/$@ \
 		generate-cpp
 
-# propertywatchtest is intentionally omitted from
-# check_PROGRAMS until a bug that manifests with
-# with GCC7 can be resolved.
-
-noinst_PROGRAMS += propertywatchtest
+check_PROGRAMS += propertywatchtest
 propertywatchtest_SOURCES = \
 	propertywatchtest.cpp
 propertywatchtest_CXXFLAGS = \
