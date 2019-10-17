@@ -3,6 +3,7 @@
 #include "propertywatchimpl.hpp"
 
 #include <array>
+#include <functional>
 
 using namespace std::string_literals;
 using namespace phosphor::dbus::monitoring;
@@ -114,7 +115,15 @@ struct Values<std::string>
 };
 
 template <typename T>
-void testStart()
+void nonFilteredCheck(const any_ns::any& value, const size_t ndx)
+{
+    ASSERT_EQ(value.empty(), false);
+    ASSERT_EQ(any_ns::any_cast<T>(value), Values<T>::get(ndx));
+}
+
+template <typename T>
+void testStart(std::function<void(const any_ns::any&,
+                                  const size_t)>&& checkState)
 {
     using ::testing::_;
     using ::testing::Return;
@@ -169,9 +178,7 @@ void testStart()
     ndx = 0;
     for (auto s : storage)
     {
-        ASSERT_EQ(std::get<valueIndex>(s).empty(), false);
-        ASSERT_EQ(any_ns::any_cast<T>(std::get<valueIndex>(s)),
-                  Values<T>::get(ndx));
+        checkState(std::get<valueIndex>(s), ndx);
         ++ndx;
     }
 
@@ -181,11 +188,11 @@ void testStart()
 
 TEST(PropertyWatchTest, TestStart)
 {
-    testStart<uint8_t>();
-    testStart<uint16_t>();
-    testStart<uint32_t>();
-    testStart<uint64_t>();
-    testStart<std::string>();
+    testStart<uint8_t>(nonFilteredCheck<uint8_t>);
+    testStart<uint16_t>(nonFilteredCheck<uint16_t>);
+    testStart<uint32_t>(nonFilteredCheck<uint32_t>);
+    testStart<uint64_t>(nonFilteredCheck<uint64_t>);
+    testStart<std::string>(nonFilteredCheck<std::string>);
 }
 
 MockDBusInterface* MockDBusInterface::ptr = nullptr;
