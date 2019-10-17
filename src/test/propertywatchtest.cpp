@@ -122,8 +122,164 @@ void nonFilteredCheck(const any_ns::any& value, const size_t ndx)
 }
 
 template <typename T>
+struct FilteredValues
+{
+};
+
+template <>
+struct FilteredValues<uint8_t>
+{
+    static auto& opFilters()
+    {
+        static std::unique_ptr<OperandFilters<uint8_t>> filters =
+            std::make_unique<OperandFilters<uint8_t>>(
+                std::vector<std::function<bool(uint8_t)>>{
+                    [](const auto& value){
+                        return value < 4;
+                    }
+                }
+            );
+        return filters;
+    }
+    static auto& expected(size_t i)
+    {
+        static const std::array<any_ns::any, 8> values = {
+            {any_ns::any(uint8_t(0)), any_ns::any(uint8_t(1)),
+             any_ns::any(uint8_t(2)), any_ns::any(uint8_t(3)), any_ns::any(),
+             any_ns::any(), any_ns::any(), any_ns::any()}
+        };
+        return values[i];
+    }
+};
+
+template <>
+struct FilteredValues<uint16_t>
+{
+    static auto& opFilters()
+    {
+        static std::unique_ptr<OperandFilters<uint16_t>> filters =
+            std::make_unique<OperandFilters<uint16_t>>(
+                std::vector<std::function<bool(uint16_t)>>{
+                    [](const auto& value){
+                        return value > 44;
+                    },
+                    [](const auto& value){
+                        return value != 88;
+                    }
+                }
+            );
+        return filters;
+    }
+    static auto& expected(size_t i)
+    {
+        static const std::array<any_ns::any, 8> values = {
+            {any_ns::any(), any_ns::any(uint16_t(77)),
+             any_ns::any(uint16_t(66)), any_ns::any(uint16_t(55)),
+             any_ns::any(), any_ns::any(), any_ns::any(), any_ns::any()}
+        };
+        return values[i];
+    }
+};
+
+template <>
+struct FilteredValues<uint32_t>
+{
+    static auto& opFilters()
+    {
+        static std::unique_ptr<OperandFilters<uint32_t>> filters =
+            std::make_unique<OperandFilters<uint32_t>>(
+                std::vector<std::function<bool(uint32_t)>>{
+                    [](const auto& value){
+                        return value != 0xffffffff;
+                    },
+                    [](const auto& value){
+                        return value != 0;
+                    }
+                }
+            );
+        return filters;
+    }
+    static auto& expected(size_t i)
+    {
+        static const std::array<any_ns::any, 8> values = {
+            {any_ns::any(), any_ns::any(uint32_t(1)), any_ns::any(uint32_t(3)),
+             any_ns::any(), any_ns::any(uint32_t(5)), any_ns::any(uint32_t(7)),
+             any_ns::any(uint32_t(9)), any_ns::any()}
+        };
+        return values[i];
+    }
+};
+
+template <>
+struct FilteredValues<uint64_t>
+{
+    static auto& opFilters()
+    {
+        static std::unique_ptr<OperandFilters<uint64_t>> filters =
+            std::make_unique<OperandFilters<uint64_t>>(
+                std::vector<std::function<bool(uint64_t)>>{
+                    [](const auto& value){
+                        return (value % 3) != 0;
+                    }
+                }
+            );
+        return filters;
+    }
+    static auto& expected(size_t i)
+    {
+        static const std::array<any_ns::any, 8> values = {
+            {any_ns::any(), any_ns::any(), any_ns::any(uint64_t(7)),
+             any_ns::any(), any_ns::any(), any_ns::any(), any_ns::any(),
+             any_ns::any()}
+        };
+        return values[i];
+    }
+};
+
+template <>
+struct FilteredValues<std::string>
+{
+    static auto& opFilters()
+    {
+        static std::unique_ptr<OperandFilters<std::string>> filters =
+            std::make_unique<OperandFilters<std::string>>(
+                std::vector<std::function<bool(std::string)>>{
+                    [](const auto& value){
+                        return value != ""s;
+                    },
+                    [](const auto& value){
+                        return value != "string"s;
+                    }
+                }
+            );
+        return filters;
+    }
+    static auto& expected(size_t i)
+    {
+        static const std::array<any_ns::any, 8> values = {
+            {any_ns::any(), any_ns::any("foo"s), any_ns::any("bar"s),
+             any_ns::any("baz"s), any_ns::any("hello"s), any_ns::any(),
+             any_ns::any("\x2\x3"s), any_ns::any("\\"s)}
+        };
+        return values[i];
+    }
+};
+
+template <typename T>
+void filteredCheck(const any_ns::any& value, const size_t ndx)
+{
+    ASSERT_EQ(value.empty(), FilteredValues<T>::expected(ndx).empty());
+    if (!value.empty())
+    {
+        ASSERT_EQ(any_ns::any_cast<T>(value),
+                  any_ns::any_cast<T>(FilteredValues<T>::expected(ndx)));
+    }
+}
+
+template <typename T>
 void testStart(std::function<void(const any_ns::any&,
-                                  const size_t)>&& checkState)
+                                  const size_t)>&& checkState,
+               OperandFilters<T>* opFilters = nullptr)
 {
     using ::testing::_;
     using ::testing::Return;
@@ -132,7 +288,7 @@ void testStart(std::function<void(const any_ns::any&,
     MockDBusInterface::instance(dbus);
 
     const std::vector<std::string> expectedMapperInterfaces;
-    PropertyWatchOfType<T, MockDBusInterface> watch(watchIndex);
+    PropertyWatchOfType<T, MockDBusInterface> watch(watchIndex, opFilters);
 
     auto ndx = static_cast<size_t>(0);
     for (const auto& o : convert(watchIndex))
@@ -193,6 +349,20 @@ TEST(PropertyWatchTest, TestStart)
     testStart<uint32_t>(nonFilteredCheck<uint32_t>);
     testStart<uint64_t>(nonFilteredCheck<uint64_t>);
     testStart<std::string>(nonFilteredCheck<std::string>);
+}
+
+TEST(PropertyWatchTest, TestFilters)
+{
+    testStart<uint8_t>(filteredCheck<uint8_t>,
+                       FilteredValues<uint8_t>::opFilters().get());
+    testStart<uint16_t>(filteredCheck<uint16_t>,
+                        FilteredValues<uint16_t>::opFilters().get());
+    testStart<uint32_t>(filteredCheck<uint32_t>,
+                        FilteredValues<uint32_t>::opFilters().get());
+    testStart<uint64_t>(filteredCheck<uint64_t>,
+                        FilteredValues<uint64_t>::opFilters().get());
+    testStart<std::string>(filteredCheck<std::string>,
+                           FilteredValues<std::string>::opFilters().get());
 }
 
 MockDBusInterface* MockDBusInterface::ptr = nullptr;
