@@ -50,11 +50,11 @@ const PropertyIndex watchIndex = {
 };
 
 template <typename T>
-struct ExpectedValues
+struct Values
 {
 };
 template <>
-struct ExpectedValues<uint8_t>
+struct Values<uint8_t>
 {
     static auto& get(size_t i)
     {
@@ -66,7 +66,7 @@ struct ExpectedValues<uint8_t>
 };
 
 template <>
-struct ExpectedValues<uint16_t>
+struct Values<uint16_t>
 {
     static auto& get(size_t i)
     {
@@ -78,7 +78,7 @@ struct ExpectedValues<uint16_t>
 };
 
 template <>
-struct ExpectedValues<uint32_t>
+struct Values<uint32_t>
 {
     static auto& get(size_t i)
     {
@@ -90,7 +90,7 @@ struct ExpectedValues<uint32_t>
 };
 
 template <>
-struct ExpectedValues<uint64_t>
+struct Values<uint64_t>
 {
     static auto& get(size_t i)
     {
@@ -102,7 +102,7 @@ struct ExpectedValues<uint64_t>
 };
 
 template <>
-struct ExpectedValues<std::string>
+struct Values<std::string>
 {
     static auto& get(size_t i)
     {
@@ -156,7 +156,7 @@ void testStart()
             PropertiesChanged<T> serviceResponse;
             for (const auto& p : properties)
             {
-                serviceResponse[p] = ExpectedValues<T>::get(ndx);
+                serviceResponse[p] = Values<T>::get(ndx);
                 ++ndx;
             }
             Expect<T>::getProperties(dbus, path, interface)
@@ -171,7 +171,7 @@ void testStart()
     {
         ASSERT_EQ(std::get<valueIndex>(s).empty(), false);
         ASSERT_EQ(any_ns::any_cast<T>(std::get<valueIndex>(s)),
-                  ExpectedValues<T>::get(ndx));
+                  Values<T>::get(ndx));
         ++ndx;
     }
 
