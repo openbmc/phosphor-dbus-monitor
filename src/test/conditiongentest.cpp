@@ -28,7 +28,7 @@ TEST(ConditionGenTest, GroupsSameSize)
 
 TEST(ConditionGenTest, CallbacksSameSize)
 {
-    ASSERT_EQ(sizeof(expectedGroups), sizeof(groups));
+    ASSERT_EQ(sizeof(expectedCallbacks), sizeof(callbacks));
 }
 
 TEST(ConditionGenTest, GroupsSameContent)
