@@ -93,3 +93,21 @@
   properties: test property group 1
   severity: INFO
   message: Hello world from PDM!
+
+- name: test median condition 1
+  class: condition
+  condition: median
+  paths: test path group 1
+  properties: test property group 1
+  callback: test journal callback 1
+  op: '>='
+  bound: 45
+
+- name: test median condition 2
+  class: condition
+  condition: median
+  paths: test path group 2
+  properties: test property group 1
+  callback: test journal callback 2
+  op: '>='
+  bound: 45
