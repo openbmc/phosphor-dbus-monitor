@@ -14,11 +14,8 @@ const std::array<std::vector<size_t>, 2> expectedGroups = {{
     {1},
 }};
 
-const std::array<size_t, 4> expectedCallbacks = {
-    0,
-    0,
-    1,
-    1,
+const std::array<size_t, 6> expectedCallbacks = {
+    0, 0, 1, 1, 0, 1,
 };
 
 TEST(ConditionGenTest, GroupsSameSize)
