@@ -32,7 +32,6 @@ int main(void)
 
     // Add sdbusplus Object Manager for the 'root' path of events.
     sdbusplus::server::manager::manager objManager(bus, OBJ_EVENT);
-    bus.request_name(BUSNAME_EVENT);
 
     phosphor::events::getManager().restore();
 
@@ -55,6 +54,7 @@ int main(void)
         watch->callback(Context::START);
     }
 
+    bus.request_name(BUSNAME_EVENT);
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
     return event.loop();
 }
