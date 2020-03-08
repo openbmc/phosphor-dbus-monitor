@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 '''Phosphor DBus Monitor YAML parser and code generator.
 
@@ -1290,9 +1290,7 @@ class Everything(Renderer):
             lambda x: x.endswith('.yaml'),
             os.listdir(args.inputdir))
 
-        yaml_files.sort()
-
-        for x in yaml_files:
+        for x in sorted(yaml_files):
             path = os.path.join(args.inputdir, x)
             with open(path, 'r') as fd:
                 Everything.load_one_yaml(path, fd, objs)
