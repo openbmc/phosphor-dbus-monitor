@@ -60,8 +60,7 @@ void ResolveCallout::operator()(Context ctx)
             busName, path, PROPERTY_IFACE, "Get", ASSOCIATION_IFACE,
             ENDPOINTS_PROPERTY);
 
-        const auto& logEntries =
-            sdbusplus::message::variant_ns::get<EndpointList>(endpoints);
+        const auto& logEntries = std::get<EndpointList>(endpoints);
 
         // Resolve each log entry
         for (const auto& logEntry : logEntries)
