@@ -16,7 +16,7 @@ namespace errors = sdbusplus::xyz::openbmc_project::Common::Error;
 
 /** @brief Alias for PropertiesChanged signal callbacks. */
 template <typename... T>
-using Properties = std::map<std::string, sdbusplus::message::variant<T...>>;
+using Properties = std::map<std::string, std::variant<T...>>;
 
 namespace sdbusplus
 {
@@ -123,7 +123,7 @@ static auto getProperty(::sdbusplus::bus::bus& bus, const std::string& busName,
     auto msg =
         callMethod(bus, busName, path, "org.freedesktop.DBus.Properties"s,
                    "Get"s, interface, property);
-    ::sdbusplus::message::variant<Property> value;
+    ::std::variant<Property> value;
     msg.read(value);
     return std::get<Property>(value);
 }

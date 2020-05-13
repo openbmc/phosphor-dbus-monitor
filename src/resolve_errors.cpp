@@ -34,7 +34,7 @@ constexpr auto RESOLVED_PROPERTY = "Resolved";
 
 using namespace phosphor::logging;
 using EndpointList = std::vector<std::string>;
-using EndpointsProperty = sdbusplus::message::variant<EndpointList>;
+using EndpointsProperty = std::variant<EndpointList>;
 
 void ResolveCallout::operator()(Context ctx)
 {
@@ -90,7 +90,7 @@ void ResolveCallout::resolve(const std::string& logEntry)
             }
         }
 
-        sdbusplus::message::variant<bool> resolved = true;
+        std::variant<bool> resolved = true;
 
         auto response =
             SDBusPlus::callMethod(busName, logEntry, PROPERTY_IFACE, "Set",
