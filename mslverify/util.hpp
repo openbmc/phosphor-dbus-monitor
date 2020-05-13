@@ -125,7 +125,7 @@ static auto getProperty(::sdbusplus::bus::bus& bus, const std::string& busName,
                    "Get"s, interface, property);
     ::sdbusplus::message::variant<Property> value;
     msg.read(value);
-    return ::sdbusplus::message::variant_ns::get<Property>(value);
+    return std::get<Property>(value);
 }
 
 /** @brief Get a property without mapper lookup. */

@@ -33,15 +33,11 @@ void ErrorTrap::trap(sdbusplus::message::message& msg) const
         return;
     }
     auto& propMap = it->second;
-    auto errorID =
-        sdbusplus::message::variant_ns::get<uint32_t>(propMap.at("Id"));
-    auto timestamp =
-        sdbusplus::message::variant_ns::get<uint64_t>(propMap.at("Timestamp"));
-    auto sev = sdbusplus::message::variant_ns::get<std::string>(
-        propMap.at("Severity"));
+    auto errorID = std::get<uint32_t>(propMap.at("Id"));
+    auto timestamp = std::get<uint64_t>(propMap.at("Timestamp"));
+    auto sev = std::get<std::string>(propMap.at("Severity"));
     auto isev = static_cast<uint8_t>(Entry::convertLevelFromString(sev));
-    auto message =
-        sdbusplus::message::variant_ns::get<std::string>(propMap.at("Message"));
+    auto message = std::get<std::string>(propMap.at("Message"));
     try
     {
         sendTrap<OBMCErrorNotification>(errorID, timestamp, isev, message);
