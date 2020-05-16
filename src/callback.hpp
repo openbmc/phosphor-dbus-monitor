@@ -3,6 +3,7 @@
 #include "data_types.hpp"
 
 #include <chrono>
+#include <cstddef>
 #include <sdeventplus/clock.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
