@@ -5,6 +5,7 @@
 
 #include <phosphor-logging/log.hpp>
 #include <sstream>
+#include <string>
 
 namespace phosphor
 {

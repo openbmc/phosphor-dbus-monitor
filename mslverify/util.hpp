@@ -5,6 +5,7 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/message.hpp>
+#include <string>
 #include <xyz/openbmc_project/Common/error.hpp>
 
 namespace util

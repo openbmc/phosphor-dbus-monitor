@@ -1,6 +1,8 @@
 #pragma once
 #include "callback.hpp"
 
+#include <string>
+
 namespace phosphor
 {
 namespace dbus

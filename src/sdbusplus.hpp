@@ -7,6 +7,7 @@
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
+#include <string>
 
 struct Loop;
 

@@ -10,6 +10,8 @@
 #include "data_types.hpp"
 #include "watch.hpp"
 
+#include <string>
+
 namespace phosphor
 {
 namespace dbus

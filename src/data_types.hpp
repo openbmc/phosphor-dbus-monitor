@@ -4,6 +4,7 @@
 
 #include <experimental/any>
 #include <sdbusplus/message.hpp>
+#include <string>
 
 namespace any_ns = std::experimental;
 

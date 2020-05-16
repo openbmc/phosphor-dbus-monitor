@@ -6,6 +6,7 @@
 #include <memory>
 #include <queue>
 #include <sdbusplus/bus.hpp>
+#include <string>
 
 namespace phosphor
 {

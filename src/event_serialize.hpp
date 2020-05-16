@@ -5,6 +5,7 @@
 #include "event_entry.hpp"
 
 #include <experimental/filesystem>
+#include <string>
 
 namespace phosphor
 {

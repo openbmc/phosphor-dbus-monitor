@@ -4,6 +4,7 @@
 #include "format.hpp"
 
 #include <phosphor-logging/log.hpp>
+#include <string>
 
 namespace phosphor
 {
