@@ -122,6 +122,8 @@ class Literal(object):
             return Cast('static', '{0}_t'.format(self.type))(arg)
         elif self.type == 'byte':
             return Cast('static', 'uint8_t'.format(self.type))(arg)
+        elif self.type == 'double':
+            return Cast('static', 'double'.format(self.type))(arg)
 
         if self.type == 'string':
             return '{0}s'.format(arg)
