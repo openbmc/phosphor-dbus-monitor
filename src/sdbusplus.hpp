@@ -19,7 +19,6 @@ namespace monitoring
 {
 
 using namespace phosphor::logging;
-using sdbusplus::exception::SdBusError;
 
 /** @class SDBusPlus
  *  @brief DBus access delegate implementation for sdbusplus.
@@ -83,7 +82,7 @@ class SDBusPlus
         {
             respMsg.read(resp);
         }
-        catch (const SdBusError& e)
+        catch (const sdbusplus::exception::exception& e)
         {
             // Empty responses are expected sometimes, and the calling
             // code is set up to handle it.
@@ -117,7 +116,7 @@ class SDBusPlus
                 name = object.begin()->first;
             }
         }
-        catch (const SdBusError& e)
+        catch (const sdbusplus::exception::exception& e)
         {
             // Empty responses are expected sometimes, and the calling
             // code is set up to handle it.

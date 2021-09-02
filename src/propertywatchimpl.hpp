@@ -57,7 +57,7 @@ void PropertyWatch<DBusInterfaceType>::start()
                     MAPPER_BUSNAME, MAPPER_PATH, MAPPER_INTERFACE, "GetObject",
                     path, queryInterfaces);
             }
-            catch (const sdbusplus::exception::SdBusError&)
+            catch (const sdbusplus::exception::exception&)
             {
                 // Paths in the configuration may not exist yet.  Prime those
                 // later, when/if InterfacesAdded occurs.
@@ -104,7 +104,7 @@ void PropertyWatch<DBusInterfaceType>::start()
                 {
                     updateProperties(busName, path, interface);
                 }
-                catch (const sdbusplus::exception::SdBusError&)
+                catch (const sdbusplus::exception::exception&)
                 {
                     // If for some reason the path has gone away since
                     // the mapper lookup we'll simply try again if/when

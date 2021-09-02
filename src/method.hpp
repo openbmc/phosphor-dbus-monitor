@@ -36,7 +36,7 @@ struct CallDBusMethod
             DBusInterface::callMethodNoReply(bus, path, iface, method,
                                              std::forward<MethodArgs>(args)...);
         }
-        catch (const sdbusplus::exception::SdBusError& e)
+        catch (const sdbusplus::exception::exception& e)
         {
             // clang-format off
             log<level::ERR>("Unable to call DBus method",
