@@ -21,7 +21,7 @@ struct GetFormatType
 template <>
 struct GetFormatType<bool>
 {
-    static constexpr auto format = "%d";
+    static constexpr auto format = "=%d";
 };
 template <>
 struct GetFormatType<char>
