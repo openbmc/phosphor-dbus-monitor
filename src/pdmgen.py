@@ -243,7 +243,15 @@ class ConfigEntry(NamedElement):
         self.configfile = kw.pop('configfile')
         self.cls = kw.pop('class')
         self.subclass = kw.pop(self.cls)
+
+        # TODO: NamedElement requires 'name' to be a string, but in many cases
+        #       this script treats 'name' as a dict.  Save the property off and
+        #       insert it after ConfigEntry does its own thing to avoid
+        #       exceptions.  This should be refactored throughout the whole
+        #       script to not overload 'name' as a dict.
+        name_save = kw.pop('name')
         super(ConfigEntry, self).__init__(**kw)
+        self.name = name_save
 
     def factory(self, objs):
         ''' Optional factory interface for subclasses to add
