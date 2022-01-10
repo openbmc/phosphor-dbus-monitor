@@ -4,7 +4,11 @@
 
 #include <experimental/any>
 #include <sdbusplus/message.hpp>
+#include <sdbusplus/utility/merge_variants.hpp>
 #include <string>
+#include <xyz/openbmc_project/Association/Definitions/server.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
+#include <xyz/openbmc_project/Software/Version/server.hpp>
 
 namespace any_ns = std::experimental;
 
@@ -63,9 +67,12 @@ using MapperPath = std::string;
 template <typename T>
 using InterfacesAdded =
     std::map<std::string, std::map<std::string, std::variant<T>>>;
-using Value = std::variant<bool, uint8_t, int16_t, uint16_t, int32_t, uint32_t,
-                           int64_t, uint64_t, std::string>;
-
+using Value = sdbusplus::utility::merge_variants_t<
+    sdbusplus::xyz::openbmc_project::Association::server::Definitions::
+        PropertiesVariant,
+    sdbusplus::xyz::openbmc_project::Logging::server::Entry::PropertiesVariant,
+    sdbusplus::xyz::openbmc_project::Software::server::Version::
+        PropertiesVariant>;
 /** @brief ObjectManager.InterfacesAdded signal signature alias. */
 using Interface = std::string;
 using Property = std::string;
