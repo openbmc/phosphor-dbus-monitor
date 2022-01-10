@@ -35,9 +35,15 @@ void ErrorTrap::trap(sdbusplus::message::message& msg) const
     auto& propMap = it->second;
     auto errorID = std::get<uint32_t>(propMap.at("Id"));
     auto timestamp = std::get<uint64_t>(propMap.at("Timestamp"));
-    auto sev = std::get<std::string>(propMap.at("Severity"));
-    auto isev = static_cast<uint8_t>(Entry::convertLevelFromString(sev));
+    auto sev = std::get<Entry::Level>(propMap.at("Severity"));
+    auto isev = static_cast<uint8_t>(sev);
     auto message = std::get<std::string>(propMap.at("Message"));
+    auto additionalData =
+        std::get<std::vector<std::string>>(propMap.at("AdditionalData"));
+    for (auto& s : additionalData)
+    {
+        message += " " + s;
+    }
     try
     {
         sendTrap<OBMCErrorNotification>(errorID, timestamp, isev, message);
@@ -48,7 +54,8 @@ void ErrorTrap::trap(sdbusplus::message::message& msg) const
             "Failed to send SNMP trap",
             phosphor::logging::entry("ERROR_ID=%d", errorID),
             phosphor::logging::entry("TIMESTAMP=%llu", timestamp),
-            phosphor::logging::entry("SEVERITY=%s", sev.c_str()),
+            phosphor::logging::entry("SEVERITY=%s",
+                                     convertForMessage(sev).c_str()),
             phosphor::logging::entry("MESSAGE=%s", message.c_str()));
     }
 }
