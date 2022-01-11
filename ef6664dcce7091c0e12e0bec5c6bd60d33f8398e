@@ -16,6 +16,24 @@
       "message": "Hello,\nA question to those who actually uses phosphor-snmp functionality: what are your typical usecases and why the MIB currently is so rudimentary? Many log messages are essentialy C++ exception type names, without any details, how is this useful for SNMP monitoring in real life?",
       "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21321ae2_4a4e3ed9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000089
+      },
+      "writtenOn": "2022-01-11T06:34:05Z",
+      "side": 1,
+      "message": "what is MIB?",
+      "parentUuid": "887f8932_74d1e24f",
+      "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
