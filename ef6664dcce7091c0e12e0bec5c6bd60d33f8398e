@@ -104,6 +104,24 @@
       "message": "CI is failued due to clang check, do this on your files and pus again.\n\nclang-format-12 -i \u003cfile name\u003e\n\ndo check here for the error message https://jenkins.openbmc.org/job/ci-repository/35165/console",
       "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffca381a_18959280",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2022-01-16T14:34:11Z",
+      "side": 1,
+      "message": "Hello MARRI,\n\nThank you for the review. Where exactly should I add output data to?\n\nI\u0027ll do that and fix the CI failure in the next version (will push after the merge_variants_t sdbusplus change is merged).\n\nCan someone who actually uses SNMP traps tell where exactly you\u0027re getting them from? Can you please add someone to Reviewers or Cc to clarify this? For my testing I added a hack to phosphor-sel-logger to get at least something remotely useful:\n\n diff --git a/src/sel_logger.cpp b/src/sel_logger.cpp\n index 8368f3b9e8e5..b725a96d2e89 100755\n --- a/src/sel_logger.cpp\n +++ b/src/sel_logger.cpp\n @@ -157,7 +157,7 @@ static uint16_t\n      /*auto entryID \u003d */report\u003cSELCreated\u003e(\n          Created::RECORD_TYPE(selSystemType), Created::GENERATOR_ID(genId),\n          Created::SENSOR_DATA(selDataStr.c_str()), Created::EVENT_DIR(assert),\n -        Created::SENSOR_PATH(path.c_str()));\n +        Created::SENSOR_PATH((path + \" MSG\u003d\\\"\" + message + \"\\\"\").c_str()));\n      //return static_cast\u003cuint16_t\u003e(entryID);\n  \n      unsigned int recordId \u003d getNewRecordId();\n @@ -187,7 +187,7 @@ static uint16_t selAddOemRecord(const std::string\u0026 message,\n      /*auto entryID \u003d */report\u003cSELCreated\u003e(\n          Created::RECORD_TYPE(recordType), Created::GENERATOR_ID(0),\n          Created::SENSOR_DATA(selDataStr.c_str()), Created::EVENT_DIR(0),\n -        Created::SENSOR_PATH(\"\"));\n +        Created::SENSOR_PATH((\" MSG\u003d\\\"\" + message + \"\\\"\").c_str()));\n      //return static_cast\u003cuint16_t\u003e(entryID);",
+      "parentUuid": "1a3319b0_4b8f5b47",
+      "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
