@@ -87,6 +87,23 @@
       "message": "some output data in the tested section would have been useful.",
       "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d5f99c_c6748b32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000089
+      },
+      "writtenOn": "2022-01-16T14:19:33Z",
+      "side": 1,
+      "message": "CI is failued due to clang check, do this on your files and pus again.\n\nclang-format-12 -i \u003cfile name\u003e\n\ndo check here for the error message https://jenkins.openbmc.org/job/ci-repository/35165/console",
+      "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
