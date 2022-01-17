@@ -140,6 +140,24 @@
       "parentUuid": "ffca381a_18959280",
       "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05612c03_706a923d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2022-01-17T13:46:19Z",
+      "side": 1,
+      "message": "I know how to add log messages, yes, and with the code in question I was getting SNMP traps like this:\n\n SNMPv2-SMI::snmpModules.1.1.4.1.0 \u003d OID: OPENBMC-NOTIFICATION-MIB::obmcErrorNotification        OPENBMC-NOTIFICATION-MIB::obmcErrorID \u003d Gauge32: 101      OPENBMC-NOTIFICATION-MIB::obmcErrorTimestamp \u003d Opaque: UInt64: 16071483831667917181       OPENBMC-NOTIFICATION-MIB::obmcErrorSeverity \u003d INTEGER: 6        OPENBMC-NOTIFICATION-MIB::obmcErrorMessage \u003d STRING: \"xyz.openbmc_project.Logging.SEL.Error.Created EVENT_DIR\u003d1 GENERATOR_ID\u003d32 RECORD_TYPE\u003d2 SENSOR_DATA\u003d05FFFF SENSOR_PATH\u003d/xyz/openbmc_project/sensors/oemdiscreteeventonly/CPU0HostErr MSG\u003d\\\"CPU0HostErr sensor asserted offset 5.\\\" _PID\u003d13246\"\n SNMPv2-SMI::snmpModules.1.1.4.1.0 \u003d OID: OPENBMC-NOTIFICATION-MIB::obmcErrorNotification        OPENBMC-NOTIFICATION-MIB::obmcErrorID \u003d Gauge32: 102      OPENBMC-NOTIFICATION-MIB::obmcErrorTimestamp \u003d Opaque: UInt64: 16071484673481507197       OPENBMC-NOTIFICATION-MIB::obmcErrorSeverity \u003d INTEGER: 6        OPENBMC-NOTIFICATION-MIB::obmcErrorMessage \u003d STRING: \"xyz.openbmc_project.Logging.SEL.Error.Created EVENT_DIR\u003d1 GENERATOR_ID\u003d32 RECORD_TYPE\u003d2 SENSOR_DATA\u003d05FFFF SENSOR_PATH\u003d/xyz/openbmc_project/sensors/oemdiscreteeventonly/CPU1HostErr MSG\u003d\\\"CPU1HostErr sensor asserted offset 5.\\\" _PID\u003d13246\"\n SNMPv2-SMI::snmpModules.1.1.4.1.0 \u003d OID: OPENBMC-NOTIFICATION-MIB::obmcErrorNotification        OPENBMC-NOTIFICATION-MIB::obmcErrorID \u003d Gauge32: 103      OPENBMC-NOTIFICATION-MIB::obmcErrorTimestamp \u003d Opaque: UInt64: 16071485824532742525       OPENBMC-NOTIFICATION-MIB::obmcErrorSeverity \u003d INTEGER: 6        OPENBMC-NOTIFICATION-MIB::obmcErrorMessage \u003d STRING: \"xyz.openbmc_project.Logging.SEL.Error.Created EVENT_DIR\u003d1 GENERATOR_ID\u003d32 RECORD_TYPE\u003d2 SENSOR_DATA\u003d02FFFF SENSOR_PATH\u003d/xyz/openbmc_project/sensors/oemdiscreteeventonly/GenericHostErr MSG\u003d\\\"GenericHostErr sensor asserted offset 2.\\\" _PID\u003d13246\"\n\nDo people who receive SNMP traps like that from OpenBMC actually find them useful?",
+      "parentUuid": "d9efbe69_8101c838",
+      "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
