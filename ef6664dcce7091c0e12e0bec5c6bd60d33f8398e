@@ -122,6 +122,24 @@
       "parentUuid": "1a3319b0_4b8f5b47",
       "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9efbe69_8101c838",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000089
+      },
+      "writtenOn": "2022-01-17T13:24:41Z",
+      "side": 1,
+      "message": "As per my understanding SNMP traps are send from phosphor-dbus-monitor when and error log object entry is created. you can do that by hacking in some application just to create an error and commit\n\nhttp://fstone07p1.aus.stglabs.ibm.com:8080/source/xref/openbmc/phosphor-hwmon/fan_pwm.cpp?r\u003d6a391de4#35\n\nhere an writefailure error is created and committed, we can fake this in some small app/service and restart it, you can create different error with different data and see how SNMP is getting it.",
+      "parentUuid": "ffca381a_18959280",
+      "revId": "ef6664dcce7091c0e12e0bec5c6bd60d33f8398e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
