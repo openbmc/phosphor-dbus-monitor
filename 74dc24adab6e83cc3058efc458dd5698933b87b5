@@ -22,6 +22,30 @@
       },
       "revId": "74dc24adab6e83cc3058efc458dd5698933b87b5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeeeda77_68f9eb6f",
+        "filename": "src/snmp_trap.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2022-01-28T12:48:22Z",
+      "side": 1,
+      "message": "I am afraid that is not possible. sdbusplus currently generates only server bindings, so creating an Entry actually means creating a new object on D-Bus. Moreover, in this particular case we do not want a client object attached to some D-Bus server object, we just have a properties map received from a signal. Is this common enough so that you think I should work on adding this functionality to sdbusplus? I\u0027m afraid it\u0027s not that easy and straightforward, and not worth the effort for this rare usecase (which seems to be not used by anyone anyway judging by the amount of replies I received asking about the quality of the current MIB structure!).",
+      "parentUuid": "aa202b2c_248c695f",
+      "range": {
+        "startLine": 42,
+        "startChar": 17,
+        "endLine": 42,
+        "endChar": 41
+      },
+      "revId": "74dc24adab6e83cc3058efc458dd5698933b87b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
