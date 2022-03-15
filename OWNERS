@@ -33,7 +33,6 @@
 
 owners:
 - devenrao@in.ibm.com
-- msbarth@linux.ibm.com
 
 reviewers:
 
@@ -43,6 +42,3 @@ openbmc:
 - name: Marri Devender Rao
   email: devenrao@in.ibm.com
   discord: devender
-- name: Matthew Barth
-  email: msbarth@linux.ibm.com
-  discord: msbarth
