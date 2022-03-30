@@ -49,6 +49,11 @@ struct GetFormatType<long long int>
     static constexpr auto format = "=%lld";
 };
 template <>
+struct GetFormatType<double>
+{
+    static constexpr auto format = "=%lf";
+};
+template <>
 struct GetFormatType<unsigned char>
 {
     static constexpr auto format = "=%hhd";
