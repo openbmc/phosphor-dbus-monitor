@@ -41,7 +41,8 @@ class Entry : public EntryIface
      */
     Entry(const std::string& path, uint64_t eventTimestamp, std::string&& msg,
           std::vector<std::string>&& metaData) :
-        EntryIface(SDBusPlus::getBus(), path.c_str(), true),
+        EntryIface(SDBusPlus::getBus(), path.c_str(),
+                   EntryIface::action::defer_emit),
         objectPath(path)
     {
         timestamp(eventTimestamp);
@@ -57,7 +58,9 @@ class Entry : public EntryIface
      *  @param[in] timestamp - timestamp when the event created.
      */
     Entry(const std::string& path, uint64_t eventTimestamp) :
-        EntryIface(SDBusPlus::getBus(), path.c_str(), true), objectPath(path)
+        EntryIface(SDBusPlus::getBus(), path.c_str(),
+                   EntryIface::action::defer_emit),
+        objectPath(path)
     {
         timestamp(eventTimestamp);
     }
