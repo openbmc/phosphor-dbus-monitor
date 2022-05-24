@@ -120,6 +120,12 @@ void PropertyWatch<DBusInterfaceType>::start()
 template <typename DBusInterfaceType>
 void PropertyWatch<DBusInterfaceType>::callback(Context ctx)
 {
+    // Ignore callback if ignoreStartCallback is true and it's the START
+    // callback
+    if (ctx == Context::START && ignoreStartCallback)
+    {
+        return;
+    }
     // Invoke callback if present.
     if (this->alreadyRan && this->cb)
     {

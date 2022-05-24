@@ -56,7 +56,12 @@
     affect on any optional callback that may be triggered.
 
     An optional callback can be triggered when property values change and
-    those values pass all filters that may be defined.'
+    those values pass all filters that may be defined.
+
+    By default the callback is called when the monitor starts.
+    An optional `ignore_start_callback` can be set to true so that the
+    callback will not be called when the monitor starts.'
+
   class: watch
   watch: property
   paths: example path group
@@ -67,6 +72,7 @@
       bound: 0
     - op: '<='
       bound: 100
+  ignore_start_callback: true
 
 - name: example journal callback
   description: >

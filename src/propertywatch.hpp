@@ -39,9 +39,11 @@ class PropertyWatch : public Watch
     PropertyWatch& operator=(PropertyWatch&&) = default;
     virtual ~PropertyWatch() = default;
     PropertyWatch(const PropertyIndex& watchIndex,
+                  bool ignoreStartCallback = false,
                   Callback* callback = nullptr) :
         Watch(),
-        index(watchIndex), cb(callback), alreadyRan(false)
+        index(watchIndex), cb(callback), alreadyRan(false),
+        ignoreStartCallback(ignoreStartCallback)
     {
     }
 
@@ -101,6 +103,9 @@ class PropertyWatch : public Watch
 
     /** @brief The start method should only be invoked once. */
     bool alreadyRan;
+
+    /** @brief Ignore callback on start */
+    bool ignoreStartCallback;
 };
 
 /** @class PropertyWatchOfType
@@ -120,14 +125,18 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
     PropertyWatchOfType& operator=(PropertyWatchOfType&&) = default;
     ~PropertyWatchOfType() = default;
     PropertyWatchOfType(const PropertyIndex& watchIndex, Callback& callback,
+                        bool ignoreStartCallback = false,
                         Filters* filterOps = nullptr) :
-        PropertyWatch<DBusInterfaceType>(watchIndex, &callback),
+        PropertyWatch<DBusInterfaceType>(watchIndex, ignoreStartCallback,
+                                         &callback),
         filterOps(filterOps)
     {
     }
     PropertyWatchOfType(const PropertyIndex& watchIndex,
+                        bool ignoreStartCallback = false,
                         Filters* filterOps = nullptr) :
-        PropertyWatch<DBusInterfaceType>(watchIndex, nullptr),
+        PropertyWatch<DBusInterfaceType>(watchIndex, ignoreStartCallback,
+                                         nullptr),
         filterOps(filterOps)
     {
     }

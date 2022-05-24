@@ -259,15 +259,18 @@ struct ConfigPropertyWatches
                 ConfigPropertyIndicies::get()[${w.instances}]),
         % else:
                 ConfigPropertyIndicies::get()[${w.instances}],
+                ${w.ignore_start_callback},
                 ConfigPropertyFilters::get()[${w.filters}].get()),
         % endif
     % else:
         % if w.filters is None:
                 ConfigPropertyIndicies::get()[${w.instances}],
-                *ConfigPropertyCallbacks::get()[${w.callback}]),
+                *ConfigPropertyCallbacks::get()[${w.callback}],
+                ${w.ignore_start_callback}),
         % else:
                 ConfigPropertyIndicies::get()[${w.instances}],
                 *ConfigPropertyCallbacks::get()[${w.callback}],
+                ${w.ignore_start_callback},
                 ConfigPropertyFilters::get()[${w.filters}].get()),
         % endif
     % endif

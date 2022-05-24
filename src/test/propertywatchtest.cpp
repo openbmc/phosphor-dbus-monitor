@@ -257,7 +257,8 @@ void testStart(
     MockDBusInterface::instance(dbus);
 
     const std::vector<std::string> expectedMapperInterfaces;
-    PropertyWatchOfType<T, MockDBusInterface> watch(watchIndex, opFilters);
+    PropertyWatchOfType<T, MockDBusInterface> watch(watchIndex, false,
+                                                    opFilters);
 
     auto ndx = static_cast<size_t>(0);
     for (const auto& o : convert(watchIndex))

@@ -676,6 +676,8 @@ class PropertyWatch(HasPropertyIndex):
         # Pop optional filters for the properties being watched
         self.filters = kw.pop('filters', None)
         self.callback = kw.pop('callback', None)
+        self.ignore_start_callback = kw.pop('ignore_start_callback', False)
+        self.ignore_start_callback = 'true' if self.ignore_start_callback else 'false'
         super(PropertyWatch, self).__init__(**kw)
 
     def factory(self, objs):
