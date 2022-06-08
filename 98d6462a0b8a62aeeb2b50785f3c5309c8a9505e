@@ -1,0 +1,8 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+1: Matt Spinler <spinler@us.ibm.com>
+Code-Review+2: MARRI DEVENDER RAO <devenrao@in.ibm.com>
+Submitted-by: Lei YU <yulei.sh@bytedance.com>
+Submitted-at: Wed, 08 Jun 2022 05:41:38 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-monitor/+/53954
+Project: openbmc/phosphor-dbus-monitor
+Branch: refs/heads/master
