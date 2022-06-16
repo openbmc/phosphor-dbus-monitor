@@ -21,8 +21,7 @@ phosphor_dbus_monitor_LDADD = \
 	$(SDEVENTPLUS_LIBS) \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
-	$(PHOSPHOR_SNMP_LIBS) \
-	-lstdc++fs
+	$(PHOSPHOR_SNMP_LIBS)
 phosphor_dbus_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(SDEVENTPLUS_CFLAGS) \

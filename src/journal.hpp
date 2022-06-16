@@ -41,7 +41,7 @@ class JournalBase : public IndexedCallback
     /** @brief Delegate type specific calls to subclasses. */
     virtual void log(const char* message, const std::string& pathMeta,
                      const std::string& path, const std::string& propertyMeta,
-                     const any_ns::any& value) const = 0;
+                     const std::any& value) const = 0;
 
     /** @brief The client provided message to be traced.  */
     const char* message;
@@ -96,7 +96,7 @@ class Journal : public JournalBase
     /** @brief log interface implementation. */
     void log(const char* message, const std::string& pathMeta,
              const std::string& path, const std::string& propertyMeta,
-             const any_ns::any& value) const override
+             const std::any& value) const override
     {
         phosphor::logging::log<Severity>(
             message,
@@ -105,7 +105,7 @@ class Journal : public JournalBase
                 path.c_str()),
             phosphor::logging::entry(
                 (propertyMeta + GetFormat<T>::format).c_str(),
-                detail::Display<T>::op(any_ns::any_cast<T>(value))));
+                detail::Display<T>::op(std::any_cast<T>(value))));
     }
 };
 

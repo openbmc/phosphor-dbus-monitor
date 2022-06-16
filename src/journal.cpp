@@ -32,7 +32,7 @@ void JournalBase::operator()(Context ctx)
         const auto& storage = std::get<storageIndex>(n.second);
         const auto& value = std::get<valueIndex>(storage.get());
 
-        if (!value.empty())
+        if (value.has_value())
         {
             log(message, pathMeta, path, propertyMeta, value);
         }

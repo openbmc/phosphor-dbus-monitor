@@ -197,8 +197,7 @@ callbacktest_LDADD = \
 	$(builddir)/../elog.o \
 	$(builddir)/../resolve_errors.o \
 	$(builddir)/../event_manager.o \
-	$(builddir)/../event_serialize.o \
-	-lstdc++fs
+	$(builddir)/../event_serialize.o
 
 check_PROGRAMS += interfaceaddtest
 interfaceaddtest_SOURCES = \

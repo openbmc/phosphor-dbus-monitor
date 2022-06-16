@@ -27,7 +27,7 @@ const std::array<std::string, 2> properties = {
 
 const std::string meta;
 
-std::array<std::tuple<any_ns::any, any_ns::any>, 8> storage = {};
+std::array<std::tuple<std::any, std::any>, 8> storage = {};
 
 const PropertyIndex watchIndex = {
     {
@@ -115,10 +115,10 @@ struct Values<std::string>
 };
 
 template <typename T>
-void nonFilteredCheck(const any_ns::any& value, const size_t ndx)
+void nonFilteredCheck(const std::any& value, const size_t ndx)
 {
-    ASSERT_EQ(value.empty(), false);
-    ASSERT_EQ(any_ns::any_cast<T>(value), Values<T>::get(ndx));
+    ASSERT_EQ(value.has_value(), true);
+    ASSERT_EQ(std::any_cast<T>(value), Values<T>::get(ndx));
 }
 
 template <typename T>
@@ -139,10 +139,10 @@ struct FilteredValues<uint8_t>
     }
     static auto& expected(size_t i)
     {
-        static const std::array<any_ns::any, 8> values = {
-            {any_ns::any(uint8_t(0)), any_ns::any(uint8_t(1)),
-             any_ns::any(uint8_t(2)), any_ns::any(uint8_t(3)), any_ns::any(),
-             any_ns::any(), any_ns::any(), any_ns::any()}};
+        static const std::array<std::any, 8> values = {
+            {std::any(uint8_t(0)), std::any(uint8_t(1)), std::any(uint8_t(2)),
+             std::any(uint8_t(3)), std::any(), std::any(), std::any(),
+             std::any()}};
         return values[i];
     }
 };
@@ -161,10 +161,10 @@ struct FilteredValues<uint16_t>
     }
     static auto& expected(size_t i)
     {
-        static const std::array<any_ns::any, 8> values = {
-            {any_ns::any(), any_ns::any(uint16_t(77)),
-             any_ns::any(uint16_t(66)), any_ns::any(uint16_t(55)),
-             any_ns::any(), any_ns::any(), any_ns::any(), any_ns::any()}};
+        static const std::array<std::any, 8> values = {
+            {std::any(), std::any(uint16_t(77)), std::any(uint16_t(66)),
+             std::any(uint16_t(55)), std::any(), std::any(), std::any(),
+             std::any()}};
         return values[i];
     }
 };
@@ -183,10 +183,10 @@ struct FilteredValues<uint32_t>
     }
     static auto& expected(size_t i)
     {
-        static const std::array<any_ns::any, 8> values = {
-            {any_ns::any(), any_ns::any(uint32_t(1)), any_ns::any(uint32_t(3)),
-             any_ns::any(), any_ns::any(uint32_t(5)), any_ns::any(uint32_t(7)),
-             any_ns::any(uint32_t(9)), any_ns::any()}};
+        static const std::array<std::any, 8> values = {
+            {std::any(), std::any(uint32_t(1)), std::any(uint32_t(3)),
+             std::any(), std::any(uint32_t(5)), std::any(uint32_t(7)),
+             std::any(uint32_t(9)), std::any()}};
         return values[i];
     }
 };
@@ -204,10 +204,9 @@ struct FilteredValues<uint64_t>
     }
     static auto& expected(size_t i)
     {
-        static const std::array<any_ns::any, 8> values = {
-            {any_ns::any(), any_ns::any(), any_ns::any(uint64_t(7)),
-             any_ns::any(), any_ns::any(), any_ns::any(), any_ns::any(),
-             any_ns::any()}};
+        static const std::array<std::any, 8> values = {
+            {std::any(), std::any(), std::any(uint64_t(7)), std::any(),
+             std::any(), std::any(), std::any(), std::any()}};
         return values[i];
     }
 };
@@ -226,29 +225,28 @@ struct FilteredValues<std::string>
     }
     static auto& expected(size_t i)
     {
-        static const std::array<any_ns::any, 8> values = {
-            {any_ns::any(), any_ns::any("foo"s), any_ns::any("bar"s),
-             any_ns::any("baz"s), any_ns::any("hello"s), any_ns::any(),
-             any_ns::any("\x2\x3"s), any_ns::any("\\"s)}};
+        static const std::array<std::any, 8> values = {
+            {std::any(), std::any("foo"s), std::any("bar"s), std::any("baz"s),
+             std::any("hello"s), std::any(), std::any("\x2\x3"s),
+             std::any("\\"s)}};
         return values[i];
     }
 };
 
 template <typename T>
-void filteredCheck(const any_ns::any& value, const size_t ndx)
+void filteredCheck(const std::any& value, const size_t ndx)
 {
-    ASSERT_EQ(value.empty(), FilteredValues<T>::expected(ndx).empty());
-    if (!value.empty())
+    ASSERT_EQ(value.has_value(), FilteredValues<T>::expected(ndx).has_value());
+    if (value.has_value())
     {
-        ASSERT_EQ(any_ns::any_cast<T>(value),
-                  any_ns::any_cast<T>(FilteredValues<T>::expected(ndx)));
+        ASSERT_EQ(std::any_cast<T>(value),
+                  std::any_cast<T>(FilteredValues<T>::expected(ndx)));
     }
 }
 
 template <typename T>
-void testStart(
-    std::function<void(const any_ns::any&, const size_t)>&& checkState,
-    OperandFilters<T>* opFilters = nullptr)
+void testStart(std::function<void(const std::any&, const size_t)>&& checkState,
+               OperandFilters<T>* opFilters = nullptr)
 {
     using ::testing::_;
     using ::testing::Return;

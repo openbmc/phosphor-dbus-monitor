@@ -65,12 +65,12 @@ class CountCondition : public IndexedConditional
                 // and save the op result in storage[1].
                 const auto& storage = std::get<storageIndex>(item.second);
                 // Don't count properties that don't exist.
-                if (std::get<valueIndex>(storage.get()).empty())
+                if (!std::get<valueIndex>(storage.get()).has_value())
                 {
                     return false;
                 }
                 const auto& value =
-                    any_ns::any_cast<T>(std::get<valueIndex>(storage.get()));
+                    std::any_cast<T>(std::get<valueIndex>(storage.get()));
                 auto r = propertyOp(value);
 
                 std::get<resultIndex>(storage.get()) = r;

@@ -2,9 +2,9 @@
 
 #include "callback.hpp"
 
-#include <experimental/tuple>
 #include <phosphor-logging/log.hpp>
 #include <string>
+#include <tuple>
 
 namespace phosphor
 {
@@ -109,11 +109,10 @@ class Method : public MethodBase
     /** @brief Callback interface implementation. */
     void operator()(Context ctx) override
     {
-        std::experimental::apply(
-            detail::CallDBusMethod<DBusInterface, MethodArgs...>::op,
-            std::tuple_cat(std::make_tuple(bus), std::make_tuple(path),
-                           std::make_tuple(interface), std::make_tuple(method),
-                           args));
+        std::apply(detail::CallDBusMethod<DBusInterface, MethodArgs...>::op,
+                   std::tuple_cat(std::make_tuple(bus), std::make_tuple(path),
+                                  std::make_tuple(interface),
+                                  std::make_tuple(method), args));
     }
 
   private:

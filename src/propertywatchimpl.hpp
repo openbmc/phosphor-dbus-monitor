@@ -167,13 +167,13 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
         auto value = std::get<T>(p.second);
         if (filterOps)
         {
-            any_ns::any anyValue = value;
+            std::any anyValue = value;
             if ((*filterOps)(anyValue))
             {
                 // Property value filtered, clear it from storage so
                 // callback functions do not use it
                 isFiltered = true;
-                std::get<valueIndex>(storage.get()).clear();
+                std::get<valueIndex>(storage.get()).reset();
             }
         }
         if (!isFiltered)

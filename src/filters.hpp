@@ -28,7 +28,7 @@ class Filters
     virtual ~Filters() = default;
 
     /** @brief Apply filter operations to a property value. */
-    virtual bool operator()(const any_ns::any& value) = 0;
+    virtual bool operator()(const std::any& value) = 0;
 };
 
 /** @class OperandFilters
@@ -53,20 +53,20 @@ class OperandFilters : public Filters
     {
     }
 
-    bool operator()(const any_ns::any& value) override
+    bool operator()(const std::any& value) override
     {
         for (const auto& filterOps : ops)
         {
             try
             {
                 // Apply filter operand to property value
-                if (!filterOps(any_ns::any_cast<T>(value)))
+                if (!filterOps(std::any_cast<T>(value)))
                 {
                     // Property value should be filtered
                     return true;
                 }
             }
-            catch (const any_ns::bad_any_cast& bac)
+            catch (const std::bad_any_cast& bac)
             {
                 // Unable to cast property value to filter value type
                 // to check filter, continue to next filter op

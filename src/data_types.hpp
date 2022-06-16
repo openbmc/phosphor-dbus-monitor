@@ -2,15 +2,13 @@
 
 #include "tupleref.hpp"
 
-#include <experimental/any>
+#include <any>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/utility/merge_variants.hpp>
 #include <string>
 #include <xyz/openbmc_project/Association/Definitions/server.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
 #include <xyz/openbmc_project/Software/Version/server.hpp>
-
-namespace any_ns = std::experimental;
 
 namespace phosphor
 {
@@ -89,7 +87,7 @@ using PropertiesChanged = std::map<std::string, std::variant<T>>;
 // *INDENT-OFF*
 using PropertyIndex =
     TupleRefMap<TupleOfRefs<const std::string, const std::string,
-                            std::tuple<any_ns::any, any_ns::any>>,
+                            std::tuple<std::any, std::any>>,
                 const std::string, const std::string, const std::string>;
 // *INDENT-ON*
 

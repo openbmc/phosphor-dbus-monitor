@@ -52,7 +52,7 @@ class EventBase : public IndexedCallback
             const auto& storage = std::get<storageIndex>(n.second);
             const auto& value = std::get<valueIndex>(storage.get());
 
-            if (!value.empty())
+            if (value.has_value())
             {
                 createEvent(path, propertyMeta, value);
             }
@@ -69,7 +69,7 @@ class EventBase : public IndexedCallback
      */
     virtual void createEvent(const std::string& path,
                              const std::string& property,
-                             const any_ns::any& value) const = 0;
+                             const std::any& value) const = 0;
 };
 
 /** @class Event
@@ -109,10 +109,10 @@ class Event : public EventBase
      *  @param[in] value - Changed property value.
      */
     void createEvent(const std::string& path, const std::string& property,
-                     const any_ns::any& value) const override
+                     const std::any& value) const override
     {
         std::stringstream ss{};
-        ss << any_ns::any_cast<T>(value);
+        ss << std::any_cast<T>(value);
         phosphor::events::getManager().create(name, message, path, property,
                                               ss.str());
     }

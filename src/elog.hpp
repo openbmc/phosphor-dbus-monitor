@@ -1,11 +1,11 @@
 #pragma once
 #include "callback.hpp"
 
-#include <experimental/tuple>
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <sdbusplus/exception.hpp>
 #include <string>
+#include <tuple>
 
 namespace phosphor
 {
@@ -107,8 +107,7 @@ class Elog : public ElogBase
     /** @brief elog interface implementation. */
     void log() const override
     {
-        std::experimental::apply(detail::CallElog<T, Args...>::op,
-                                 std::tuple_cat(args));
+        std::apply(detail::CallElog<T, Args...>::op, std::tuple_cat(args));
     }
     std::tuple<Args...> args;
 };
@@ -193,14 +192,13 @@ class ElogWithMetadataCapture : public IndexedCallback
             const auto& storage = std::get<storageIndex>(n.second).get();
             const auto& result = std::get<resultIndex>(storage);
 
-            if (!result.empty() && any_ns::any_cast<bool>(result))
+            if (result.has_value() && std::any_cast<bool>(result))
             {
                 const auto& path = std::get<pathIndex>(n.first).get();
                 const auto& propertyName =
                     std::get<propertyIndex>(n.first).get();
-                auto value =
-                    ToString<propertyType>::op(any_ns::any_cast<propertyType>(
-                        std::get<valueIndex>(storage)));
+                auto value = ToString<propertyType>::op(
+                    std::any_cast<propertyType>(std::get<valueIndex>(storage)));
 
                 metadata += path + ":" + propertyName + '=' + value + '|';
             }

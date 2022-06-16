@@ -59,12 +59,12 @@ class MedianCondition : public IndexedConditional
         {
             const auto& storage = std::get<storageIndex>(item.second);
             // Don't count properties that don't exist.
-            if (std::get<valueIndex>(storage.get()).empty())
+            if (!std::get<valueIndex>(storage.get()).has_value())
             {
                 continue;
             }
             values.emplace_back(
-                any_ns::any_cast<T>(std::get<valueIndex>(storage.get())));
+                std::any_cast<T>(std::get<valueIndex>(storage.get())));
         }
 
         if (!values.empty())
