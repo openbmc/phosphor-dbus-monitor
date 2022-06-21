@@ -4,6 +4,8 @@
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <sdbusplus/exception.hpp>
+
+#include <experimental/tuple>
 #include <string>
 #include <tuple>
 
@@ -50,8 +52,7 @@ class ElogBase : public Callback
     ElogBase& operator=(ElogBase&&) = default;
     virtual ~ElogBase() = default;
     ElogBase() : Callback()
-    {
-    }
+    {}
 
     /** @brief Callback interface implementation. */
     void operator()(Context ctx) override;
@@ -100,8 +101,7 @@ class Elog : public ElogBase
     ~Elog() = default;
     Elog(Args&&... arguments) :
         ElogBase(), args(std::forward<Args>(arguments)...)
-    {
-    }
+    {}
 
   private:
     /** @brief elog interface implementation. */
@@ -150,8 +150,7 @@ class ElogWithMetadataCapture : public IndexedCallback
     virtual ~ElogWithMetadataCapture() = default;
     explicit ElogWithMetadataCapture(const PropertyIndex& index) :
         IndexedCallback(index)
-    {
-    }
+    {}
 
     /**
      * @brief Callback interface implementation that

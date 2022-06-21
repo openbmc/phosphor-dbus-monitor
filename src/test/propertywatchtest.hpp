@@ -295,8 +295,7 @@ struct MockDBusInterface
  */
 template <typename T>
 struct Expect
-{
-};
+{};
 
 template <>
 struct Expect<uint64_t>

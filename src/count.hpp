@@ -49,8 +49,7 @@ class CountCondition : public IndexedConditional
                    bool oneshot = false) :
         IndexedConditional(conditionIndex),
         countOp(_countOp), propertyOp(_propertyOp), oneshot(oneshot)
-    {
-    }
+    {}
 
     bool operator()() override
     {

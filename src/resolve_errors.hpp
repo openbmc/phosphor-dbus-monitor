@@ -34,8 +34,7 @@ class ResolveCallout : public Callback
      *                      Normally an inventory path.
      */
     explicit ResolveCallout(const std::string& callout) : callout(callout)
-    {
-    }
+    {}
 
     /**
      * @brief Callback interface to resolve errors

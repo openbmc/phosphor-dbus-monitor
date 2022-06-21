@@ -50,8 +50,7 @@ class OperandFilters : public Filters
     virtual ~OperandFilters() = default;
     explicit OperandFilters(const std::vector<std::function<bool(T)>>& _ops) :
         Filters(), ops(std::move(_ops))
-    {
-    }
+    {}
 
     bool operator()(const std::any& value) override
     {

@@ -3,6 +3,8 @@
 #include "callback.hpp"
 
 #include <phosphor-logging/log.hpp>
+
+#include <experimental/tuple>
 #include <string>
 #include <tuple>
 
@@ -69,8 +71,7 @@ class MethodBase : public Callback
                const std::string& m) :
         Callback(),
         bus(b), path(p), interface(i), method(m)
-    {
-    }
+    {}
 
     /** @brief Callback interface implementation. */
     void operator()(Context ctx) override = 0;
@@ -103,8 +104,7 @@ class Method : public MethodBase
            MethodArgs&&... arguments) :
         MethodBase(bus, path, iface, method),
         args(std::forward<MethodArgs>(arguments)...)
-    {
-    }
+    {}
 
     /** @brief Callback interface implementation. */
     void operator()(Context ctx) override
