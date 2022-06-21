@@ -46,8 +46,7 @@ class MedianCondition : public IndexedConditional
                     bool oneshot = false) :
         IndexedConditional(conditionIndex),
         medianOp(_medianOp), oneshot(oneshot)
-    {
-    }
+    {}
 
     bool operator()() override
     {

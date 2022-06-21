@@ -5,8 +5,9 @@
 #include <cereal/archives/binary.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
-#include <fstream>
 #include <phosphor-logging/log.hpp>
+
+#include <fstream>
 
 // Register class version
 // From cereal documentation;

@@ -4,6 +4,7 @@
 #include "format.hpp"
 
 #include <phosphor-logging/log.hpp>
+
 #include <string>
 
 namespace phosphor
@@ -31,8 +32,7 @@ class JournalBase : public IndexedCallback
     virtual ~JournalBase() = default;
     JournalBase(const char* msg, const PropertyIndex& index) :
         IndexedCallback(index), message(msg)
-    {
-    }
+    {}
 
     /** @brief Callback interface implementation. */
     void operator()(Context ctx) override;
@@ -89,8 +89,7 @@ class Journal : public JournalBase
     ~Journal() = default;
     Journal(const char* msg, const PropertyIndex& index) :
         JournalBase(msg, index)
-    {
-    }
+    {}
 
   private:
     /** @brief log interface implementation. */

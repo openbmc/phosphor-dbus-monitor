@@ -36,8 +36,7 @@ class PathWatch : public Watch
     virtual ~PathWatch() = default;
     PathWatch(const std::string& path, Callback& callback) :
         Watch(), objectPath(path), cb(callback), alreadyRan(false)
-    {
-    }
+    {}
 
     /** @brief Start the watch.
      *
