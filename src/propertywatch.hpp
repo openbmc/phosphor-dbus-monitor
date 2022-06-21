@@ -44,8 +44,7 @@ class PropertyWatch : public Watch
         Watch(),
         index(watchIndex), cb(callback), alreadyRan(false),
         ignoreStartCallback(ignoreStartCallback)
-    {
-    }
+    {}
 
     /** @brief Start the watch.
      *
@@ -130,16 +129,14 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
         PropertyWatch<DBusInterfaceType>(watchIndex, ignoreStartCallback,
                                          &callback),
         filterOps(filterOps)
-    {
-    }
+    {}
     PropertyWatchOfType(const PropertyIndex& watchIndex,
                         bool ignoreStartCallback = false,
                         Filters* filterOps = nullptr) :
         PropertyWatch<DBusInterfaceType>(watchIndex, ignoreStartCallback,
                                          nullptr),
         filterOps(filterOps)
-    {
-    }
+    {}
 
     /** @brief PropertyMatch implementation for PropertyWatchOfType.
      *

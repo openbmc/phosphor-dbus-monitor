@@ -28,8 +28,7 @@ struct BusMeetsMSL
     std::string path;
 
     BusMeetsMSL(const std::string& p) : path(p)
-    {
-    }
+    {}
 
     auto operator()(const T& arg)
     {

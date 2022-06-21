@@ -52,8 +52,7 @@ const PropertyIndex watchIndex = {
 
 template <typename T>
 struct Values
-{
-};
+{};
 template <>
 struct Values<uint8_t>
 {
@@ -123,8 +122,7 @@ void nonFilteredCheck(const any_ns::any& value, const size_t ndx)
 
 template <typename T>
 struct FilteredValues
-{
-};
+{};
 
 template <>
 struct FilteredValues<uint8_t>

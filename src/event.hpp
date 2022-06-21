@@ -4,6 +4,7 @@
 #include "event_manager.hpp"
 
 #include <phosphor-logging/log.hpp>
+
 #include <sstream>
 #include <string>
 
@@ -31,8 +32,7 @@ class EventBase : public IndexedCallback
     EventBase& operator=(EventBase&&) = default;
     virtual ~EventBase() = default;
     EventBase(const PropertyIndex& index) : IndexedCallback(index)
-    {
-    }
+    {}
 
     /** @brief Callback interface implementation. */
     void operator()(Context ctx) override
@@ -97,8 +97,7 @@ class Event : public EventBase
           const PropertyIndex& index) :
         EventBase(index),
         name(eventName), message(eventMessage)
-    {
-    }
+    {}
 
   private:
     /** @brief Create the event Dbus Object.

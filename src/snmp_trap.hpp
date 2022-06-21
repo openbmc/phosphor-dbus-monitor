@@ -57,15 +57,13 @@ class SNMPTrap : public Callback
     SNMPTrap& operator=(SNMPTrap&&) = default;
     virtual ~SNMPTrap() = default;
     SNMPTrap() : Callback()
-    {
-    }
+    {}
 
     /** @brief Callback interface implementation.
      *  @param[in] ctc - context.
      */
     void operator()(Context ctx)
-    {
-    }
+    {}
 
     /** @brief Callback interface implementation.
      *  @param[in] ctc - context.

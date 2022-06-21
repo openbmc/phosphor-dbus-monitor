@@ -2,11 +2,12 @@
 
 #include "data_types.hpp"
 
-#include <chrono>
-#include <cstddef>
 #include <sdeventplus/clock.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
+
+#include <chrono>
+#include <cstddef>
 
 namespace phosphor
 {
@@ -83,8 +84,7 @@ class IndexedConditional : public Conditional
 
     explicit IndexedConditional(const PropertyIndex& conditionIndex) :
         Conditional(), index(conditionIndex)
-    {
-    }
+    {}
 
     /** @brief Test the condition. */
     virtual bool operator()() override = 0;
@@ -108,8 +108,7 @@ class IndexedCallback : public Callback
     virtual ~IndexedCallback() = default;
     explicit IndexedCallback(const PropertyIndex& callbackIndex) :
         Callback(), index(callbackIndex)
-    {
-    }
+    {}
 
     /** @brief Run the callback. */
     virtual void operator()(Context ctx) override = 0;
@@ -141,8 +140,7 @@ class GroupOfCallbacks : public Callback
     ~GroupOfCallbacks() = default;
     explicit GroupOfCallbacks(const std::vector<size_t>& graphEntry) :
         graph(graphEntry)
-    {
-    }
+    {}
 
     /** @brief Run the callbacks. */
     void operator()(Context ctx) override
@@ -175,8 +173,7 @@ class ConditionalCallback : public Callback
                         Conditional& cond) :
         graph(graphEntry),
         condition(cond)
-    {
-    }
+    {}
 
     /** @brief Run the callback if the condition is satisfied. */
     virtual void operator()(Context ctx) override
@@ -225,8 +222,7 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
                        const std::chrono::microseconds& delay) :
         ConditionalCallback<CallbackAccess>(graphEntry, cond),
         delayInterval(delay), timer(nullptr)
-    {
-    }
+    {}
 
     /** @brief Start internal timer if the condition is satisfied.
      *
