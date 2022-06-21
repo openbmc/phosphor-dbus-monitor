@@ -29,7 +29,8 @@ using namespace phosphor::logging;
  *                       a serialized data across code levels
  */
 template <class Archive>
-void save(Archive& archive, const Entry& event, const std::uint32_t version)
+void save(Archive& archive, const Entry& event,
+          const std::uint32_t /* version */)
 {
     archive(event.timestamp(), event.message(), event.additionalData());
 }
@@ -42,7 +43,7 @@ void save(Archive& archive, const Entry& event, const std::uint32_t version)
  *                       a serialized data across code levels
  */
 template <class Archive>
-void load(Archive& archive, Entry& event, const std::uint32_t version)
+void load(Archive& archive, Entry& event, const std::uint32_t /* version */)
 {
     using namespace sdbusplus::xyz::openbmc_project::Logging::server;
 

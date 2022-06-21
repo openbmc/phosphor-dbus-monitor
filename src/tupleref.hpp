@@ -39,7 +39,7 @@ struct TupleOfRefsLess
 template <size_t size, typename T, typename U>
 struct TupleOfRefsLess<size, size, T, U>
 {
-    static constexpr bool compare(const T& l, const U& r)
+    static constexpr bool compare(const T& /* l */, const U& /* r */)
     {
         return false;
     }

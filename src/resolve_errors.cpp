@@ -36,7 +36,7 @@ using namespace phosphor::logging;
 using EndpointList = std::vector<std::string>;
 using EndpointsProperty = std::variant<EndpointList>;
 
-void ResolveCallout::operator()(Context ctx)
+void ResolveCallout::operator()(Context /* ctx */)
 {
     // Resolve all errors for this callout:
     // 1) Read the 'endpoints' property for the callout/fault object

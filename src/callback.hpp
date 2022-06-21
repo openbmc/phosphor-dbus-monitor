@@ -38,7 +38,7 @@ class Callback
      *     Signal: Callback is called as part of watch condition has been met.
      *
      */
-    virtual void operator()(Context ctx) = 0;
+    virtual void operator()(Context /* ctx */) = 0;
 
     /** @brief Run the callback.
      *  @param[in] ctx - caller context
@@ -47,7 +47,8 @@ class Callback
      *     Signal: Callback is called as part of watch condition has been met.
      *  @param[in] msg - The sdbusplus signal message
      */
-    virtual void operator()(Context ctx, sdbusplus::message::message& msg){};
+    virtual void operator()(Context /* ctx */,
+                            sdbusplus::message::message& /* msg */){};
 };
 
 /** @class Conditional
@@ -237,7 +238,7 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
             timer = std::make_unique<TimerType>(
                 sdeventplus::Event::get_default(),
                 // **INDENT-OFF**
-                [this](auto& source) {
+                [this](auto& /* source */) {
                     // The timer uses the context saved on timer enable
                     this->ConditionalCallback<CallbackAccess>::operator()(
                         this->ctx);
