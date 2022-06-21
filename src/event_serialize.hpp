@@ -4,7 +4,7 @@
 
 #include "event_entry.hpp"
 
-#include <experimental/filesystem>
+#include <filesystem>
 #include <string>
 
 namespace phosphor
@@ -12,7 +12,7 @@ namespace phosphor
 namespace events
 {
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 /** @brief Serialize and persist event d-bus object
  *  @param[in] event - const reference to event entry.

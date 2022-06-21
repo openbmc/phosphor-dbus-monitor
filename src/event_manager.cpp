@@ -21,7 +21,7 @@
 #include "event.hpp"
 #include "event_serialize.hpp"
 
-#include <experimental/filesystem>
+#include <filesystem>
 
 namespace phosphor
 {
@@ -35,7 +35,7 @@ void Manager::create(const std::string& eventName,
                      const std::string& propertyValue)
 {
     using namespace std::string_literals;
-    namespace fs = std::experimental::filesystem;
+    namespace fs = std::filesystem;
 
     auto msg = eventMessage;
     std::vector<std::string> additionalData;
