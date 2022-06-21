@@ -106,7 +106,7 @@ class Method : public MethodBase
     {}
 
     /** @brief Callback interface implementation. */
-    void operator()(Context ctx) override
+    void operator()(Context /* ctx */) override
     {
         std::experimental::apply(
             detail::CallDBusMethod<DBusInterface, MethodArgs...>::op,
