@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/openbmc/phosphor-snmp.git
+revision = HEAD
+
+[provide]
+phosphor-snmp = phosphor_snmp_dep
