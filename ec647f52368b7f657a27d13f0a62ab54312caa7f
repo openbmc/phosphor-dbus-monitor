@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64b2a12f_7c1c25ba",
+        "filename": "src/event.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-22T12:10:35Z",
+      "side": 1,
+      "message": "This seems like a redundant include?",
+      "revId": "ec647f52368b7f657a27d13f0a62ab54312caa7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
