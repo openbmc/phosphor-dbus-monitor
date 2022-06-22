@@ -17,7 +17,7 @@
 
 #include "sdbusplus.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 namespace phosphor
 {
@@ -32,7 +32,6 @@ constexpr auto ASSOCIATION_IFACE = "xyz.openbmc_project.Association";
 constexpr auto ENDPOINTS_PROPERTY = "endpoints";
 constexpr auto RESOLVED_PROPERTY = "Resolved";
 
-using namespace phosphor::logging;
 using EndpointList = std::vector<std::string>;
 using EndpointsProperty = std::variant<EndpointList>;
 
@@ -70,9 +69,8 @@ void ResolveCallout::operator()(Context /* ctx */)
     }
     catch (const std::exception& e)
     {
-        log<level::ERR>("Failed getting callout fault associations",
-                        entry("CALLOUT=%s", callout.c_str()),
-                        entry("ERROR=%s", e.what()));
+        lg2::error("Failed getting callout fault associations: {ERROR}, {PATH}",
+                   "ERROR", e, "PATH", callout);
     }
 }
 
@@ -98,16 +96,15 @@ void ResolveCallout::resolve(const std::string& logEntry)
 
         if (response.is_method_error())
         {
-            log<level::ERR>(
-                "Failed to set Resolved property on an error log entry",
-                entry("ENTRY=%s", logEntry.c_str()));
+            lg2::error(
+                "Failed to set Resolved property on an error log entry: {ENTRY}",
+                "ENTRY", logEntry);
         }
     }
     catch (const std::exception& e)
     {
-        log<level::ERR>("Unable to resolve error log entry",
-                        entry("ENTRY=%s", logEntry.c_str()),
-                        entry("ERROR=%s", e.what()));
+        lg2::error("Unable to resolve error log entry {ENTRY}: {ERROR}",
+                   "ENTRY", logEntry, "ERROR", e);
     }
 }
 

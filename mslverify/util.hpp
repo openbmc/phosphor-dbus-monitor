@@ -2,7 +2,7 @@
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/message.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
@@ -44,11 +44,8 @@ static auto callMethod(::sdbusplus::bus::bus& bus, const std::string& busName,
 
     if (respMsg.is_method_error())
     {
-        phosphor::logging::log<phosphor::logging::level::INFO>(
-            "Failed to invoke DBus method.",
-            phosphor::logging::entry("PATH=%s", path.c_str()),
-            phosphor::logging::entry("INTERFACE=%s", interface.c_str()),
-            phosphor::logging::entry("METHOD=%s", method.c_str()));
+        lg2::error("Failed to invoke DBus method. {PATH}, {INTF}, {METHOD}",
+                   "PATH", path, "INTF", interface, "METHOD", method);
         phosphor::logging::elog<detail::errors::InternalFailure>();
     }
 
@@ -105,10 +102,8 @@ static auto getService(::sdbusplus::bus::bus& bus, const std::string& path,
 
     if (mapperResp.empty())
     {
-        phosphor::logging::log<phosphor::logging::level::INFO>(
-            "Object not found.",
-            phosphor::logging::entry("PATH=%s", path.c_str()),
-            phosphor::logging::entry("INTERFACE=%s", interface.c_str()));
+        lg2::error("Object not found. {PATH}, {INTF}", "PATH", path, "INTF",
+                   interface);
         phosphor::logging::elog<detail::errors::InternalFailure>();
     }
     return mapperResp.begin()->first;
