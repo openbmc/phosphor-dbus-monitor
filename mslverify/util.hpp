@@ -40,16 +40,16 @@ static auto callMethod(::sdbusplus::bus::bus& bus, const std::string& busName,
     auto reqMsg = bus.new_method_call(busName.c_str(), path.c_str(),
                                       interface.c_str(), method.c_str());
     reqMsg.append(std::forward<Args>(args)...);
-    auto respMsg = bus.call(reqMsg);
-
-    if (respMsg.is_method_error())
+    try
     {
-        lg2::error("Failed to invoke DBus method. {PATH}, {INTF}, {METHOD}",
+        return bus.call(reqMsg);
+    }
+    catch (const sdbusplus::exception::exception& e)
+    {
+        lg2::error("Failed to invoke DBus method: {PATH}, {INTF}, {METHOD}",
                    "PATH", path, "INTF", interface, "METHOD", method);
         phosphor::logging::elog<detail::errors::InternalFailure>();
     }
-
-    return respMsg;
 }
 
 /** @brief Invoke a method. */
