@@ -2,7 +2,7 @@
 
 #include "callback.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <experimental/tuple>
 #include <string>
@@ -15,8 +15,6 @@ namespace monitoring
 {
 namespace detail
 {
-
-using namespace phosphor::logging;
 
 /** @class CallDBusMethod
  *  @brief Provide explicit call forwarding to
@@ -39,14 +37,10 @@ struct CallDBusMethod
         }
         catch (const sdbusplus::exception::exception& e)
         {
-            // clang-format off
-            log<level::ERR>("Unable to call DBus method",
-                            entry("BUS=%s", bus.c_str(),
-                                  "PATH=%s", path.c_str(),
-                                  "IFACE=%s", iface.c_str(),
-                                  "METHOD=%s", method.c_str(),
-                                  "ERROR=%s", e.what()));
-            // clang-format on
+            lg2::error(
+                "Unable to call DBus method: {ERROR}. {BUS}, {PATH}, {INTF}, {METHOD}",
+                "ERROR", e, "BUS", bus, "PATH", path, "INTF", iface, "METHOD",
+                method);
         }
     }
 };

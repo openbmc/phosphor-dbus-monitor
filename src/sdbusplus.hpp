@@ -2,7 +2,7 @@
 
 #include "data_types.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/exception.hpp>
@@ -18,8 +18,6 @@ namespace dbus
 {
 namespace monitoring
 {
-
-using namespace phosphor::logging;
 
 /** @class SDBusPlus
  *  @brief DBus access delegate implementation for sdbusplus.
