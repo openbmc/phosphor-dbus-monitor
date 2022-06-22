@@ -90,16 +90,8 @@ void ResolveCallout::resolve(const std::string& logEntry)
 
         std::variant<bool> resolved = true;
 
-        auto response =
-            SDBusPlus::callMethod(busName, logEntry, PROPERTY_IFACE, "Set",
-                                  LOGGING_IFACE, RESOLVED_PROPERTY, resolved);
-
-        if (response.is_method_error())
-        {
-            lg2::error(
-                "Failed to set Resolved property on an error log entry: {ENTRY}",
-                "ENTRY", logEntry);
-        }
+        SDBusPlus::callMethod(busName, logEntry, PROPERTY_IFACE, "Set",
+                              LOGGING_IFACE, RESOLVED_PROPERTY, resolved);
     }
     catch (const std::exception& e)
     {
