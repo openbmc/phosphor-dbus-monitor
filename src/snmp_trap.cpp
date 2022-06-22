@@ -2,7 +2,7 @@
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <snmp.hpp>
 #include <snmp_notification.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
@@ -13,7 +13,6 @@ namespace dbus
 {
 namespace monitoring
 {
-using namespace phosphor::logging;
 using namespace sdbusplus::xyz::openbmc_project::Logging::server;
 using namespace phosphor::network::snmp;
 using InternalFailure =
@@ -50,13 +49,10 @@ void ErrorTrap::trap(sdbusplus::message::message& msg) const
     }
     catch (const InternalFailure& e)
     {
-        log<level::INFO>(
-            "Failed to send SNMP trap",
-            phosphor::logging::entry("ERROR_ID=%d", errorID),
-            phosphor::logging::entry("TIMESTAMP=%llu", timestamp),
-            phosphor::logging::entry("SEVERITY=%s",
-                                     convertForMessage(sev).c_str()),
-            phosphor::logging::entry("MESSAGE=%s", message.c_str()));
+        lg2::error(
+            "Failed to send SNMP trap: {ERROR}, ERROR_ID = {EID}, TIMESTAMP = {TSP}, SEVERITY = {SEVERITY}, MESSAGE = {MSG}",
+            "ERROR", e, "EID", errorID, "TSP", timestamp, "SEVERITY",
+            convertForMessage(sev), "MSG", message);
     }
 }
 } // namespace monitoring

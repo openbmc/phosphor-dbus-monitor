@@ -5,7 +5,7 @@
 #include <cereal/archives/binary.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <fstream>
 
@@ -18,8 +18,6 @@ namespace phosphor
 {
 namespace events
 {
-
-using namespace phosphor::logging;
 
 /** @brief Function required by Cereal to perform serialization.
  *  @tparam Archive - Cereal archive type (binary in our case).
@@ -85,7 +83,7 @@ bool deserialize(const fs::path& path, Entry& event)
     }
     catch (const cereal::Exception& e)
     {
-        log<level::ERR>(e.what());
+        lg2::error("Failed to deserialize: {ERROR}", "ERROR", e);
         std::error_code ec;
         fs::remove(path, ec);
         return false;

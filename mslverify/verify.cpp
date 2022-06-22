@@ -92,9 +92,8 @@ int main(void)
 
     if (!result)
     {
-        phosphor::logging::log<phosphor::logging::level::INFO>(
-            "The physical system configuration does not "
-            "satisfy the minimum ship level.");
+        lg2::info(
+            "The physical system configuration does not satisfy the minimum ship level.");
 
         return 1;
     }

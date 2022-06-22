@@ -3,8 +3,6 @@
 #include "callback.hpp"
 #include "event_manager.hpp"
 
-#include <phosphor-logging/log.hpp>
-
 #include <sstream>
 #include <string>
 
