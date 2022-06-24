@@ -1,0 +1,7 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Patrick Williams <patrick@stwcx.xyz>
+Submitted-by: George Liu <liuxiwei@inspur.com>
+Submitted-at: Fri, 24 Jun 2022 11:45:24 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-monitor/+/54783
+Project: openbmc/phosphor-dbus-monitor
+Branch: refs/heads/master
