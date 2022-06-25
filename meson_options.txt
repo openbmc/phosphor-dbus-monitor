@@ -6,6 +6,6 @@ option(
 
 option(
     'YAML_PATH', type: 'string',
-    value: 'src/example',
+    value: '',
     description: 'The path to the yaml config files.'
 )

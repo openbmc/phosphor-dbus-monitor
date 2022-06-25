@@ -14,6 +14,11 @@ templates_depends = files(
     'templates/event.mako.cpp',
 )
 
+yamldir = get_option('YAML_PATH')
+if yamldir == ''
+    yamldir = meson.project_source_root() + '/src/example'
+endif
+
 generated_hpp = custom_target(
     'generated.hpp',
     command: [
@@ -21,7 +26,7 @@ generated_hpp = custom_target(
         meson.project_source_root() + '/src/pdmgen.py',
         '-t', 'generated.mako.hpp',
         '-p', meson.project_source_root() + '/src/templates',
-        '-d', meson.project_source_root() + '/' + get_option('YAML_PATH'),
+        '-d', yamldir,
         '-o', meson.current_build_dir() + '/generated.hpp',
         'generate-cpp'
     ],
