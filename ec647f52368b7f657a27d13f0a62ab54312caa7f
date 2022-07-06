@@ -16,6 +16,24 @@
       "message": "This seems like a redundant include?",
       "revId": "ec647f52368b7f657a27d13f0a62ab54312caa7f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adcca113_97ba368f",
+        "filename": "src/event.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000089
+      },
+      "writtenOn": "2022-07-06T09:48:16Z",
+      "side": 1,
+      "message": "@liu can u fix this",
+      "parentUuid": "64b2a12f_7c1c25ba",
+      "revId": "ec647f52368b7f657a27d13f0a62ab54312caa7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
