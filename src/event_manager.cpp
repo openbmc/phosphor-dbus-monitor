@@ -53,8 +53,8 @@ void Manager::create(const std::string& eventName,
     auto id = 0;
     if (eventQueue.size() > 0)
     {
-        fs::path path(eventQueue.back()->objectPath);
-        id = std::stoi(std::string(path.filename().c_str()));
+        fs::path eventPath(eventQueue.back()->objectPath);
+        id = std::stoi(std::string(eventPath.filename().c_str()));
         id++;
     }
 

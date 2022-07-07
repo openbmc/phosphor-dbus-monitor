@@ -113,13 +113,13 @@ TEST(PathGenTest, PathMetaSameContent)
     size_t i;
     for (i = 0; i < expectedPathMeta.size(); ++i)
     {
-        const auto& path = std::get<0>(pathMeta[i]).get();
+        const auto& oriPath = std::get<0>(pathMeta[i]).get();
         const auto& expPath = std::get<0>(expectedPathMeta[i]).get();
-        const auto& meta = std::get<1>(pathMeta[i]).get();
+        const auto& oriMeta = std::get<1>(pathMeta[i]).get();
         const auto& expMeta = std::get<1>(expectedPathMeta[i]).get();
 
-        ASSERT_EQ(path, expPath);
-        ASSERT_EQ(meta, expMeta);
+        ASSERT_EQ(oriPath, expPath);
+        ASSERT_EQ(oriMeta, expMeta);
     }
 }
 

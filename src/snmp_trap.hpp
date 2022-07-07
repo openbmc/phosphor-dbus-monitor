@@ -62,14 +62,15 @@ class SNMPTrap : public Callback
     /** @brief Callback interface implementation.
      *  @param[in] ctc - context.
      */
-    void operator()(Context /* ctx */)
+    void operator()(Context /* ctx */) override
     {}
 
     /** @brief Callback interface implementation.
      *  @param[in] ctc - context.
      *  @param[in] msg - sdbus message.
      */
-    void operator()(Context /* ctx */, sdbusplus::message::message& msg)
+    void operator()(Context /* ctx */,
+                    sdbusplus::message::message& msg) override
     {
         event.trap(msg);
     }

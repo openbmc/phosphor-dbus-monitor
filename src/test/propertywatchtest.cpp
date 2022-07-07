@@ -260,9 +260,9 @@ void testStart(std::function<void(const std::any&, const size_t)>&& checkState,
     for (const auto& o : convert(watchIndex))
     {
         const auto& path = o.first.get();
-        const auto& interfaces = o.second;
+        const auto& tmpInterfaces = o.second;
         std::vector<std::string> mapperResponse;
-        std::transform(interfaces.begin(), interfaces.end(),
+        std::transform(tmpInterfaces.begin(), tmpInterfaces.end(),
                        std::back_inserter(mapperResponse),
                        // *INDENT-OFF*
                        [](const auto& item) { return item.first; });
@@ -274,10 +274,10 @@ void testStart(std::function<void(const std::any&, const size_t)>&& checkState,
         EXPECT_CALL(
             dbus, fwdAddMatch(
                       sdbusplus::bus::match::rules::interfacesAdded(path), _));
-        for (const auto& i : interfaces)
+        for (const auto& i : tmpInterfaces)
         {
             const auto& interface = i.first.get();
-            const auto& properties = i.second;
+            const auto& tmpProperties = i.second;
             EXPECT_CALL(
                 dbus,
                 fwdAddMatch(sdbusplus::bus::match::rules::propertiesChanged(
@@ -285,7 +285,7 @@ void testStart(std::function<void(const std::any&, const size_t)>&& checkState,
                             _));
 
             PropertiesChanged<T> serviceResponse;
-            for (const auto& p : properties)
+            for (const auto& p : tmpProperties)
             {
                 serviceResponse[p] = Values<T>::get(ndx);
                 ++ndx;

@@ -222,7 +222,7 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
     DeferrableCallback(const std::vector<size_t>& graphEntry, Conditional& cond,
                        const std::chrono::microseconds& delay) :
         ConditionalCallback<CallbackAccess>(graphEntry, cond),
-        delayInterval(delay), timer(nullptr)
+        delayInterval(delay)
     {}
 
     /** @brief Start internal timer if the condition is satisfied.
@@ -269,10 +269,10 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
     std::chrono::microseconds delayInterval;
 
     /** @brief Delegated timer functions. */
-    std::unique_ptr<TimerType> timer;
+    std::unique_ptr<TimerType> timer = nullptr;
 
     /** @brief Current context for timer. */
-    Context ctx;
+    Context ctx = Context::START;
 };
 
 } // namespace monitoring

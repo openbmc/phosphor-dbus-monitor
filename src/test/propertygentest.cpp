@@ -130,9 +130,10 @@ TEST(PropertyGenTest, GroupsSameContent)
             const auto& actualProperty = std::get<1>(groups[i][j]).get();
             ASSERT_EQ(expectedProperty, actualProperty);
 
-            const auto& expectedMeta = std::get<1>(expectedGroups[i][j]).get();
-            const auto& actualMeta = std::get<1>(groups[i][j]).get();
-            ASSERT_EQ(expectedMeta, actualMeta);
+            const auto& retExpectedMeta =
+                std::get<1>(expectedGroups[i][j]).get();
+            const auto& retActualMeta = std::get<1>(groups[i][j]).get();
+            ASSERT_EQ(retExpectedMeta, retActualMeta);
         }
     }
 }

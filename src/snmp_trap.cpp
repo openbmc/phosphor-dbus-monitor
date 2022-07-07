@@ -41,7 +41,8 @@ void ErrorTrap::trap(sdbusplus::message::message& msg) const
         std::get<std::vector<std::string>>(propMap.at("AdditionalData"));
     for (auto& s : additionalData)
     {
-        message += " " + s;
+        message.append(" ");
+        message.append(s);
     }
     try
     {
