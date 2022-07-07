@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5321830_1d66615a",
+        "filename": "mslverify/verify.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-07-07T00:44:01Z",
+      "side": 1,
+      "message": "\u003e same about long strings.\n\ncheck: https://github.com/openbmc/docs/commit/9e5bbd0ca8a9e58488df3487f888f47d3a213e7f",
+      "parentUuid": "68460bc9_7572f3db",
+      "revId": "d46e1c2d027c0945acb3a0002985639528147299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "467d4c0b_802091ed",
         "filename": "src/resolve_errors.cpp",
         "patchSetId": 3
@@ -55,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "979acf84_3ec43be7",
+        "filename": "src/resolve_errors.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-07-07T00:44:01Z",
+      "side": 1,
+      "message": "\u003e is e sufficient or need to provied e.what()\n\ne is sufficient, because e is a type recognized by lg2.",
+      "parentUuid": "467d4c0b_802091ed",
+      "revId": "d46e1c2d027c0945acb3a0002985639528147299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "347a3fcc_14c35210",
         "filename": "src/sdbusplus.hpp",
         "patchSetId": 3
@@ -66,6 +102,24 @@
       "writtenOn": "2022-07-06T09:48:16Z",
       "side": 1,
       "message": "redundant",
+      "revId": "d46e1c2d027c0945acb3a0002985639528147299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "883ee001_2ac122b3",
+        "filename": "src/sdbusplus.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-07-07T00:44:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "347a3fcc_14c35210",
       "revId": "d46e1c2d027c0945acb3a0002985639528147299",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -101,6 +155,24 @@
       "side": 1,
       "message": "clang-format now doesn\u0027t require us to split strings at 80 and this was accepted as part of our conventions.\n\nhttps://github.com/openbmc/docs/commit/9e5bbd0ca8a9e58488df3487f888f47d3a213e7f",
       "parentUuid": "2881aff2_b01e9a81",
+      "revId": "d46e1c2d027c0945acb3a0002985639528147299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce20aa0_f3294234",
+        "filename": "src/snmp_trap.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-07-07T00:44:01Z",
+      "side": 1,
+      "message": "\u003e clang-format now doesn\u0027t require us to split strings at 80 and this was accepted as part of our conventions.\n\u003e \n\u003e https://github.com/openbmc/docs/commit/9e5bbd0ca8a9e58488df3487f888f47d3a213e7f\n\nyes, I agree with @Patrick",
+      "parentUuid": "8468087b_679ae9c3",
       "revId": "d46e1c2d027c0945acb3a0002985639528147299",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
