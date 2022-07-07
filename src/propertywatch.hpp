@@ -130,9 +130,9 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
                                          &callback),
         filterOps(filterOps)
     {}
-    PropertyWatchOfType(const PropertyIndex& watchIndex,
-                        bool ignoreStartCallback = false,
-                        Filters* filterOps = nullptr) :
+    explicit PropertyWatchOfType(const PropertyIndex& watchIndex,
+                                 bool ignoreStartCallback = false,
+                                 Filters* filterOps = nullptr) :
         PropertyWatch<DBusInterfaceType>(watchIndex, ignoreStartCallback,
                                          nullptr),
         filterOps(filterOps)

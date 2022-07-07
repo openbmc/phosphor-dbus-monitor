@@ -222,7 +222,7 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
     DeferrableCallback(const std::vector<size_t>& graphEntry, Conditional& cond,
                        const std::chrono::microseconds& delay) :
         ConditionalCallback<CallbackAccess>(graphEntry, cond),
-        delayInterval(delay), timer(nullptr)
+        delayInterval(delay), timer(nullptr), ctx(Context::START)
     {}
 
     /** @brief Start internal timer if the condition is satisfied.

@@ -99,7 +99,7 @@ class Elog : public ElogBase
     Elog& operator=(const Elog&) = delete;
     Elog& operator=(Elog&&) = default;
     ~Elog() = default;
-    Elog(Args&&... arguments) :
+    explicit Elog(Args&&... arguments) :
         ElogBase(), args(std::forward<Args>(arguments)...)
     {}
 
