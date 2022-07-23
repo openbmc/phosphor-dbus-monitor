@@ -22,7 +22,7 @@ class Trap
     /** @brief Raise SNMP trap by parsing the sdbus message.
      *  @param[in] msg - sdbus message.
      */
-    virtual void trap(sdbusplus::message::message& msg) const = 0;
+    virtual void trap(sdbusplus::message_t& msg) const = 0;
 };
 
 /** @class ErrorTrap
@@ -41,7 +41,7 @@ class ErrorTrap : public Trap
     /** @brief Raise SNMP trap by parsing the sdbus message.
      *  @param[in] msg - sdbus message.
      */
-    void trap(sdbusplus::message::message& msg) const override;
+    void trap(sdbusplus::message_t& msg) const override;
 };
 
 /** @class SNMPTrap
@@ -69,8 +69,7 @@ class SNMPTrap : public Callback
      *  @param[in] ctc - context.
      *  @param[in] msg - sdbus message.
      */
-    void operator()(Context /* ctx */,
-                    sdbusplus::message::message& msg) override
+    void operator()(Context /* ctx */, sdbusplus::message_t& msg) override
     {
         event.trap(msg);
     }

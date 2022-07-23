@@ -58,7 +58,7 @@ void PropertyWatch<DBusInterfaceType>::start()
                     MAPPER_BUSNAME, MAPPER_PATH, MAPPER_INTERFACE, "GetObject",
                     path, queryInterfaces);
             }
-            catch (const sdbusplus::exception::exception&)
+            catch (const sdbusplus::exception_t&)
             {
                 // Paths in the configuration may not exist yet.  Prime those
                 // later, when/if InterfacesAdded occurs.
@@ -105,7 +105,7 @@ void PropertyWatch<DBusInterfaceType>::start()
                 {
                     updateProperties(busName, path, interface);
                 }
-                catch (const sdbusplus::exception::exception&)
+                catch (const sdbusplus::exception_t&)
                 {
                     // If for some reason the path has gone away since
                     // the mapper lookup we'll simply try again if/when
@@ -189,7 +189,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
 
 template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
-    sdbusplus::message::message& msg, const std::string& path,
+    sdbusplus::message_t& msg, const std::string& path,
     const std::string& interface)
 {
     PropertiesChanged<T> properties;
@@ -209,7 +209,7 @@ void PropertyWatchOfType<T, DBusInterfaceType>::interfacesAdded(
 
 template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::interfacesAdded(
-    sdbusplus::message::message& msg)
+    sdbusplus::message_t& msg)
 {
     sdbusplus::message::object_path path;
     InterfacesAdded<T> interfaces;

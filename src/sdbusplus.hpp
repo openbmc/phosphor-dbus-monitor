@@ -26,7 +26,7 @@ class SDBusPlus
   private:
     static auto& getWatches()
     {
-        static std::vector<sdbusplus::bus::match::match> watches;
+        static std::vector<sdbusplus::bus::match_t> watches;
         return watches;
     }
 
@@ -74,13 +74,13 @@ class SDBusPlus
                                   const std::string& method, Args&&... args)
     {
         Ret resp;
-        sdbusplus::message::message respMsg = callMethod<Args...>(
+        sdbusplus::message_t respMsg = callMethod<Args...>(
             busName, path, interface, method, std::forward<Args>(args)...);
         try
         {
             respMsg.read(resp);
         }
-        catch (const sdbusplus::exception::exception& e)
+        catch (const sdbusplus::exception_t& e)
         {
             // Empty responses are expected sometimes, and the calling
             // code is set up to handle it.
@@ -89,9 +89,8 @@ class SDBusPlus
     }
 
     /** @brief Register a DBus signal callback. */
-    static auto
-        addMatch(const std::string& match,
-                 const sdbusplus::bus::match::match::callback_t& callback)
+    static auto addMatch(const std::string& match,
+                         const sdbusplus::bus::match_t::callback_t& callback)
     {
         getWatches().emplace_back(getBus(), match, callback);
     }
@@ -114,7 +113,7 @@ class SDBusPlus
                 name = object.begin()->first;
             }
         }
-        catch (const sdbusplus::exception::exception& e)
+        catch (const sdbusplus::exception_t& e)
         {
             // Empty responses are expected sometimes, and the calling
             // code is set up to handle it.

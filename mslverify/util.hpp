@@ -34,7 +34,7 @@ static auto& getBus()
 
 /** @brief Invoke a method. */
 template <typename... Args>
-static auto callMethod(::sdbusplus::bus::bus& bus, const std::string& busName,
+static auto callMethod(::sdbusplus::bus_t& bus, const std::string& busName,
                        const std::string& path, const std::string& interface,
                        const std::string& method, Args&&... args)
 {
@@ -66,11 +66,11 @@ static auto callMethod(const std::string& busName, const std::string& path,
 /** @brief Invoke a method and read the response. */
 template <typename Ret, typename... Args>
 static auto
-    callMethodAndRead(::sdbusplus::bus::bus& bus, const std::string& busName,
+    callMethodAndRead(::sdbusplus::bus_t& bus, const std::string& busName,
                       const std::string& path, const std::string& interface,
                       const std::string& method, Args&&... args)
 {
-    ::sdbusplus::message::message respMsg = callMethod<Args...>(
+    ::sdbusplus::message_t respMsg = callMethod<Args...>(
         bus, busName, path, interface, method, std::forward<Args>(args)...);
     Ret resp;
     respMsg.read(resp);
@@ -89,7 +89,7 @@ static auto callMethodAndRead(const std::string& busName,
 }
 
 /** @brief Get service from the mapper. */
-static auto getService(::sdbusplus::bus::bus& bus, const std::string& path,
+static auto getService(::sdbusplus::bus_t& bus, const std::string& path,
                        const std::string& interface)
 {
     using namespace std::literals::string_literals;
@@ -112,7 +112,7 @@ static auto getService(::sdbusplus::bus::bus& bus, const std::string& path,
 
 /** @brief Get a property without mapper lookup. */
 template <typename Property>
-static auto getProperty(::sdbusplus::bus::bus& bus, const std::string& busName,
+static auto getProperty(::sdbusplus::bus_t& bus, const std::string& busName,
                         const std::string& path, const std::string& interface,
                         const std::string& property)
 {
@@ -137,7 +137,7 @@ static auto getProperty(const std::string& busName, const std::string& path,
 
 /** @brief Get a property with mapper lookup. */
 template <typename Property>
-static auto getProperty(::sdbusplus::bus::bus& bus, const std::string& path,
+static auto getProperty(::sdbusplus::bus_t& bus, const std::string& path,
                         const std::string& interface,
                         const std::string& property)
 {

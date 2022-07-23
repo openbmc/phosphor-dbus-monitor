@@ -39,8 +39,7 @@ class Watch
     virtual void callback(Context ctx) = 0;
 
     /** @brief Invoke the callback associated with the watch. */
-    virtual void callback(Context /* ctx */,
-                          sdbusplus::message::message& /* msg */){};
+    virtual void callback(Context /* ctx */, sdbusplus::message_t& /* msg */){};
 };
 
 } // namespace monitoring

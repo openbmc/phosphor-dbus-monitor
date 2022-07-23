@@ -255,9 +255,8 @@ struct MockDBusInterface
                      const std::string&, const std::string&, const std::string&,
                      const std::string&, const std::string&));
 
-    MOCK_METHOD2(fwdAddMatch,
-                 void(const std::string&,
-                      const sdbusplus::bus::match::match::callback_t&));
+    MOCK_METHOD2(fwdAddMatch, void(const std::string&,
+                                   const sdbusplus::bus::match_t::callback_t&));
 
     static MockDBusInterface* ptr;
     static MockDBusInterface& instance()
@@ -282,9 +281,8 @@ struct MockDBusInterface
     }
 
     /** @brief GMock free function forward. */
-    static auto
-        addMatch(const std::string& match,
-                 const sdbusplus::bus::match::match::callback_t& callback)
+    static auto addMatch(const std::string& match,
+                         const sdbusplus::bus::match_t::callback_t& callback)
     {
         instance().fwdAddMatch(match, callback);
     }

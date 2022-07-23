@@ -20,7 +20,7 @@ using InternalFailure =
 
 static constexpr auto entry = "xyz.openbmc_project.Logging.Entry";
 
-void ErrorTrap::trap(sdbusplus::message::message& msg) const
+void ErrorTrap::trap(sdbusplus::message_t& msg) const
 {
     sdbusplus::message::object_path path;
     msg.read(path);
