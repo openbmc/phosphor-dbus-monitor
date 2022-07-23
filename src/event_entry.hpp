@@ -15,7 +15,7 @@ namespace events
 
 using namespace phosphor::dbus::monitoring;
 
-using EntryIface = sdbusplus::server::object::object<
+using EntryIface = sdbusplus::server::object_t<
     sdbusplus::xyz::openbmc_project::Logging::server::Event>;
 
 /** @class Entry

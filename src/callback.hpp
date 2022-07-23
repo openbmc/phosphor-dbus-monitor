@@ -48,7 +48,7 @@ class Callback
      *  @param[in] msg - The sdbusplus signal message
      */
     virtual void operator()(Context /* ctx */,
-                            sdbusplus::message::message& /* msg */){};
+                            sdbusplus::message_t& /* msg */){};
 };
 
 /** @class Conditional

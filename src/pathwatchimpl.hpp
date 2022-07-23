@@ -47,7 +47,7 @@ void PathWatch<DBusInterfaceType>::callback(Context ctx)
 
 template <typename DBusInterfaceType>
 void PathWatch<DBusInterfaceType>::callback(Context ctx,
-                                            sdbusplus::message::message& msg)
+                                            sdbusplus::message_t& msg)
 {
     (this->cb)(ctx, msg);
 }

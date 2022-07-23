@@ -80,7 +80,7 @@ class PropertyWatch : public Watch
      *  @param[in] path - The path associated with the message.
      *  @param[in] interface - The interface associated with the message.
      */
-    virtual void propertiesChanged(sdbusplus::message::message&,
+    virtual void propertiesChanged(sdbusplus::message_t&,
                                    const std::string& path,
                                    const std::string& interface) = 0;
 
@@ -91,7 +91,7 @@ class PropertyWatch : public Watch
      *  @param[in] msg - The org.freedesktop.DBus.PropertiesChanged
      *               message.
      */
-    virtual void interfacesAdded(sdbusplus::message::message& msg) = 0;
+    virtual void interfacesAdded(sdbusplus::message_t& msg) = 0;
 
   protected:
     /** @brief Property names and their associated storage. */
@@ -154,8 +154,7 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
      *  @param[in] path - The path associated with the message.
      *  @param[in] interface - The interface associated with the message.
      */
-    void propertiesChanged(sdbusplus::message::message& msg,
-                           const std::string& path,
+    void propertiesChanged(sdbusplus::message_t& msg, const std::string& path,
                            const std::string& interface) override;
 
     /** @brief DBus agnostic implementation of interfacesAdded.
@@ -174,7 +173,7 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
      *  @param[in] msg - The org.freedesktop.DBus.PropertiesChanged
      *               message.
      */
-    void interfacesAdded(sdbusplus::message::message& msg) override;
+    void interfacesAdded(sdbusplus::message_t& msg) override;
 
     /** @brief DBus agnostic implementation of interfacesAdded.
      *

@@ -54,7 +54,7 @@ class PathWatch : public Watch
      *
      *  Watch callback interface implementation for PathWatch.
      */
-    void callback(Context ctx, sdbusplus::message::message& msg) override;
+    void callback(Context ctx, sdbusplus::message_t& msg) override;
 
   protected:
     /** @brief Path of the D-Bus object to watch for. */
