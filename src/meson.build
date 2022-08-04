@@ -28,6 +28,7 @@ generated_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/templates',
         '-d', yamldir,
         '-o', meson.current_build_dir() + '/generated.hpp',
+        '-e', meson.current_build_dir() + '/errors.hpp',
         'generate-cpp'
     ],
     depend_files: templates_depends,
