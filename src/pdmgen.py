@@ -926,7 +926,7 @@ class Elog(Callback, Renderer):
         super(Elog, self).__init__(**kw)
 
     def construct(self, loader, indent):
-        with open('errors.hpp', 'a') as fd:
+        with open(args.gen_errors, 'a') as fd:
             fd.write(
                 self.render(
                     loader,
@@ -976,7 +976,7 @@ class ElogWithMetadata(Callback, Renderer):
         super(ElogWithMetadata, self).__init__(**kw)
 
     def construct(self, loader, indent):
-        with open('errors.hpp', 'a') as fd:
+        with open(args.gen_errors, 'a') as fd:
             fd.write(
                 self.render(
                     loader,
@@ -1347,7 +1347,7 @@ class Everything(Renderer):
     def generate_cpp(self, loader):
         '''Render the template with the provided data.'''
         # errors.hpp is used by generated.hpp to included any error.hpp files
-        open('errors.hpp', 'w+')
+        open(args.gen_errors, 'w+')
 
         with open(args.output, 'w') as fd:
             fd.write(
@@ -1394,6 +1394,10 @@ if __name__ == '__main__':
         '-t', '--template', dest='template',
         default='generated.mako.hpp',
         help='The top level template to render.')
+    parser.add_argument(
+        '-e', '--errors', dest='gen_errors',
+        default='errors.hpp',
+        help='Generated errors.hpp output filename.')
     parser.add_argument(
         '-p', '--template-path', dest='template_search',
         default=script_dir,

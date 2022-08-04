@@ -28,6 +28,7 @@ pathgentest_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/test/templates',
         '-d', meson.project_source_root() + '/src/test/yaml/pathgentest',
         '-o', meson.current_build_dir() + '/pathgentest.hpp',
+        '-e', meson.current_build_dir() + '/pathgentest-errors.hpp',
         'generate-cpp'
     ],
     input: [
@@ -62,6 +63,7 @@ propertygentest_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/test/templates',
         '-d', meson.project_source_root() + '/src/test/yaml/propertygentest',
         '-o', meson.current_build_dir() + '/propertygentest.hpp',
+        '-e', meson.current_build_dir() + '/propertygentest-errors.hpp',
         'generate-cpp'
     ],
     input: [
@@ -96,6 +98,7 @@ propertywatchgentest_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/test/templates',
         '-d', meson.project_source_root() + '/src/test/yaml/propertywatchgentest',
         '-o', meson.current_build_dir() + '/propertywatchgentest.hpp',
+        '-e', meson.current_build_dir() + '/propertywatchgentest-errors.hpp',
         'generate-cpp'
     ],
     input: [
@@ -130,6 +133,7 @@ callbackgentest_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/test/templates',
         '-d', meson.project_source_root() + '/src/test/yaml/callbackgentest',
         '-o', meson.current_build_dir() + '/callbackgentest.hpp',
+        '-e', meson.current_build_dir() + '/callbackgentest-errors.hpp',
         'generate-cpp'
     ],
     input: [
@@ -164,6 +168,7 @@ callbackgroupgentest_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/test/templates',
         '-d', meson.project_source_root() + '/src/test/yaml/callbackgroupgentest',
         '-o', meson.current_build_dir() + '/callbackgroupgentest.hpp',
+        '-e', meson.current_build_dir() + '/callbackgroupgentest-errors.hpp',
         'generate-cpp'
     ],
     input: [
@@ -197,6 +202,7 @@ conditiongentest_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/test/templates',
         '-d', meson.project_source_root() + '/src/test/yaml/conditiongentest',
         '-o', meson.current_build_dir() + '/conditiongentest.hpp',
+        '-e', meson.current_build_dir() + '/conditiongentest-errors.hpp',
         'generate-cpp'
     ],
     input: [
@@ -259,6 +265,7 @@ interfaceaddtest_hpp = custom_target(
         '-p', meson.project_source_root() + '/src/test/templates',
         '-d', meson.project_source_root() + '/src/test/yaml/interfaceaddtest',
         '-o', meson.current_build_dir() + '/interfaceaddtest.hpp',
+        '-e', meson.current_build_dir() + '/interfaceaddtest-errors.hpp',
         'generate-cpp'
     ],
     input: [
