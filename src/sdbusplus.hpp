@@ -90,9 +90,9 @@ class SDBusPlus
 
     /** @brief Register a DBus signal callback. */
     static auto addMatch(const std::string& match,
-                         const sdbusplus::bus::match_t::callback_t& callback)
+                         sdbusplus::bus::match_t::callback_t&& callback)
     {
-        getWatches().emplace_back(getBus(), match, callback);
+        getWatches().emplace_back(getBus(), match, std::move(callback));
     }
 
     /** @brief Look up the bus name for a path and interface */
