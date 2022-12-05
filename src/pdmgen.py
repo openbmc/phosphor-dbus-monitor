@@ -70,7 +70,7 @@ def exists(objs, cls, name, config=None):
 
     try:
         get_index(objs, cls, name, config)
-    except:
+    except Exception:
         return False
 
     return True
@@ -115,9 +115,9 @@ class Literal(object):
         if self.type in self.integer_types:
             return Cast("static", "{0}_t".format(self.type))(arg)
         elif self.type == "byte":
-            return Cast("static", "uint8_t".format(self.type))(arg)
+            return Cast("static", "uint8_t")(arg)
         elif self.type == "double":
-            return Cast("static", "double".format(self.type))(arg)
+            return Cast("static", "double")(arg)
 
         if self.type == "string":
             return "{0}s".format(arg)
