@@ -17,12 +17,13 @@ The parser workflow is broken down as follows:
 
 import os
 import sys
-import yaml
-import mako.lookup
 from argparse import ArgumentParser
-from sdbusplus.renderer import Renderer
-from sdbusplus.namedelement import NamedElement
+
+import mako.lookup
 import sdbusplus.property
+import yaml
+from sdbusplus.namedelement import NamedElement
+from sdbusplus.renderer import Renderer
 
 
 class InvalidConfigError(Exception):
