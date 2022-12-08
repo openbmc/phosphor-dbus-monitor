@@ -5,8 +5,8 @@
   class: group
   group: path
   members:
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst1
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst1
 
 - name: pathwatch errorlog
   description: >

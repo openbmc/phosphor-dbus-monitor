@@ -5,24 +5,24 @@
   class: group
   group: path
   members:
-    - meta: PATH1
-      path: /xyz/openbmc_project/testing/inst1
-    - meta: PATH1
-      path: /xyz/openbmc_project/testing/inst2
-    - meta: PATH1
-      path: /xyz/openbmc_project/testing/inst3
-    - meta: PATH1
-      path: /xyz/openbmc_project/testing/inst4
+      - meta: PATH1
+        path: /xyz/openbmc_project/testing/inst1
+      - meta: PATH1
+        path: /xyz/openbmc_project/testing/inst2
+      - meta: PATH1
+        path: /xyz/openbmc_project/testing/inst3
+      - meta: PATH1
+        path: /xyz/openbmc_project/testing/inst4
 
 - name: test path group 2
   class: group
   group: path
   members:
-    - meta: PATH3
-      path: /xyz/openbmc_project/testing/inst1
-    - meta: PATH3
-      path: /xyz/openbmc_project/testing/inst2
-    - meta: PATH3
-      path: /xyz/openbmc_project/testing/inst3
-    - meta: PATH3
-      path: /xyz/openbmc_project/testing/inst4
+      - meta: PATH3
+        path: /xyz/openbmc_project/testing/inst1
+      - meta: PATH3
+        path: /xyz/openbmc_project/testing/inst2
+      - meta: PATH3
+        path: /xyz/openbmc_project/testing/inst3
+      - meta: PATH3
+        path: /xyz/openbmc_project/testing/inst4

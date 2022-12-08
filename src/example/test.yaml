@@ -7,95 +7,95 @@
   class: group
   group: path
   members:
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst1
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst2
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst3
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst4
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst1
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst2
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst3
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst4
 
 - name: test byte property group
   class: group
   group: property
   type: byte
   members:
-    - interface: xyz.openbmc_project.byteIface
-      meta: PROPERTY
-      property: byteValue
+      - interface: xyz.openbmc_project.byteIface
+        meta: PROPERTY
+        property: byteValue
 
 - name: test u16 property group
   class: group
   group: property
   type: uint16
   members:
-    - interface: xyz.openbmc_project.U16Iface
-      meta: PROPERTY
-      property: u16Value
+      - interface: xyz.openbmc_project.U16Iface
+        meta: PROPERTY
+        property: u16Value
 
 - name: test u32 property group
   class: group
   group: property
   type: uint32
   members:
-    - interface: xyz.openbmc_project.U32Iface
-      meta: PROPERTY
-      property: u32Value
+      - interface: xyz.openbmc_project.U32Iface
+        meta: PROPERTY
+        property: u32Value
 
 - name: test u64 property group
   class: group
   group: property
   type: uint64
   members:
-    - interface: xyz.openbmc_project.U64Iface
-      meta: PROPERTY
-      property: u64Value
+      - interface: xyz.openbmc_project.U64Iface
+        meta: PROPERTY
+        property: u64Value
 
 - name: test s16 property group
   class: group
   group: property
   type: int16
   members:
-    - interface: xyz.openbmc_project.S16Iface
-      meta: PROPERTY
-      property: s16Value
+      - interface: xyz.openbmc_project.S16Iface
+        meta: PROPERTY
+        property: s16Value
 
 - name: test s32 property group
   class: group
   group: property
   type: int32
   members:
-    - interface: xyz.openbmc_project.S32Iface
-      meta: PROPERTY
-      property: s32Value
+      - interface: xyz.openbmc_project.S32Iface
+        meta: PROPERTY
+        property: s32Value
 
 - name: test s64 property group
   class: group
   group: property
   type: int64
   members:
-    - interface: xyz.openbmc_project.S64Iface
-      meta: PROPERTY
-      property: s64Value
+      - interface: xyz.openbmc_project.S64Iface
+        meta: PROPERTY
+        property: s64Value
 
 - name: test string property group
   class: group
   group: property
   type: string
   members:
-    - interface: xyz.openbmc_project.StringIface
-      meta: PROPERTY
-      property: StringValue
+      - interface: xyz.openbmc_project.StringIface
+        meta: PROPERTY
+        property: StringValue
 
 - name: test bool property group
   class: group
   group: property
   type: boolean
   members:
-    - interface: xyz.openbmc_project.BoolIface
-      meta: PROPERTY
-      property: BoolValue
+      - interface: xyz.openbmc_project.BoolIface
+        meta: PROPERTY
+        property: BoolValue
 
 - name: test byte watch
   class: watch
@@ -230,12 +230,12 @@
   properties: test string property group
   error: xyz::openbmc_project::Common::Error::InvalidArgument
   metadata:
-    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_NAME
-      value: testing...
-      type: string
-    - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_VALUE
-      value: testing...
-      type: string
+      - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_NAME
+        value: testing...
+        type: string
+      - name: xyz::openbmc_project::Common::InvalidArgument::ARGUMENT_VALUE
+        value: testing...
+        type: string
 
 - name: test int32 elog
   class: callback
@@ -244,12 +244,12 @@
   properties: test string property group
   error: xyz::openbmc_project::Common::Callout::Error::Device
   metadata:
-    - name: xyz::openbmc_project::Common::Callout::Device::CALLOUT_ERRNO
-      value: 123
-      type: int32
-    - name: xyz::openbmc_project::Common::Callout::Device::CALLOUT_DEVICE_PATH
-      value: testing...
-      type: string
+      - name: xyz::openbmc_project::Common::Callout::Device::CALLOUT_ERRNO
+        value: 123
+        type: int32
+      - name: xyz::openbmc_project::Common::Callout::Device::CALLOUT_DEVICE_PATH
+        value: testing...
+        type: string
 
 - name: test int64 elog
   class: callback
@@ -258,18 +258,18 @@
   properties: test string property group
   error: xyz::openbmc_project::Common::File::Error::Seek
   metadata:
-    - name: xyz::openbmc_project::Common::File::Seek::OFFSET
-      value: 123
-      type: int64
-    - name: xyz::openbmc_project::Common::File::Seek::WHENCE
-      value: 123
-      type: int32
-    - name: xyz::openbmc_project::Common::File::Seek::ERRNO
-      value: 123
-      type: int32
-    - name: xyz::openbmc_project::Common::File::Seek::PATH
-      value: testing...
-      type: string
+      - name: xyz::openbmc_project::Common::File::Seek::OFFSET
+        value: 123
+        type: int64
+      - name: xyz::openbmc_project::Common::File::Seek::WHENCE
+        value: 123
+        type: int32
+      - name: xyz::openbmc_project::Common::File::Seek::ERRNO
+        value: 123
+        type: int32
+      - name: xyz::openbmc_project::Common::File::Seek::PATH
+        value: testing...
+        type: string
 
 - name: test no metadata elog
   class: callback
@@ -302,26 +302,26 @@
   interface: org.test
   method: Test
   args:
-    - value: 123
-      type: string
-    - value: false
-      type: boolean
-    - value: true
-      type: boolean
-    - value: 123
-      type: byte
-    - value: 123
-      type: uint16
-    - value: 123
-      type: uint32
-    - value: 123
-      type: uint64
-    - value: 123
-      type: int16
-    - value: 123
-      type: int32
-    - value: 123
-      type: int64
+      - value: 123
+        type: string
+      - value: false
+        type: boolean
+      - value: true
+        type: boolean
+      - value: 123
+        type: byte
+      - value: 123
+        type: uint16
+      - value: 123
+        type: uint32
+      - value: 123
+        type: uint64
+      - value: 123
+        type: int16
+      - value: 123
+        type: int32
+      - value: 123
+        type: int64
 
 - name: test count lt
   class: condition
@@ -329,9 +329,9 @@
   paths: test path group
   properties: test byte property group
   callback: test method
-  countop: '<'
+  countop: "<"
   countbound: 3
-  op: '<'
+  op: "<"
   bound: 115
   oneshot: true
 
@@ -342,9 +342,9 @@
   properties: test byte property group
   callback: test method
   defer: 1000us
-  countop: '<='
+  countop: "<="
   countbound: 3
-  op: '<='
+  op: "<="
   bound: 115
   oneshot: false
 
@@ -355,9 +355,9 @@
   properties: test byte property group
   defer: 1000us
   callback: test method
-  countop: '>'
+  countop: ">"
   countbound: 3
-  op: '>'
+  op: ">"
   bound: 115
 
 - name: test count gte
@@ -367,9 +367,9 @@
   properties: test byte property group
   defer: 1000us
   callback: test method
-  countop: '>='
+  countop: ">="
   countbound: 3
-  op: '>='
+  op: ">="
   bound: 115
 
 - name: test count eq
@@ -379,9 +379,9 @@
   properties: test byte property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: 115
 
 - name: test count neq
@@ -391,9 +391,9 @@
   properties: test byte property group
   defer: 1000us
   callback: test method
-  countop: '!='
+  countop: "!="
   countbound: 3
-  op: '!='
+  op: "!="
   bound: 115
 
 - name: test count u16
@@ -403,9 +403,9 @@
   properties: test u16 property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: 115
 
 - name: test count u32
@@ -415,9 +415,9 @@
   properties: test u32 property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: 115
 
 - name: test count u64
@@ -427,9 +427,9 @@
   properties: test u64 property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: 115
 
 - name: test count s16
@@ -439,9 +439,9 @@
   properties: test s16 property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: 115
 
 - name: test count s32
@@ -451,9 +451,9 @@
   properties: test s32 property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: 115
 
 - name: test count s64
@@ -463,9 +463,9 @@
   properties: test s64 property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: 115
 
 - name: test count bool
@@ -475,9 +475,9 @@
   properties: test bool property group
   defer: 1000us
   callback: test method
-  countop: '=='
+  countop: "=="
   countbound: 3
-  op: '=='
+  op: "=="
   bound: false
 
 - name: test resolve errors

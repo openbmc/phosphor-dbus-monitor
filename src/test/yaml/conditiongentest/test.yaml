@@ -4,35 +4,35 @@
   class: group
   group: path
   members:
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst4
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst4
 
 - name: test path group 2
   class: group
   group: path
   members:
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst4
-    - meta: PATH
-      path: /xyz/openbmc_project/testing/inst6
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst4
+      - meta: PATH
+        path: /xyz/openbmc_project/testing/inst6
 
 - name: test property group 1
   class: group
   group: property
   type: int32
   members:
-    - interface: xyz.openbmc_project.Sensor.Iface1
-      meta: PROPERTY
-      property: Value
+      - interface: xyz.openbmc_project.Sensor.Iface1
+        meta: PROPERTY
+        property: Value
 
 - name: test property group 2
   class: group
   group: property
   type: string
   members:
-    - interface: xyz.openbmc_project.Sensor.Iface3
-      meta: PROPERTY
-      property: Value2
+      - interface: xyz.openbmc_project.Sensor.Iface3
+        meta: PROPERTY
+        property: Value2
 
 - name: test count condition 1
   class: condition
@@ -40,9 +40,9 @@
   paths: test path group 1
   properties: test property group 1
   callback: test journal callback 1
-  countop: '>='
+  countop: ">="
   countbound: 3
-  op: '>='
+  op: ">="
   bound: 115
 
 - name: test count condition 2
@@ -51,9 +51,9 @@
   paths: test path group 1
   properties: test property group 1
   callback: test journal callback 1
-  countop: '>='
+  countop: ">="
   countbound: 3
-  op: '>='
+  op: ">="
   bound: 115
 
 - name: test journal callback 1
@@ -70,9 +70,9 @@
   paths: test path group 1
   properties: test property group 1
   callback: test journal callback 2
-  countop: '>='
+  countop: ">="
   countbound: 3
-  op: '>='
+  op: ">="
   bound: 115
 
 - name: test count condition 4
@@ -81,9 +81,9 @@
   paths: test path group 1
   properties: test property group 1
   callback: test journal callback 2
-  countop: '>='
+  countop: ">="
   countbound: 3
-  op: '>='
+  op: ">="
   bound: 115
 
 - name: test journal callback 2
@@ -100,7 +100,7 @@
   paths: test path group 1
   properties: test property group 1
   callback: test journal callback 1
-  op: '>='
+  op: ">="
   bound: 45
 
 - name: test median condition 2
@@ -109,5 +109,5 @@
   paths: test path group 2
   properties: test property group 1
   callback: test journal callback 2
-  op: '>='
+  op: ">="
   bound: 45
