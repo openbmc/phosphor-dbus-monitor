@@ -1,0 +1,7 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: MARRI DEVENDER RAO <devenrao@in.ibm.com>
+Submitted-by: MARRI DEVENDER RAO <devenrao@in.ibm.com>
+Submitted-at: Tue, 13 Dec 2022 08:13:31 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-monitor/+/59449
+Project: openbmc/phosphor-dbus-monitor
+Branch: refs/heads/master
