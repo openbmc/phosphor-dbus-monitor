@@ -33,8 +33,7 @@ class ResolveCallout : public Callback
      * @param[in] callout - The callout whose errors need to be resolved.
      *                      Normally an inventory path.
      */
-    explicit ResolveCallout(const std::string& callout) : callout(callout)
-    {}
+    explicit ResolveCallout(const std::string& callout) : callout(callout) {}
 
     /**
      * @brief Callback interface to resolve errors

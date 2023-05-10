@@ -78,10 +78,10 @@ void PropertyWatch<DBusInterfaceType>::start()
                 [this](auto& msg)
                 // *INDENT-OFF*
                 {
-                    std::string interface;
-                    msg.read(interface);
-                    auto path = msg.get_path();
-                    this->propertiesChanged(msg, path, interface);
+                std::string interface;
+                msg.read(interface);
+                auto path = msg.get_path();
+                this->propertiesChanged(msg, path, interface);
                 });
             // *INDENT-ON*
 

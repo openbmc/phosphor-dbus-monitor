@@ -56,14 +56,12 @@ class SNMPTrap : public Callback
     SNMPTrap& operator=(const SNMPTrap&) = delete;
     SNMPTrap& operator=(SNMPTrap&&) = default;
     virtual ~SNMPTrap() = default;
-    SNMPTrap() : Callback()
-    {}
+    SNMPTrap() : Callback() {}
 
     /** @brief Callback interface implementation.
      *  @param[in] ctc - context.
      */
-    void operator()(Context /* ctx */) override
-    {}
+    void operator()(Context /* ctx */) override {}
 
     /** @brief Callback interface implementation.
      *  @param[in] ctc - context.

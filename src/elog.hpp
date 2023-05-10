@@ -51,8 +51,7 @@ class ElogBase : public Callback
     ElogBase& operator=(const ElogBase&) = delete;
     ElogBase& operator=(ElogBase&&) = default;
     virtual ~ElogBase() = default;
-    ElogBase() : Callback()
-    {}
+    ElogBase() : Callback() {}
 
     /** @brief Callback interface implementation. */
     void operator()(Context ctx) override;

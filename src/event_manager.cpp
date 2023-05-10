@@ -62,8 +62,8 @@ void Manager::create(const std::string& eventName,
                   std::chrono::system_clock::now().time_since_epoch())
                   .count();
 
-    auto objPath =
-        std::string(OBJ_EVENT) + '/' + eventName + '/' + std::to_string(id);
+    auto objPath = std::string(OBJ_EVENT) + '/' + eventName + '/' +
+                   std::to_string(id);
 
     // check for capping of the events,if cap reached then erase the oldest
     // event.
@@ -77,10 +77,10 @@ void Manager::create(const std::string& eventName,
         fs::remove(eventPath, ec);
     }
 
-    auto event =
-        std::make_unique<Entry>(objPath,
-                                ms, // Milliseconds since 1970
-                                std::move(msg), std::move(additionalData));
+    auto event = std::make_unique<Entry>(objPath,
+                                         ms, // Milliseconds since 1970
+                                         std::move(msg),
+                                         std::move(additionalData));
     serialize(*event, eventName);
     eventQueue.push(std::move(event));
 }
@@ -109,8 +109,8 @@ void Manager::restore()
         auto validEvent = false;
         auto timestamp = eventFile.path().filename().string();
         auto tsNum = std::stoll(timestamp);
-        auto objPath =
-            std::string(OBJ_EVENT) + '/' + eventName + '/' + timestamp;
+        auto objPath = std::string(OBJ_EVENT) + '/' + eventName + '/' +
+                       timestamp;
 
         auto event = std::make_unique<Entry>(objPath, tsNum);
         if (deserialize(eventFile.path(), *event))

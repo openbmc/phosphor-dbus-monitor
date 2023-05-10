@@ -118,9 +118,9 @@ static auto getProperty(::sdbusplus::bus_t& bus, const std::string& busName,
 {
     using namespace std::literals::string_literals;
 
-    auto msg =
-        callMethod(bus, busName, path, "org.freedesktop.DBus.Properties"s,
-                   "Get"s, interface, property);
+    auto msg = callMethod(bus, busName, path,
+                          "org.freedesktop.DBus.Properties"s, "Get"s, interface,
+                          property);
     ::std::variant<Property> value;
     msg.read(value);
     return std::get<Property>(value);

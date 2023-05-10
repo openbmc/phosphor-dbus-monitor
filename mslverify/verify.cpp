@@ -27,8 +27,7 @@ struct BusMeetsMSL
 {
     std::string path;
 
-    explicit BusMeetsMSL(const std::string& p) : path(p)
-    {}
+    explicit BusMeetsMSL(const std::string& p) : path(p) {}
 
     auto operator()(const T& arg)
     {
