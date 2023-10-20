@@ -33,7 +33,7 @@ void PathWatch<DBusInterfaceType>::start()
         sdbusplus::bus::match::rules::interfacesAdded(objectPath),
         [this](auto& msg)
         // *INDENT-OFF*
-        { (this->cb)(Context::SIGNAL, msg); });
+    { (this->cb)(Context::SIGNAL, msg); });
     // *INDENT-ON*
 
     alreadyRan = true;

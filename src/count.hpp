@@ -58,7 +58,7 @@ class CountCondition : public IndexedConditional
         auto count = std::count_if(index.cbegin(), index.cend(),
                                    [this](const auto& item)
                                    // *INDENT-OFF*
-                                   {
+        {
             // Get the property value from storage[0],
             // and save the op result in storage[1].
             const auto& storage = std::get<storageIndex>(item.second);

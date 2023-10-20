@@ -242,7 +242,7 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
                 // The timer uses the context saved on timer enable
                 this->ConditionalCallback<CallbackAccess>::operator()(
                     this->ctx);
-                });
+            });
             // **INDENT-ON**
         }
 
