@@ -47,8 +47,8 @@ class CountCondition : public IndexedConditional
                    const std::function<bool(size_t)>& _countOp,
                    const std::function<bool(T)>& _propertyOp,
                    bool oneshot = false) :
-        IndexedConditional(conditionIndex),
-        countOp(_countOp), propertyOp(_propertyOp), oneshot(oneshot)
+        IndexedConditional(conditionIndex), countOp(_countOp),
+        propertyOp(_propertyOp), oneshot(oneshot)
     {}
 
     bool operator()() override

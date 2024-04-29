@@ -92,8 +92,7 @@ class Event : public EventBase
      */
     Event(const std::string& eventName, const std::string& eventMessage,
           const PropertyIndex& index) :
-        EventBase(index),
-        name(eventName), message(eventMessage)
+        EventBase(index), name(eventName), message(eventMessage)
     {}
 
   private:

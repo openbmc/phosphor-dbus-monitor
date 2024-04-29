@@ -41,8 +41,7 @@ class PropertyWatch : public Watch
     PropertyWatch(const PropertyIndex& watchIndex,
                   bool ignoreStartCallback = false,
                   Callback* callback = nullptr) :
-        Watch(),
-        index(watchIndex), cb(callback), alreadyRan(false),
+        Watch(), index(watchIndex), cb(callback), alreadyRan(false),
         ignoreStartCallback(ignoreStartCallback)
     {}
 

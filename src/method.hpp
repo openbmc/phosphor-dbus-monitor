@@ -63,8 +63,7 @@ class MethodBase : public Callback
     virtual ~MethodBase() = default;
     MethodBase(const std::string& b, const std::string& p, const std::string& i,
                const std::string& m) :
-        Callback(),
-        bus(b), path(p), interface(i), method(m)
+        Callback(), bus(b), path(p), interface(i), method(m)
     {}
 
     /** @brief Callback interface implementation. */
