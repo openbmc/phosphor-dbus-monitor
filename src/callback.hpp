@@ -158,7 +158,7 @@ class GroupOfCallbacks : public Callback
 };
 
 /** @class ConditionalCallback
- *  @brief Callback adaptor that asssociates a condition with a callback.
+ *  @brief Callback adaptor that associates a condition with a callback.
  */
 template <typename CallbackAccess>
 class ConditionalCallback : public Callback

@@ -32,7 +32,7 @@ class Filters
 };
 
 /** @class OperandFilters
- *  @brief Filter property values utilzing operand based functions.
+ *  @brief Filter property values utilizing operand based functions.
  *
  *  When configured, an operand filter is applied to a property value each
  *  time it changes to determine if that property value should be filtered

@@ -162,7 +162,7 @@ class PropertyWatchOfType : public PropertyWatch<DBusInterfaceType>
      *  @param[in] path - The path of the properties that changed.
      *  @param[in] interface - The interface of the properties that
      *                  changed.
-     *  @param[in] properites - The properties that changed.
+     *  @param[in] properties - The properties that changed.
      */
     void propertiesChanged(const std::string& path,
                            const std::string& interface,

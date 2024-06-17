@@ -21,7 +21,7 @@ namespace fs = std::filesystem;
  */
 fs::path serialize(const Entry& event, const std::string& eventName);
 
-/** @brief Deserialze a persisted event into a d-bus object
+/** @brief Deserialize a persisted event into a d-bus object
  *  @param[in] path - pathname of persisted event file
  *  @param[in] event - reference to event object which is the target of
  *             deserialization.
