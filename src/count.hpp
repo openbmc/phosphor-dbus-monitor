@@ -47,34 +47,35 @@ class CountCondition : public IndexedConditional
                    const std::function<bool(size_t)>& _countOp,
                    const std::function<bool(T)>& _propertyOp,
                    bool oneshot = false) :
-        IndexedConditional(conditionIndex),
-        countOp(_countOp), propertyOp(_propertyOp), oneshot(oneshot)
+        IndexedConditional(conditionIndex), countOp(_countOp),
+        propertyOp(_propertyOp), oneshot(oneshot)
     {}
 
     bool operator()() override
     {
         // Count the number of properties in the index that
         // pass the condition specified in the config file.
-        auto count = std::count_if(index.cbegin(), index.cend(),
-                                   [this](const auto& item)
-                                   // *INDENT-OFF*
-        {
-            // Get the property value from storage[0],
-            // and save the op result in storage[1].
-            const auto& storage = std::get<storageIndex>(item.second);
-            // Don't count properties that don't exist.
-            if (!std::get<valueIndex>(storage.get()).has_value())
+        auto count = std::count_if(
+            index.cbegin(), index.cend(),
+            [this](const auto& item)
+            // *INDENT-OFF*
             {
-                return false;
-            }
-            const auto& value =
-                std::any_cast<T>(std::get<valueIndex>(storage.get()));
-            auto r = propertyOp(value);
+                // Get the property value from storage[0],
+                // and save the op result in storage[1].
+                const auto& storage = std::get<storageIndex>(item.second);
+                // Don't count properties that don't exist.
+                if (!std::get<valueIndex>(storage.get()).has_value())
+                {
+                    return false;
+                }
+                const auto& value =
+                    std::any_cast<T>(std::get<valueIndex>(storage.get()));
+                auto r = propertyOp(value);
 
-            std::get<resultIndex>(storage.get()) = r;
+                std::get<resultIndex>(storage.get()) = r;
 
-            return r;
-        });
+                return r;
+            });
         // *INDENT-ON*
 
         // Now apply the count condition to the count.

@@ -270,10 +270,9 @@ struct MockDBusInterface
 
     /** @brief GMock member template/free function forward. */
     template <typename Ret, typename... Args>
-    static auto callMethodAndRead(const std::string& busName,
-                                  const std::string& path,
-                                  const std::string& interface,
-                                  const std::string& method, Args&&... args)
+    static auto callMethodAndRead(
+        const std::string& busName, const std::string& path,
+        const std::string& interface, const std::string& method, Args&&... args)
     {
         return CallMethodAndRead<MockDBusInterface, Ret, Args...>::op(
             instance(), busName, path, interface, method,

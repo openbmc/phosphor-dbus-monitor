@@ -79,10 +79,9 @@ static auto
 
 /** @brief Invoke a method and read the response. */
 template <typename Ret, typename... Args>
-static auto callMethodAndRead(const std::string& busName,
-                              const std::string& path,
-                              const std::string& interface,
-                              const std::string& method, Args&&... args)
+static auto callMethodAndRead(
+    const std::string& busName, const std::string& path,
+    const std::string& interface, const std::string& method, Args&&... args)
 {
     return callMethodAndRead<Ret>(getBus(), busName, path, interface, method,
                                   std::forward<Args>(args)...);
@@ -118,9 +117,9 @@ static auto getProperty(::sdbusplus::bus_t& bus, const std::string& busName,
 {
     using namespace std::literals::string_literals;
 
-    auto msg = callMethod(bus, busName, path,
-                          "org.freedesktop.DBus.Properties"s, "Get"s, interface,
-                          property);
+    auto msg =
+        callMethod(bus, busName, path, "org.freedesktop.DBus.Properties"s,
+                   "Get"s, interface, property);
     ::std::variant<Property> value;
     msg.read(value);
     return std::get<Property>(value);

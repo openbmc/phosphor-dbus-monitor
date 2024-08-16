@@ -48,7 +48,7 @@ class Callback
      *  @param[in] msg - The sdbusplus signal message
      */
     virtual void operator()(Context /* ctx */,
-                            sdbusplus::message_t& /* msg */){};
+                            sdbusplus::message_t& /* msg */) {};
 };
 
 /** @class Conditional
@@ -171,9 +171,7 @@ class ConditionalCallback : public Callback
     ConditionalCallback& operator=(ConditionalCallback&&) = default;
     virtual ~ConditionalCallback() = default;
     ConditionalCallback(const std::vector<size_t>& graphEntry,
-                        Conditional& cond) :
-        graph(graphEntry),
-        condition(cond)
+                        Conditional& cond) : graph(graphEntry), condition(cond)
     {}
 
     /** @brief Run the callback if the condition is satisfied. */
@@ -235,14 +233,14 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
     {
         if (!timer)
         {
-            timer =
-                std::make_unique<TimerType>(sdeventplus::Event::get_default(),
-                                            // **INDENT-OFF**
-                                            [this](auto& /* source */) {
-                // The timer uses the context saved on timer enable
-                this->ConditionalCallback<CallbackAccess>::operator()(
-                    this->ctx);
-            });
+            timer = std::make_unique<TimerType>(
+                sdeventplus::Event::get_default(),
+                // **INDENT-OFF**
+                [this](auto& /* source */) {
+                    // The timer uses the context saved on timer enable
+                    this->ConditionalCallback<CallbackAccess>::operator()(
+                        this->ctx);
+                });
             // **INDENT-ON**
         }
 

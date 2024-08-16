@@ -77,10 +77,10 @@ void Manager::create(const std::string& eventName,
         fs::remove(eventPath, ec);
     }
 
-    auto event = std::make_unique<Entry>(objPath,
-                                         ms, // Milliseconds since 1970
-                                         std::move(msg),
-                                         std::move(additionalData));
+    auto event = std::make_unique<Entry>(
+        objPath,
+        ms, // Milliseconds since 1970
+        std::move(msg), std::move(additionalData));
     serialize(*event, eventName);
     eventQueue.push(std::move(event));
 }

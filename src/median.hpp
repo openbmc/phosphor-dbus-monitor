@@ -44,8 +44,8 @@ class MedianCondition : public IndexedConditional
     MedianCondition(const PropertyIndex& conditionIndex,
                     const std::function<bool(T)>& _medianOp,
                     bool oneshot = false) :
-        IndexedConditional(conditionIndex),
-        medianOp(_medianOp), oneshot(oneshot)
+        IndexedConditional(conditionIndex), medianOp(_medianOp),
+        oneshot(oneshot)
     {}
 
     bool operator()() override

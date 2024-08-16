@@ -45,7 +45,7 @@ void PropertyWatch<DBusInterfaceType>::start()
             sdbusplus::bus::match::rules::interfacesAdded(path),
             [this](auto& msg)
             // *INDENT-OFF*
-        { this->interfacesAdded(msg); });
+            { this->interfacesAdded(msg); });
         // *INDENT-ON*
 
         // Do a query to populate the cache.  Start with a mapper query.
@@ -77,12 +77,12 @@ void PropertyWatch<DBusInterfaceType>::start()
                                                                 interface),
                 [this](auto& msg)
                 // *INDENT-OFF*
-            {
-                std::string interface;
-                msg.read(interface);
-                auto path = msg.get_path();
-                this->propertiesChanged(msg, path, interface);
-            });
+                {
+                    std::string interface;
+                    msg.read(interface);
+                    auto path = msg.get_path();
+                    this->propertiesChanged(msg, path, interface);
+                });
             // *INDENT-ON*
 
             // The mapper response is a busname:[interfaces] map.  Look for
