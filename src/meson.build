@@ -32,6 +32,7 @@ generated_hpp = custom_target(
         'generate-cpp'
     ],
     depend_files: templates_depends,
+    env: sdbusplus_python_env,
     output: 'generated.hpp',
 )
 
@@ -49,6 +50,7 @@ sources = [
 ]
 
 deps = [
+    cereal_dep,
     sdbusplus_dep,
     sdeventplus_dep,
     phosphor_dbus_interfaces_dep,

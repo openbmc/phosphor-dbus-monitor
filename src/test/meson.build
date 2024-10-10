@@ -36,6 +36,7 @@ pathgentest_hpp = custom_target(
         'yaml/pathgentest/groupone.yaml',
         'yaml/pathgentest/grouptwo.yaml',
     ],
+    env: sdbusplus_python_env,
     output: 'pathgentest.hpp',
 )
 
@@ -50,7 +51,7 @@ test('pathgentest.cpp',
     pathgentest_sources,
     build_by_default: false,
     include_directories: ['..'],
-    dependencies: [gtest_dep, gmock_dep]
+    dependencies: [gtest_dep, gmock_dep, phosphor_dbus_interfaces_dep]
   ))
 
 
@@ -71,6 +72,7 @@ propertygentest_hpp = custom_target(
         'yaml/propertygentest/groupone.yaml',
         'yaml/propertygentest/grouptwo.yaml',
     ],
+    env: sdbusplus_python_env,
     output: 'propertygentest.hpp',
 )
 
@@ -85,7 +87,7 @@ test('propertygentest.cpp',
     propertygentest_sources,
     build_by_default: false,
     include_directories: ['..'],
-    dependencies: [gtest_dep, gmock_dep]
+    dependencies: [gtest_dep, gmock_dep, phosphor_dbus_interfaces_dep]
   ))
 
 
@@ -106,6 +108,7 @@ propertywatchgentest_hpp = custom_target(
         'yaml/propertywatchgentest/watchone.yaml',
         'yaml/propertywatchgentest/watchtwo.yaml',
     ],
+    env: sdbusplus_python_env,
     output: 'propertywatchgentest.hpp',
 )
 
@@ -120,7 +123,7 @@ test('propertywatchgentest.cpp',
     propertywatchgentest_sources,
     build_by_default: false,
     include_directories: ['..'],
-    dependencies: [gtest_dep, gmock_dep]
+    dependencies: [gtest_dep, gmock_dep, phosphor_dbus_interfaces_dep]
   ))
 
 
@@ -141,6 +144,7 @@ callbackgentest_hpp = custom_target(
         'yaml/callbackgentest/one.yaml',
         'yaml/callbackgentest/two.yaml',
     ],
+    env: sdbusplus_python_env,
     output: 'callbackgentest.hpp',
 )
 
@@ -155,7 +159,7 @@ test('callbackgentest.cpp',
     callbackgentest_sources,
     build_by_default: false,
     include_directories: ['..'],
-    dependencies: [gtest_dep, gmock_dep]
+    dependencies: [gtest_dep, gmock_dep, phosphor_dbus_interfaces_dep]
   ))
 
 
@@ -175,6 +179,7 @@ callbackgroupgentest_hpp = custom_target(
         'templates/callbackgroupgentest.mako.hpp',
         'yaml/callbackgroupgentest/test.yaml',
     ],
+    env: sdbusplus_python_env,
     output: 'callbackgroupgentest.hpp',
 )
 
@@ -189,7 +194,7 @@ test('callbackgroupgentest.cpp',
     callbackgroupgentest_sources,
     build_by_default: false,
     include_directories: ['..'],
-    dependencies: [gtest_dep, gmock_dep]
+    dependencies: [gtest_dep, gmock_dep, phosphor_dbus_interfaces_dep]
   ))
 
 
@@ -209,6 +214,7 @@ conditiongentest_hpp = custom_target(
         'templates/conditiongentest.mako.hpp',
         'yaml/conditiongentest/test.yaml',
     ],
+    env: sdbusplus_python_env,
     output: 'conditiongentest.hpp',
 )
 
@@ -223,7 +229,7 @@ test('conditiongentest.cpp',
     conditiongentest_sources,
     build_by_default: false,
     include_directories: ['..'],
-    dependencies: [gtest_dep, gmock_dep]
+    dependencies: [gtest_dep, gmock_dep, phosphor_dbus_interfaces_dep]
   ))
 
 
@@ -238,6 +244,7 @@ callbacktest_sources = [
 ]
 
 callbacktest_deps = [
+    cereal_dep,
     sdbusplus_dep,
     sdeventplus_dep,
     phosphor_dbus_interfaces_dep,
@@ -272,6 +279,7 @@ interfaceaddtest_hpp = custom_target(
         'templates/interfaceaddtest.mako.hpp',
         'yaml/interfaceaddtest/one.yaml',
     ],
+    env: sdbusplus_python_env,
     output: 'interfaceaddtest.hpp',
 )
 
@@ -286,5 +294,5 @@ test('interfaceaddtest.cpp',
     interfaceaddtest_sources,
     build_by_default: false,
     include_directories: ['..'],
-    dependencies: [gtest_dep, gmock_dep]
+    dependencies: [gtest_dep, gmock_dep, phosphor_dbus_interfaces_dep, sdeventplus_dep]
   ))
