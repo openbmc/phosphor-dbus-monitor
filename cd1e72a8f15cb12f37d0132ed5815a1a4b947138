@@ -1,0 +1,9 @@
+Code-Review+2: MARRI DEVENDER RAO <devenrao@in.ibm.com>
+Code-Review+1: Matt Spinler <spinler@us.ibm.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+Submitted-at: Mon, 14 Oct 2024 07:50:42 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-monitor/+/75200
+Comments-Total: 1
+Project: openbmc/phosphor-dbus-monitor
+Branch: refs/heads/master
