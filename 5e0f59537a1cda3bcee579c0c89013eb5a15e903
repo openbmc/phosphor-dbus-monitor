@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "004718ef_e45e610b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-12T16:10:22Z",
+      "side": 1,
+      "message": "@Devender - Merging this quickly so we can unblock phosphor-logging and phosphor-dbus-interfaces bumps.  Let me know if you have any concerns with the content and I can follow up.",
+      "revId": "5e0f59537a1cda3bcee579c0c89013eb5a15e903",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
