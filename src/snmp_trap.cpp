@@ -37,12 +37,12 @@ void ErrorTrap::trap(sdbusplus::message_t& msg) const
     auto sev = std::get<Entry::Level>(propMap.at("Severity"));
     auto isev = static_cast<uint8_t>(sev);
     auto message = std::get<std::string>(propMap.at("Message"));
-    auto additionalData =
-        std::get<std::vector<std::string>>(propMap.at("AdditionalData"));
-    for (auto& s : additionalData)
+    auto additionalData = std::get<std::map<std::string, std::string>>(
+        propMap.at("AdditionalData"));
+    for (auto& [k, v] : additionalData)
     {
         message.append(" ");
-        message.append(s);
+        message.append(k + "=" + v);
     }
     try
     {
