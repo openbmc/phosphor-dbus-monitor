@@ -61,10 +61,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<uint64_t>,
                          const std::string&>
 {
-    static PropertiesChanged<uint64_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<uint64_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU64(busName, path, interface, method,
                                      propertiesInterface);
@@ -77,10 +77,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<uint32_t>,
                          const std::string&>
 {
-    static PropertiesChanged<uint32_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<uint32_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU32(busName, path, interface, method,
                                      propertiesInterface);
@@ -93,10 +93,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<uint16_t>,
                          const std::string&>
 {
-    static PropertiesChanged<uint16_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<uint16_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU16(busName, path, interface, method,
                                      propertiesInterface);
@@ -109,10 +109,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<uint8_t>,
                          const std::string&>
 {
-    static PropertiesChanged<uint8_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<uint8_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU8(busName, path, interface, method,
                                     propertiesInterface);
@@ -125,10 +125,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<int64_t>,
                          const std::string&>
 {
-    static PropertiesChanged<int64_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<int64_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU64(busName, path, interface, method,
                                      propertiesInterface);
@@ -141,10 +141,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<int32_t>,
                          const std::string&>
 {
-    static PropertiesChanged<int32_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<int32_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU32(busName, path, interface, method,
                                      propertiesInterface);
@@ -157,10 +157,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<int16_t>,
                          const std::string&>
 {
-    static PropertiesChanged<int16_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<int16_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU16(busName, path, interface, method,
                                      propertiesInterface);
@@ -173,10 +173,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<int8_t>,
                          const std::string&>
 {
-    static PropertiesChanged<int8_t>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<int8_t> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesU8(busName, path, interface, method,
                                     propertiesInterface);
@@ -189,10 +189,10 @@ template <typename DBusInterfaceType>
 struct CallMethodAndRead<DBusInterfaceType, PropertiesChanged<std::string>,
                          const std::string&>
 {
-    static PropertiesChanged<std::string>
-        op(DBusInterfaceType& dbus, const std::string& busName,
-           const std::string& path, const std::string& interface,
-           const std::string& method, const std::string& propertiesInterface)
+    static PropertiesChanged<std::string> op(
+        DBusInterfaceType& dbus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, const std::string& propertiesInterface)
     {
         return dbus.getPropertiesString(busName, path, interface, method,
                                         propertiesInterface);
