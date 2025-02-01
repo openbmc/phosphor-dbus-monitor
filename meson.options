@@ -1,11 +1,8 @@
-option(
-    'tests', type : 'feature',
-    value: 'enabled',
-    description : 'Build tests'
-)
+option('tests', type: 'feature', value: 'enabled', description: 'Build tests')
 
 option(
-    'YAML_PATH', type: 'string',
+    'YAML_PATH',
+    type: 'string',
     value: '',
-    description: 'The path to the yaml config files.'
+    description: 'The path to the yaml config files.',
 )
