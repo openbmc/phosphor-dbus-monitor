@@ -1,6 +1,4 @@
-sources_mslverify = [
-    'verify.cpp',
-]
+sources_mslverify = ['verify.cpp']
 
 deps_mslverify = [
     sdbusplus_dep,
