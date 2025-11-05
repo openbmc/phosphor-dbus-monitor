@@ -72,8 +72,8 @@ static auto callMethodAndRead(
 {
     ::sdbusplus::message_t respMsg = callMethod<Args...>(
         bus, busName, path, interface, method, std::forward<Args>(args)...);
-    Ret resp;
-    respMsg.read(resp);
+    auto resp = respMsg.unpack<Ret>();
+
     return resp;
 }
 
@@ -120,8 +120,8 @@ static auto getProperty(::sdbusplus::bus_t& bus, const std::string& busName,
     auto msg =
         callMethod(bus, busName, path, "org.freedesktop.DBus.Properties"s,
                    "Get"s, interface, property);
-    ::std::variant<Property> value;
-    msg.read(value);
+    auto value = msg.unpack<::std::variant<Property>>();
+
     return std::get<Property>(value);
 }
 
