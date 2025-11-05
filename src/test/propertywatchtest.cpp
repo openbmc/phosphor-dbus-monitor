@@ -264,9 +264,7 @@ void testStart(std::function<void(const std::any&, const size_t)>&& checkState,
         std::vector<std::string> mapperResponse;
         std::transform(tmpInterfaces.begin(), tmpInterfaces.end(),
                        std::back_inserter(mapperResponse),
-                       // *INDENT-OFF*
                        [](const auto& item) { return item.first; });
-        // *INDENT-ON*
         EXPECT_CALL(dbus, mapperGetObject(MAPPER_BUSNAME, MAPPER_PATH,
                                           MAPPER_INTERFACE, "GetObject", path,
                                           expectedMapperInterfaces))

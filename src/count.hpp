@@ -56,10 +56,7 @@ class CountCondition : public IndexedConditional
         // Count the number of properties in the index that
         // pass the condition specified in the config file.
         auto count = std::count_if(
-            index.cbegin(), index.cend(),
-            [this](const auto& item)
-            // *INDENT-OFF*
-            {
+            index.cbegin(), index.cend(), [this](const auto& item) {
                 // Get the property value from storage[0],
                 // and save the op result in storage[1].
                 const auto& storage = std::get<storageIndex>(item.second);
@@ -76,7 +73,6 @@ class CountCondition : public IndexedConditional
 
                 return r;
             });
-        // *INDENT-ON*
 
         // Now apply the count condition to the count.
         auto result = countOp(count);

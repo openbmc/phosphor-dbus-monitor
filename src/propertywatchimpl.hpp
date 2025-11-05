@@ -43,10 +43,7 @@ void PropertyWatch<DBusInterfaceType>::start()
         // Watch for new interfaces on this path.
         DBusInterfaceType::addMatch(
             sdbusplus::bus::match::rules::interfacesAdded(path),
-            [this](auto& msg)
-            // *INDENT-OFF*
-            { this->interfacesAdded(msg); });
-        // *INDENT-ON*
+            [this](auto& msg) { this->interfacesAdded(msg); });
 
         // Do a query to populate the cache.  Start with a mapper query.
         // The specific services are queried below.
@@ -75,15 +72,12 @@ void PropertyWatch<DBusInterfaceType>::start()
             DBusInterfaceType::addMatch(
                 sdbusplus::bus::match::rules::propertiesChanged(path,
                                                                 interface),
-                [this](auto& msg)
-                // *INDENT-OFF*
-                {
+                [this](auto& msg) {
                     auto interface = msg.template unpack<std::string>();
 
                     auto path = msg.get_path();
                     this->propertiesChanged(msg, path, interface);
                 });
-            // *INDENT-ON*
 
             // The mapper response is a busname:[interfaces] map.  Look for
             // each interface in the index and if found, query the service and
