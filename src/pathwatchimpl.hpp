@@ -31,10 +31,7 @@ void PathWatch<DBusInterfaceType>::start()
     // Watch for new interfaces added on this path.
     DBusInterfaceType::addMatch(
         sdbusplus::bus::match::rules::interfacesAdded(objectPath),
-        [this](auto& msg)
-        // *INDENT-OFF*
-        { (this->cb)(Context::SIGNAL, msg); });
-    // *INDENT-ON*
+        [this](auto& msg) { (this->cb)(Context::SIGNAL, msg); });
 
     alreadyRan = true;
 }

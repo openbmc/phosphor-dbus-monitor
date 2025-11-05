@@ -84,12 +84,10 @@ template <typename T>
 using PropertiesChanged = std::map<std::string, std::variant<T>>;
 
 /** @brief Lookup index for properties . */
-// *INDENT-OFF*
 using PropertyIndex =
     TupleRefMap<TupleOfRefs<const std::string, const std::string,
                             std::tuple<std::any, std::any>>,
                 const std::string, const std::string, const std::string>;
-// *INDENT-ON*
 
 /** @brief Convert some C++ types to others.
  *

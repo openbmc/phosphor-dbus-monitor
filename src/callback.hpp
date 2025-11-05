@@ -234,14 +234,11 @@ class DeferrableCallback : public ConditionalCallback<CallbackAccess>
         if (!timer)
         {
             timer = std::make_unique<TimerType>(
-                sdeventplus::Event::get_default(),
-                // **INDENT-OFF**
-                [this](auto& /* source */) {
+                sdeventplus::Event::get_default(), [this](auto& /* source */) {
                     // The timer uses the context saved on timer enable
                     this->ConditionalCallback<CallbackAccess>::operator()(
                         this->ctx);
                 });
-            // **INDENT-ON**
         }
 
         if (this->condition())
