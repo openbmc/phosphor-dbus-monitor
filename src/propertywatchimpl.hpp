@@ -78,8 +78,8 @@ void PropertyWatch<DBusInterfaceType>::start()
                 [this](auto& msg)
                 // *INDENT-OFF*
                 {
-                    std::string interface;
-                    msg.read(interface);
+                    auto interface = msg.template unpack<std::string>();
+
                     auto path = msg.get_path();
                     this->propertiesChanged(msg, path, interface);
                 });
@@ -192,8 +192,8 @@ void PropertyWatchOfType<T, DBusInterfaceType>::propertiesChanged(
     sdbusplus::message_t& msg, const std::string& path,
     const std::string& interface)
 {
-    PropertiesChanged<T> properties;
-    msg.read(properties);
+    auto properties = msg.unpack<PropertiesChanged<T>>();
+
     propertiesChanged(path, interface, properties);
 }
 
