@@ -11,6 +11,20 @@ project(
     ],
 )
 
+clang_tidy = find_program('clang-tidy', required : false)
+
+if clang_tidy.found()
+    message('clang-tidy enabled')
+
+    add_project_arguments(['-DCLANG_TIDY'], language: 'cpp')
+
+    foreach t : get_targets()
+        if t.is_library() or t.is_executable()
+            t.add_postconf_command(clang_tidy, t.full_path())
+        endif
+    endforeach
+endif
+
 conf_data = configuration_data()
 conf_data.set_quoted('OBJ_EVENT', '/xyz/openbmc_project/events')
 conf_data.set_quoted('BUSNAME_EVENT', 'xyz.openbmc_project.Events')
