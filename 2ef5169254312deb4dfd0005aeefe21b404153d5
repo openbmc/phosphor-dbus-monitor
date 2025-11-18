@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db022838_3258616b",
+        "filename": ".clang-tidy",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000086
+      },
+      "writtenOn": "2025-11-18T04:59:47Z",
+      "side": 1,
+      "message": "Please use initial version file recomeneted here https://github.com/openbmc/docs/blob/master/style/cpp/.clang-tidy",
+      "revId": "2ef5169254312deb4dfd0005aeefe21b404153d5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "434879e2_f47c7bbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000086
+      },
+      "writtenOn": "2025-11-18T04:59:47Z",
+      "side": 1,
+      "message": "Nit : Better follow the format something like \n\nclang-tidy: Initial commit\n\nAdded initial .clang-tidy configuration file with recommended C++ checks aligned with the OpenBMC-approved checklist.",
+      "revId": "2ef5169254312deb4dfd0005aeefe21b404153d5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
