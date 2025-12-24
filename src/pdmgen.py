@@ -786,7 +786,7 @@ class ConditionCallback(ConfigEntry, Renderer):
 
     def construct(self, loader, indent):
         return self.render(
-            loader, "conditional.mako.cpp", c=self, indent=indent
+            loader, "conditional.cpp.mako", c=self, indent=indent
         )
 
 
@@ -838,7 +838,7 @@ class CountCondition(Condition, Renderer):
         self.bound = TrivialArgument(type=self.type, value=self.bound)
 
     def construct(self, loader, indent):
-        return self.render(loader, "count.mako.cpp", c=self, indent=indent)
+        return self.render(loader, "count.cpp.mako", c=self, indent=indent)
 
 
 class MedianCondition(Condition, Renderer):
@@ -859,7 +859,7 @@ class MedianCondition(Condition, Renderer):
         self.bound = TrivialArgument(type=self.type, value=self.bound)
 
     def construct(self, loader, indent):
-        return self.render(loader, "median.mako.cpp", c=self, indent=indent)
+        return self.render(loader, "median.cpp.mako", c=self, indent=indent)
 
 
 class Journal(Callback, Renderer):
@@ -871,7 +871,7 @@ class Journal(Callback, Renderer):
         super(Journal, self).__init__(**kw)
 
     def construct(self, loader, indent):
-        return self.render(loader, "journal.mako.cpp", c=self, indent=indent)
+        return self.render(loader, "journal.cpp.mako", c=self, indent=indent)
 
 
 class Elog(Callback, Renderer):
@@ -884,8 +884,8 @@ class Elog(Callback, Renderer):
 
     def construct(self, loader, indent):
         with open(args.gen_errors, "a") as fd:
-            fd.write(self.render(loader, "errors.mako.hpp", c=self))
-        return self.render(loader, "elog.mako.cpp", c=self, indent=indent)
+            fd.write(self.render(loader, "errors.hpp.mako", c=self))
+        return self.render(loader, "elog.cpp.mako", c=self, indent=indent)
 
 
 class Event(Callback, Renderer):
@@ -897,7 +897,7 @@ class Event(Callback, Renderer):
         super(Event, self).__init__(**kw)
 
     def construct(self, loader, indent):
-        return self.render(loader, "event.mako.cpp", c=self, indent=indent)
+        return self.render(loader, "event.cpp.mako", c=self, indent=indent)
 
 
 class EventPath(PathCallback, Renderer):
@@ -908,7 +908,7 @@ class EventPath(PathCallback, Renderer):
         super(EventPath, self).__init__(**kw)
 
     def construct(self, loader, indent):
-        return self.render(loader, "eventpath.mako.cpp", c=self, indent=indent)
+        return self.render(loader, "eventpath.cpp.mako", c=self, indent=indent)
 
 
 class ElogWithMetadata(Callback, Renderer):
@@ -921,9 +921,9 @@ class ElogWithMetadata(Callback, Renderer):
 
     def construct(self, loader, indent):
         with open(args.gen_errors, "a") as fd:
-            fd.write(self.render(loader, "errors.mako.hpp", c=self))
+            fd.write(self.render(loader, "errors.hpp.mako", c=self))
         return self.render(
-            loader, "elog_with_metadata.mako.cpp", c=self, indent=indent
+            loader, "elog_with_metadata.cpp.mako", c=self, indent=indent
         )
 
 
@@ -936,7 +936,7 @@ class ResolveCallout(Callback, Renderer):
 
     def construct(self, loader, indent):
         return self.render(
-            loader, "resolve_errors.mako.cpp", c=self, indent=indent
+            loader, "resolve_errors.cpp.mako", c=self, indent=indent
         )
 
 
@@ -992,7 +992,7 @@ class Method(ConfigEntry, Renderer):
         super(Method, self).setup(objs)
 
     def construct(self, loader, indent):
-        return self.render(loader, "method.mako.cpp", c=self, indent=indent)
+        return self.render(loader, "method.cpp.mako", c=self, indent=indent)
 
 
 class CallbackGraphEntry(Group):
@@ -1063,7 +1063,7 @@ class GroupOfCallbacks(ConfigEntry, Renderer):
 
     def construct(self, loader, indent):
         return self.render(
-            loader, "callbackgroup.mako.cpp", c=self, indent=indent
+            loader, "callbackgroup.cpp.mako", c=self, indent=indent
         )
 
 
@@ -1100,7 +1100,7 @@ class GroupOfPathCallbacks(ConfigEntry, Renderer):
 
     def construct(self, loader, indent):
         return self.render(
-            loader, "callbackpathgroup.mako.cpp", c=self, indent=indent
+            loader, "callbackpathgroup.cpp.mako", c=self, indent=indent
         )
 
 
