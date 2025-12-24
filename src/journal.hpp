@@ -28,7 +28,7 @@ class JournalBase : public IndexedCallback
     JournalBase(const JournalBase&) = delete;
     JournalBase(JournalBase&&) = default;
     JournalBase& operator=(const JournalBase&) = delete;
-    JournalBase& operator=(JournalBase&&) = default;
+    JournalBase& operator=(JournalBase&&) = delete;
     virtual ~JournalBase() = default;
     JournalBase(const char* msg, const PropertyIndex& index) :
         IndexedCallback(index), message(msg)

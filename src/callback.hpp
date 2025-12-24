@@ -80,7 +80,7 @@ class IndexedConditional : public Conditional
     IndexedConditional(const IndexedConditional&) = delete;
     IndexedConditional(IndexedConditional&&) = default;
     IndexedConditional& operator=(const IndexedConditional&) = delete;
-    IndexedConditional& operator=(IndexedConditional&&) = default;
+    IndexedConditional& operator=(IndexedConditional&&) = delete;
     virtual ~IndexedConditional() = default;
 
     explicit IndexedConditional(const PropertyIndex& conditionIndex) :
@@ -105,7 +105,7 @@ class IndexedCallback : public Callback
     IndexedCallback(const IndexedCallback&) = delete;
     IndexedCallback(IndexedCallback&&) = default;
     IndexedCallback& operator=(const IndexedCallback&) = delete;
-    IndexedCallback& operator=(IndexedCallback&&) = default;
+    IndexedCallback& operator=(IndexedCallback&&) = delete;
     virtual ~IndexedCallback() = default;
     explicit IndexedCallback(const PropertyIndex& callbackIndex) :
         Callback(), index(callbackIndex)

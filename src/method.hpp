@@ -59,7 +59,7 @@ class MethodBase : public Callback
     MethodBase(const MethodBase&) = delete;
     MethodBase(MethodBase&&) = default;
     MethodBase& operator=(const MethodBase&) = delete;
-    MethodBase& operator=(MethodBase&&) = default;
+    MethodBase& operator=(MethodBase&&) = delete;
     virtual ~MethodBase() = default;
     MethodBase(const std::string& b, const std::string& p, const std::string& i,
                const std::string& m) :

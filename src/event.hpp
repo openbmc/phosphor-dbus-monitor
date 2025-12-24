@@ -27,7 +27,7 @@ class EventBase : public IndexedCallback
     EventBase(const EventBase&) = delete;
     EventBase(EventBase&&) = default;
     EventBase& operator=(const EventBase&) = delete;
-    EventBase& operator=(EventBase&&) = default;
+    EventBase& operator=(EventBase&&) = delete;
     virtual ~EventBase() = default;
     EventBase(const PropertyIndex& index) : IndexedCallback(index) {}
 
