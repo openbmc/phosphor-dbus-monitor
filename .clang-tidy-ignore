@@ -1,0 +1,7 @@
+src/test/callbackgentest.cpp
+src/test/callbackgroupgentest.cpp
+src/test/conditiongentest.cpp
+src/test/interfaceaddtest.cp
+src/test/pathgentest.cpp
+src/test/propertygentest.cpp
+src/test/propertywatchgentest.cpp
