@@ -109,8 +109,7 @@ void Manager::restore()
         auto validEvent = false;
         auto timestamp = eventFile.path().filename().string();
         auto tsNum = std::stoll(timestamp);
-        auto objPath = std::string(OBJ_EVENT) + '/' + eventName + '/' +
-                       timestamp;
+        auto objPath = std::format("{}/{}/{}", OBJ_EVENT, eventName, timestamp);
 
         auto event = std::make_unique<Entry>(objPath, tsNum);
         if (deserialize(eventFile.path(), *event))
