@@ -22,7 +22,7 @@ static constexpr auto entry = "xyz.openbmc_project.Logging.Entry";
 
 void ErrorTrap::trap(sdbusplus::message_t& msg) const
 {
-    auto path = msg.unpack<sdbusplus::message::object_path>();
+    auto path = msg.unpack<sdbusplus::object_path>();
 
     auto intfs = msg.unpack<PathInterfacesAdded>();
 

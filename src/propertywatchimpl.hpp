@@ -205,7 +205,7 @@ template <typename T, typename DBusInterfaceType>
 void PropertyWatchOfType<T, DBusInterfaceType>::interfacesAdded(
     sdbusplus::message_t& msg)
 {
-    sdbusplus::message::object_path path;
+    sdbusplus::object_path path;
     InterfacesAdded<T> interfaces;
     msg.read(path, interfaces);
     interfacesAdded(path, interfaces);
