@@ -66,4 +66,3 @@ realpath_prog = find_program('realpath')
 configure_file(output: 'config.h', configuration: conf_data)
 
 subdir('src')
-subdir('mslverify')
