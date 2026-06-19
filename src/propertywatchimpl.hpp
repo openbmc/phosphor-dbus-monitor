@@ -42,7 +42,7 @@ void PropertyWatch<DBusInterfaceType>::start()
 
         // Watch for new interfaces on this path.
         DBusInterfaceType::addMatch(
-            sdbusplus::bus::match::rules::interfacesAdded(path),
+            sdbusplus::match_rules::interfacesAdded(path),
             [this](auto& msg) { this->interfacesAdded(msg); });
 
         // Do a query to populate the cache.  Start with a mapper query.
@@ -70,8 +70,7 @@ void PropertyWatch<DBusInterfaceType>::start()
 
             // Watch for property changes on this interface.
             DBusInterfaceType::addMatch(
-                sdbusplus::bus::match::rules::propertiesChanged(path,
-                                                                interface),
+                sdbusplus::match_rules::propertiesChanged(path, interface),
                 [this](auto& msg) {
                     auto interface = msg.template unpack<std::string>();
 

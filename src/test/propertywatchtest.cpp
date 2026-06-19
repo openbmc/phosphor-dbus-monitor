@@ -269,18 +269,17 @@ void testStart(std::function<void(const std::any&, const size_t)>&& checkState,
                                           MAPPER_INTERFACE, "GetObject", path,
                                           expectedMapperInterfaces))
             .WillOnce(Return(GetObject({{"", mapperResponse}})));
-        EXPECT_CALL(
-            dbus, fwdAddMatch(
-                      sdbusplus::bus::match::rules::interfacesAdded(path), _));
+        EXPECT_CALL(dbus,
+                    fwdAddMatch(sdbusplus::match_rules::interfacesAdded(path),
+                                _));
         for (const auto& i : tmpInterfaces)
         {
             const auto& interface = i.first.get();
             const auto& tmpProperties = i.second;
-            EXPECT_CALL(
-                dbus,
-                fwdAddMatch(sdbusplus::bus::match::rules::propertiesChanged(
-                                path, interface),
-                            _));
+            EXPECT_CALL(dbus,
+                        fwdAddMatch(sdbusplus::match_rules::propertiesChanged(
+                                        path, interface),
+                                    _));
 
             PropertiesChanged<T> serviceResponse;
             for (const auto& p : tmpProperties)
