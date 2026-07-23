@@ -49,7 +49,7 @@ sdbusplus_dep = dependency('sdbusplus', required: false)
 sdeventplus_dep = dependency('sdeventplus')
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 phosphor_logging_dep = dependency('phosphor-logging')
-phosphor_snmp_dep = dependency('phosphor-snmp')
+phosphor_snmp_dep = dependency('phosphor-snmp', required: get_option('snmp'))
 
 sdbusplus_python_env = {}
 if not sdbusplus_dep.found()
