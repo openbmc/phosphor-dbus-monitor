@@ -51,8 +51,11 @@ sources = [
     'pathwatch.cpp',
     'propertywatch.cpp',
     'resolve_errors.cpp',
-    'snmp_trap.cpp',
 ]
+
+if phosphor_snmp_dep.found()
+    sources += ['snmp_trap.cpp']
+endif
 
 deps = [
     cereal_dep,
@@ -60,8 +63,11 @@ deps = [
     sdeventplus_dep,
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
-    phosphor_snmp_dep,
 ]
+
+if phosphor_snmp_dep.found()
+    deps += [phosphor_snmp_dep]
+endif
 
 executable(
     'phosphor-dbus-monitor',

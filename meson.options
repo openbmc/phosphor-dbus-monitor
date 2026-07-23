@@ -6,3 +6,11 @@ option(
     value: '',
     description: 'The path to the yaml config files.',
 )
+
+
+option(
+    'snmp',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable SNMP trap support',
+)
