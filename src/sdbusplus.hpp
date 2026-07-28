@@ -26,7 +26,7 @@ class SDBusPlus
   private:
     static auto& getWatches()
     {
-        static std::vector<sdbusplus::bus::match_t> watches;
+        static std::vector<sdbusplus::match> watches;
         return watches;
     }
 
@@ -88,7 +88,7 @@ class SDBusPlus
 
     /** @brief Register a DBus signal callback. */
     static auto addMatch(const std::string& match,
-                         sdbusplus::bus::match_t::callback_t&& callback)
+                         sdbusplus::match::callback_t&& callback)
     {
         getWatches().emplace_back(getBus(), match, std::move(callback));
     }
