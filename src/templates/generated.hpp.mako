@@ -17,7 +17,9 @@
 #include "resolve_errors.hpp"
 #include "sdbusplus.hpp"
 #include "event.hpp"
+#ifdef SNMP_ENABLED
 #include "snmp_trap.hpp"
+#endif
 
 using namespace std::string_literals;
 using namespace std::chrono_literals;
@@ -237,7 +239,8 @@ struct ConfigPathCallbacks
         static const Callbacks pathCallbacks =
         {
 % for c in pathcallbacks:
-            ${c.construct(loader, indent=indent +3)},
+            ${c.construct(loader, indent=indent +3)}
+            ,
 % endfor
         };
         return pathCallbacks;
