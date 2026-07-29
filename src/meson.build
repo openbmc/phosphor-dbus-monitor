@@ -7,6 +7,7 @@ templates_depends = files(
     'templates/elog.cpp.mako',
     'templates/errors.hpp.mako',
     'templates/event.cpp.mako',
+    'templates/eventpath.cpp.mako',
     'templates/generated.hpp.mako',
     'templates/journal.cpp.mako',
     'templates/median.cpp.mako',
@@ -55,6 +56,7 @@ sources = [
 
 if phosphor_snmp_dep.found()
     sources += ['snmp_trap.cpp']
+    add_project_arguments('-DSNMP_ENABLED', language: 'cpp')
 endif
 
 deps = [
