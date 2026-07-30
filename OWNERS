@@ -32,13 +32,9 @@
 # data within them will be kept sorted.
 
 owners:
-- devenrao@in.ibm.com
 
 reviewers:
 
 matchers:
 
 openbmc:
-- name: Marri Devender Rao
-  email: devenrao@in.ibm.com
-  discord: devender
