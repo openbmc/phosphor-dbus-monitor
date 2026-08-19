@@ -28,10 +28,29 @@ void PathWatch<DBusInterfaceType>::start()
     {
         return;
     }
-    // Watch for new interfaces added on this path.
-    DBusInterfaceType::addMatch(
-        sdbusplus::match_rules::interfacesAdded(objectPath),
-        [this](auto& msg) { (this->cb)(Context::SIGNAL, msg); });
+
+    for (const auto& pathRef : paths)
+    {
+        const auto& path = pathRef.get();
+
+        auto match = event == ObjectManagerEvent::interfacesAdded
+                         ? sdbusplus::match_rules::interfacesAdded()
+                         : sdbusplus::match_rules::interfacesRemoved();
+
+        if (match_object_path)
+        {
+            match.append(sdbusplus::match_rules::argNpath(0, path));
+        }
+        else
+        {
+            match.append(sdbusplus::match_rules::path(path));
+        }
+
+        // Watch for new interfaces added on this path.
+        DBusInterfaceType::addMatch(match, [this](auto& msg) {
+            (this->cb)(Context::SIGNAL, msg);
+        });
+    }
 
     alreadyRan = true;
 }

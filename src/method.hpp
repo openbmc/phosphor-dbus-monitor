@@ -122,6 +122,42 @@ auto makeMethod(const std::string& bus, const std::string& path,
         bus, path, iface, method, std::forward<MethodArgs>(arguments)...);
 }
 
+/** @class PathMethod
+ *  @brief C++ type specific logic for the path method callback.
+ *
+ *  @tparam DBusInterface - The DBus interface to use to call the method.
+ *  @tparam MethodArgs - DBus method argument types.
+ */
+template <typename DBusInterface, typename... Args>
+class PathMethod : public Method<DBusInterface, Args...>
+{
+  public:
+    using Method<DBusInterface, Args...>::Method;
+
+    void operator()(Context ctx) override
+    {
+        if (ctx == Context::SIGNAL)
+        {
+            Method<DBusInterface, Args...>::operator()(ctx);
+        }
+    }
+
+    void operator()(Context ctx, sdbusplus::message_t&) override
+    {
+        (*this)(ctx);
+    }
+};
+
+/** @brief Argument type deduction for constructing Path Method instances. */
+template <typename DBusInterface, typename... MethodArgs>
+auto makePathMethod(const std::string& bus, const std::string& path,
+                    const std::string& iface, const std::string& method,
+                    MethodArgs&&... arguments)
+{
+    return std::make_unique<PathMethod<DBusInterface, MethodArgs...>>(
+        bus, path, iface, method, std::forward<MethodArgs>(arguments)...);
+}
+
 } // namespace monitoring
 } // namespace dbus
 } // namespace phosphor

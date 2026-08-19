@@ -19,6 +19,12 @@ namespace dbus
 namespace monitoring
 {
 
+enum class ObjectManagerEvent
+{
+    interfacesAdded,
+    interfacesRemoved,
+};
+
 class Callback;
 
 /** @class PathWatch
@@ -34,8 +40,11 @@ class PathWatch : public Watch
     PathWatch& operator=(const PathWatch&) = delete;
     PathWatch& operator=(PathWatch&&) = default;
     virtual ~PathWatch() = default;
-    PathWatch(const std::string& path, Callback& callback) :
-        Watch(), objectPath(path), cb(callback), alreadyRan(false)
+    PathWatch(const RefVector<const std::string>& paths, Callback& callback,
+              ObjectManagerEvent event = ObjectManagerEvent::interfacesAdded,
+              bool match_object_path = false) :
+        Watch(), paths(paths), cb(callback), alreadyRan(false), event(event),
+        match_object_path(match_object_path)
     {}
 
     /** @brief Start the watch.
@@ -58,13 +67,19 @@ class PathWatch : public Watch
 
   protected:
     /** @brief Path of the D-Bus object to watch for. */
-    const std::string& objectPath;
+    const RefVector<const std::string>& paths;
 
     /** @brief Optional callback method. */
     Callback& cb;
 
     /** @brief The start method should only be invoked once. */
     bool alreadyRan;
+
+    /** @brief Monitor Event */
+    const ObjectManagerEvent event;
+
+    /** @brief match sender path or object path. */
+    bool match_object_path;
 };
 
 } // namespace monitoring
