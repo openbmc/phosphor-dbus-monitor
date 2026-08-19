@@ -181,6 +181,29 @@ struct ConfigPropertyIndicies
     }
 };
 
+struct ConfigPathWatchIndicies
+{
+    using PathIndicies = std::array<RefVector<const std::string>, ${len(pathinstancegroups)}>;
+
+    static auto& get()
+    {
+        static const PathIndicies pathIndicies =
+        {
+            {
+% for group in pathinstancegroups:
+                {
+    % for item in group.members:
+                    ConfigPaths::get()[${item[0]}],
+    % endfor
+                },
+% endfor
+            }
+        };
+
+        return pathIndicies;
+    }
+};
+
 struct ConfigPropertyCallbackGroups
 {
     using CallbackGroups = std::array<std::vector<size_t>, ${len(callbackgroups)}>;
@@ -294,11 +317,14 @@ struct ConfigPathWatches
 % for w in pathwatches:
             std::make_unique<PathWatch<SDBusPlus>>(
     % if w.pathcallback is None:
-                ConfigIntfAddPaths::get()[${w.pathinstances}]),
+                ConfigPathWatchIndicies::get()[${w.pathinstances}]),
     % else:
-                ConfigIntfAddPaths::get()[${w.pathinstances}],
-                *ConfigPathCallbacks::get()[${w.pathcallback}]),
+                ConfigPathWatchIndicies::get()[${w.pathinstances}],
+                *ConfigPathCallbacks::get()[${w.pathcallback}],
+                ObjectManagerEvent::${w.event},
+                ${w.match_object_path}
     % endif
+            ),
 % endfor
         };
         return pathWatches;
