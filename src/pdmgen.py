@@ -721,6 +721,12 @@ class PathWatch(HasPathIndex):
 
     def __init__(self, *a, **kw):
         self.pathcallback = kw.pop("pathcallback", None)
+        self.event = kw.pop("event", "interfacesAdded")
+        self.match_object_path = kw.pop("match_object_path", False)
+        self.match_object_path = (
+            "true" if self.match_object_path else "false"
+        )
+
         super(PathWatch, self).__init__(**kw)
 
     def setup(self, objs):
@@ -994,6 +1000,10 @@ class Method(ConfigEntry, Renderer):
     def construct(self, loader, indent):
         return self.render(loader, "method.cpp.mako", c=self, indent=indent)
 
+class PathMethod(Method):
+    """Handle the path method callback config file directive."""
+    def construct(self, loader, indent):
+        return self.render(loader, "pathmethod.cpp.mako", c=self, indent=indent)
 
 class CallbackGraphEntry(Group):
     """An entry in a traversal list for groups of callbacks."""
@@ -1148,6 +1158,7 @@ class Everything(Renderer):
             "pathcallback": {
                 "eventpath": EventPath,
                 "grouppath": GroupOfPathCallbacks,
+                "method": PathMethod,
             },
             "condition": {
                 "count": CountCondition,

@@ -12,6 +12,7 @@ templates_depends = files(
     'templates/journal.cpp.mako',
     'templates/median.cpp.mako',
     'templates/method.cpp.mako',
+    'templates/pathmethod.cpp.mako',
     'templates/resolve_errors.cpp.mako',
 )
 
