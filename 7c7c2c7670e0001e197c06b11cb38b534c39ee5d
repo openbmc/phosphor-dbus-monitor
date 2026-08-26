@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4b146b6_3845db15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000089
+      },
+      "writtenOn": "2026-08-26T07:55:49Z",
+      "side": 1,
+      "message": "LeoYangQuanta can u add yourself as owner for the repo, this repo has only 1 owner",
+      "revId": "7c7c2c7670e0001e197c06b11cb38b534c39ee5d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
