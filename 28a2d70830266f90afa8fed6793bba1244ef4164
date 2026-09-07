@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e566db73_fd4eb6db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001886
+      },
+      "writtenOn": "2026-09-07T14:16:58Z",
+      "side": 1,
+      "message": "Should this go to the designs directory instead?\nhttps://github.com/openbmc/docs/tree/master/designs",
+      "revId": "28a2d70830266f90afa8fed6793bba1244ef4164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
